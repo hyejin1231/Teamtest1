@@ -6,4 +6,102 @@
     android:layout_height="match_parent"
     tools:context=".Sub">
 
+    <ImageView
+        android:id="@+id/img_Product"
+        android:layout_width="190dp"
+        android:layout_height="197dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginRight="110dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tv_ItemName"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="175dp"
+        android:layout_marginLeft="175dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="175dp"
+        android:layout_marginRight="175dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_Product"
+        tools:text="Product name" />
+
+    <TextView
+        android:id="@+id/tv_Bidprice"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginRight="55dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Nowprice"
+        tools:text="Bid Price" />
+
+    <TextView
+        android:id="@+id/tv_Nowprice"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginRight="55dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ItemName"
+        tools:text="Present Price" />
+
+    <Button
+        android:id="@+id/btn_Buy"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="168dp"
+        android:text="즉시구매"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_Bid"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_Bid"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginRight="75dp"
+        android:text="입찰하기"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Bidprice" />
+
+    <ImageView
+        android:id="@+id/btn_Like"
+        android:layout_width="72dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/heart" />
 </androidx.constraintlayout.widget.ConstraintLayout>
