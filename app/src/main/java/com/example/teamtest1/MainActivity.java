@@ -12,5 +12,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //안녕하세요 테스트
         //두번쨰
+        // 세번째 테스트 ~
     }
 }
