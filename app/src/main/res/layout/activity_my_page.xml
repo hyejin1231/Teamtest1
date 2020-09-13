@@ -10,113 +10,157 @@
         android:id="@+id/imageView"
         android:layout_width="148dp"
         android:layout_height="125dp"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="151dp" />
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="151dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="197dp"
+        android:layout_marginRight="197dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:srcCompat="@android:drawable/ic_menu_manage"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="244dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tv_viewID"
         android:layout_width="145dp"
         android:layout_height="38dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="154dp"
         android:text="viewID"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="154dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_IDV"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="78dp"
         android:layout_height="86dp"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="322dp"
-        tools:srcCompat="@tools:sample/avatars"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="46dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_SellList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:ignore="MissingConstraints"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="78dp"
         android:layout_height="86dp"
-        tools:layout_editor_absoluteX="172dp"
-        tools:layout_editor_absoluteY="323dp"
-        tools:srcCompat="@tools:sample/avatars"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton"
+        tools:ignore="MissingConstraints"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="78dp"
         android:layout_height="86dp"
-        tools:layout_editor_absoluteX="292dp"
-        tools:layout_editor_absoluteY="322dp"
-        tools:srcCompat="@tools:sample/avatars"
-        tools:ignore="MissingConstraints"/>
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginRight="41dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_SellList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        tools:ignore="MissingConstraints"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="177dp"
         android:layout_height="156dp"
-        tools:layout_editor_absoluteX="189dp"
-        tools:layout_editor_absoluteY="515dp"
-        tools:srcCompat="@tools:sample/avatars"
-        tools:ignore="MissingConstraints"/>
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_FavList"
+        tools:ignore="MissingConstraints"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tv_IDV"
         android:layout_width="36dp"
         android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="154dp"
         android:text="ID"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        tools:layout_editor_absoluteX="214dp"
-        tools:layout_editor_absoluteY="154dp"
-        tools:ignore="MissingConstraints"/>
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tv_BuyList"
         android:layout_width="78dp"
         android:layout_height="21dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp"
         android:text="구매 목록"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="418dp"
-        tools:ignore="MissingConstraints"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tv_SellList"
         android:layout_width="77dp"
         android:layout_height="20dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="10dp"
         android:text="판매 목록"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        tools:layout_editor_absoluteX="173dp"
-        tools:layout_editor_absoluteY="418dp"
-        tools:ignore="MissingConstraints"/>
+        app:layout_constraintStart_toEndOf="@+id/tv_BuyList"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tv_FavList"
         android:layout_width="78dp"
         android:layout_height="20dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="10dp"
         android:text="관심 목록"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        tools:layout_editor_absoluteX="292dp"
-        tools:layout_editor_absoluteY="418dp"
-        tools:ignore="MissingConstraints"/>
+        app:layout_constraintStart_toEndOf="@+id/tv_SellList"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tv_Manners"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="135dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
         android:text="나의 거래 매너"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="581dp"
-        tools:ignore="MissingConstraints"/>
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_BuyList"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
