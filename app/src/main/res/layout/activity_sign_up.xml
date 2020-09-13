@@ -6,4 +6,121 @@
     android:layout_height="match_parent"
     tools:context=".SignUp">
 
+    <TextView
+        android:id="@+id/tv_SignUpName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="200dp"
+        android:text="이름"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_SignUpID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="이메일"
+        app:layout_constraintStart_toStartOf="@+id/tv_SignUpName"
+        app:layout_constraintTop_toBottomOf="@+id/tv_SignUpName" />
+
+    <TextView
+        android:id="@+id/tv_SignUpPW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="비밀번호"
+        app:layout_constraintStart_toStartOf="@+id/tv_SignUpID"
+        app:layout_constraintTop_toBottomOf="@+id/tv_SignUpID" />
+
+    <TextView
+        android:id="@+id/tv_SignUpTel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="전화번호"
+        app:layout_constraintStart_toStartOf="@+id/tv_SignUpPW"
+        app:layout_constraintTop_toBottomOf="@+id/tv_SignUpPW" />
+
+    <EditText
+        android:id="@+id/txt_SignUpName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:ems="10"
+        android:hint="이름을 입력하세요."
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_SignUpName"
+        app:layout_constraintStart_toEndOf="@+id/tv_SignUpName"
+        app:layout_constraintTop_toTopOf="@+id/tv_SignUpName" />
+
+    <EditText
+        android:id="@+id/txt_SignUpEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="이메일을 입력하세요."
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_SignUpID"
+        app:layout_constraintStart_toStartOf="@+id/txt_SignUpName"
+        app:layout_constraintTop_toTopOf="@+id/tv_SignUpID" />
+
+    <EditText
+        android:id="@+id/txt_SignUpPW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="비밀번호를 입력하세요."
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_SignUpPW"
+        app:layout_constraintStart_toStartOf="@+id/txt_SignUpEmail"
+        app:layout_constraintTop_toTopOf="@+id/tv_SignUpPW" />
+
+    <EditText
+        android:id="@+id/txt_SignUpTel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="전화번호를 입력하세요."
+        android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_SignUpTel"
+        app:layout_constraintStart_toStartOf="@+id/txt_SignUpPW"
+        app:layout_constraintTop_toTopOf="@+id/tv_SignUpTel" />
+
+    <Button
+        android:id="@+id/btn_check"
+        android:layout_width="70dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="중복검사"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_SignUpEmail"
+        app:layout_constraintStart_toEndOf="@+id/txt_SignUpEmail"
+        app:layout_constraintTop_toTopOf="@+id/txt_SignUpEmail" />
+
+    <Button
+        android:id="@+id/btn_SignUpOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="회원가입"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_SignUpTel" />
+
+    <TextView
+        android:id="@+id/tv_SignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="85dp"
+        android:text="회원가입"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
