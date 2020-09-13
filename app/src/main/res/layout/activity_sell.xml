@@ -6,4 +6,94 @@
     android:layout_height="match_parent"
     tools:context=".Sell">
 
+    <ImageView
+        android:id="@+id/img_GoodsImg"
+        android:layout_width="306dp"
+        android:layout_height="253dp"
+        app:srcCompat="@android:drawable/ic_menu_gallery"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="80dp"
+        tools:ignore="MissingConstraints"/>
+
+    <TextView
+        android:id="@+id/tv_DirBuy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="즉시 구매가"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="443dp"
+        tools:ignore="MissingConstraints"/>
+
+    <TextView
+        android:id="@+id/tv_NowPri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="현재 입찰가"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="475dp"
+        tools:ignore="MissingConstraints"/>
+
+    <EditText
+        android:id="@+id/tv_GoodsIntro"
+        android:layout_width="310dp"
+        android:layout_height="151dp"
+        android:ems="10"
+        android:hint="상품 소개 입력란"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="510dp"
+        tools:ignore="MissingConstraints"/>
+
+    <Button
+        android:id="@+id/btn_GoodsAdd"
+        android:layout_width="152dp"
+        android:layout_height="62dp"
+        android:text="등록하기"
+        tools:layout_editor_absoluteX="259dp"
+        tools:layout_editor_absoluteY="671dp"
+        tools:ignore="MissingConstraints"/>
+
+    <EditText
+        android:id="@+id/tv_GoodsID"
+        android:layout_width="234dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:hint="상품 이름 입력"
+        android:inputType="textPersonName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:layout_editor_absoluteX="88dp"
+        tools:layout_editor_absoluteY="382dp"
+        tools:ignore="MissingConstraints"/>
+
+    <TextView
+        android:id="@+id/tv_DirBuyNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="즉시구매가출력"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:layout_editor_absoluteX="195dp"
+        tools:layout_editor_absoluteY="443dp"
+        tools:ignore="DuplicateIds,MissingConstraints"
+     />
+
+    <TextView
+        android:id="@+id/tv_NowPriPrint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="현재입찰가출력"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:layout_editor_absoluteX="195dp"
+        tools:layout_editor_absoluteY="475dp"
+        tools:ignore="MissingConstraints"/>
+
+    <ImageButton
+        android:id="@+id/img_AddBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_input_add"
+        tools:layout_editor_absoluteX="298dp"
+        tools:layout_editor_absoluteY="334dp"
+        tools:ignore="MissingConstraints"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
