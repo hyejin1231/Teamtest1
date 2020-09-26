@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MyPage.class);
+
+                //문제 해결 
                 startActivity(intent);
                 finish();
             }
