@@ -37,6 +37,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/pencil" />
+
+        <ImageView
+            android:id="@+id/img_btnMypage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/img_btnWrite"
+            app:layout_constraintEnd_toStartOf="@+id/img_btnWrite"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/user" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

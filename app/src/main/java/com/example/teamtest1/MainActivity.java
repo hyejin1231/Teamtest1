@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Product> arrayList;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
-    ImageView img_btnWrite;
+    ImageView img_btnWrite, img_btnMypage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         img_btnWrite = findViewById(R.id.img_btnWrite);
+        img_btnMypage = findViewById(R.id.img_btnMypage);
 
         recyclerView =  findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존 성능 강화
@@ -77,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Sell.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        img_btnMypage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MyPage.class);
                 startActivity(intent);
                 finish();
             }
