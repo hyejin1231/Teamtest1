@@ -57,11 +57,11 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Login();
+                Login2();
 //                switch (v.getId()) {
 //                    case R.id.btn_login:
 //                        Log.e("클릭", "클릭");
-//                        Login();
+//                        Login2();
 //                        break;
 //                }
 //                Intent intent = new Intent(getApplicationContext(), MypageActivity.class);
@@ -105,7 +105,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 
 
 
-    private void Login(){
+    private void Login2(){
 
         String email = et_email_login.getText().toString();
         String password = et_pw_login.getText().toString();
