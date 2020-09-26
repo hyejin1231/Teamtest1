@@ -6,161 +6,82 @@
     android:layout_height="match_parent"
     tools:context=".MyPage">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="148dp"
-        android:layout_height="125dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="151dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
+    <TextView
+        android:id="@+id/tv_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="197dp"
-        android:layout_marginRight="197dp"
+        android:layout_marginTop="61dp"
+        android:text="닉네임"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:srcCompat="@android:drawable/ic_menu_manage"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_viewID"
-        android:layout_width="145dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="154dp"
-        android:text="viewID"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toEndOf="@+id/tv_IDV"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toEndOf="@+id/iv_profile"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="78dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="46dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_SellList"
+        android:id="@+id/iv_profile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="279dp"
+        android:layout_marginRight="279dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:ignore="MissingConstraints"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="78dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton"
-        tools:ignore="MissingConstraints"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="78dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginLeft="46dp"
-        android:layout_marginEnd="41dp"
-        android:layout_marginRight="41dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_SellList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        tools:ignore="MissingConstraints"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="177dp"
-        android:layout_height="156dp"
-        android:layout_marginTop="71dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginRight="45dp"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_FavList"
-        tools:ignore="MissingConstraints"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
-        android:id="@+id/tv_IDV"
-        android:layout_width="36dp"
-        android:layout_height="34dp"
+        android:id="@+id/tv_email_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile"
+        app:layout_constraintTop_toBottomOf="@+id/tv_result" />
+
+    <Button
+        android:id="@+id/btn_buylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="구매내역"
+        app:layout_constraintEnd_toStartOf="@+id/btn_selllist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_selllist" />
+
+    <Button
+        android:id="@+id/btn_selllist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginEnd="16dp"
+        android:text="판매내역"
+        app:layout_constraintEnd_toStartOf="@+id/btn_likelist"
+        app:layout_constraintStart_toEndOf="@+id/btn_buylist"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email_login" />
+
+    <Button
+        android:id="@+id/btn_likelist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="154dp"
-        android:text="ID"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:text="관심내역"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_selllist"
+        app:layout_constraintTop_toTopOf="@+id/btn_selllist" />
 
-    <TextView
-        android:id="@+id/tv_BuyList"
-        android:layout_width="78dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"
-        android:text="구매 목록"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_SellList"
-        android:layout_width="77dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="10dp"
-        android:text="판매 목록"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@+id/tv_BuyList"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_FavList"
-        android:layout_width="78dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="10dp"
-        android:text="관심 목록"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@+id/tv_SellList"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_Manners"
+    <Button
+        android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="135dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginRight="18dp"
-        android:text="나의 거래 매너"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toStartOf="@+id/imageView5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_BuyList"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="로그아웃"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
