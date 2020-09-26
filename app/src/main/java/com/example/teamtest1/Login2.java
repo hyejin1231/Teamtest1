@@ -90,7 +90,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                 .addApi(Auth.GOOGLE_SIGN_IN_API,googleSignInOptions)
                 .build();
 
-        auth = FirebaseAuth.getInstance(); //파이어베이스 인증 객체 초기화
+        //auth = FirebaseAuth.getInstance(); //파이어베이스 인증 객체 초기화
 
         btn_google = findViewById(R.id.btn_google);
         btn_google.setOnClickListener(new View.OnClickListener() { //구글 로그인 버튼을 클릭했을 때 이곳을 수행
