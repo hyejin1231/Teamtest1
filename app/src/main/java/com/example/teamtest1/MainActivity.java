@@ -1,47 +1,92 @@
 package com.example.teamtest1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Product> arrayList;
+
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+
+    ImageView img_btnWrite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView btn_Sell = findViewById(R.id.btn_Sell);
-        ImageView btn_Mypage = findViewById(R.id.btn_Mypage);
+        img_btnWrite = findViewById(R.id.img_btnWrite);
 
-        btn_Sell.setOnClickListener(new View.OnClickListener() {
+        recyclerView =  findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존 성능 강화
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        arrayList = new ArrayList<>(); // Product 객체를 담을 어레이 리스트
+
+        database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
+        databaseReference = database.getReference("Product"); // DB 테이블 연동
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                Intent SellIntent = new Intent(getApplicationContext(), Sell.class);
-                startActivity(SellIntent);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // 파이어베이스 데이터베이스 데이터 받아오는 곳
+                arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
+                    Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
+                    arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+
+                }
+                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // DB 가져오던 중 에러 발생시
+                Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
             }
         });
 
-        btn_Mypage.setOnClickListener(new View.OnClickListener() {
+        adapter = new CustomAdapter(arrayList,this);
+        recyclerView.setAdapter(adapter); //리사이클러뷰에 어뎁터 연결
+
+        img_btnWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent MypageIntent = new Intent(getApplicationContext(), MyPage.class);
-                startActivity(MypageIntent);
+                Intent intent = new Intent(getApplicationContext(), Sell.class);
+                startActivity(intent);
+                finish();
             }
         });
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu); // 타이틀바의 아이콘 3개를 위해서
-        return true;
+
+
+
+
+
     }
 
 
