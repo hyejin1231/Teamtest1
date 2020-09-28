@@ -27,6 +27,7 @@ public class MyPage extends AppCompatActivity {
     private Button btn_selllist;
     //private Button btn_likelist;
     private Button btn_logout;
+    private ImageView btn_main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +52,12 @@ public class MyPage extends AppCompatActivity {
         //tv_token = findViewById(R.id.tv_token);
         //tv_token.setText(myToken);
 
+        btn_main = findViewById(R.id.btn_main);
         btn_buylist = findViewById(R.id.btn_buylist);
         btn_selllist = findViewById(R.id.btn_selllist);
         //btn_likelist = findViewById(R.id.btn_likelist);
         btn_logout = findViewById(R.id.btn_logout);
+
 
         auth = FirebaseAuth.getInstance();
 
@@ -73,6 +76,15 @@ public class MyPage extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), SellistActivity.class);
                 startActivity(intent);
 
+            }
+        });
+
+        btn_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
