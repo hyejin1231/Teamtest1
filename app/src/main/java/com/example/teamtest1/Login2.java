@@ -159,7 +159,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) { //로그인이 성공했으면...
                             Toast.makeText(Login2.this, "로그인 성공",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), MyPage.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.putExtra("nickName", account.getDisplayName());
                             intent.putExtra("photoUrl", String.valueOf(account.getPhotoUrl())); //string.valueof() 특정 자료형을 string 형태로 변환
 
