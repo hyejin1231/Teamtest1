@@ -101,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        img_btnNotice.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), Notice.class);
-//                startActivity(intent);
-//            }
-//        });
+        img_btnNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Notice.class);
+                startActivity(intent);
+            }
+        });
 //
 //        img_btnSearch.setOnClickListener(new View.OnClickListener() {
 //            @Override
