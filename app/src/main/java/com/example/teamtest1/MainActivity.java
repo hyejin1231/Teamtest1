@@ -108,26 +108,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-//
-//        img_btnSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String search = edit_Search.getText().toString();
-//                Intent intent = new Intent(getApplicationContext(), SearchResult.class);
-//
-//                intent.putExtra("search", search);
-//
-//                startActivity(intent);
-//            }
-//        });
-//
-//        img_btnHotClick.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), HotClickView.class);
-//                startActivity(intent);
-//            }
-//        });
+
+        img_btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String search = edit_Search.getText().toString();
+                Intent intent = new Intent(getApplicationContext(), SearchResult.class);
+
+                intent.putExtra("search", search);
+
+                startActivity(intent);
+            }
+        });
+
+        img_btnHotClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), HotClickView.class);
+                startActivity(intent);
+            }
+        });
 
 
 

@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Notice"></activity>
+        <activity android:name=".HotClickView"></activity>
+        <activity android:name=".SearchResult" />
+        <activity android:name=".Notice" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SellistActivity" />
         <activity android:name=".BuylistActivity" />
