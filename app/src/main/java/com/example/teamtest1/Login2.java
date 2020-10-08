@@ -57,7 +57,21 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Login2();
+                String id = et_email_login.getText().toString();
+                String pw = et_pw_login.getText().toString();
+
+
+                if(id.equals("admin") && pw.equals("1234") ) {
+                    Toast.makeText(Login2.this, "관리자 로그인", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), AdminMain.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+                 Login2();
+
+
 //                switch (v.getId()) {
 //                    case R.id.btn_login:
 //                        Log.e("클릭", "클릭");
@@ -135,6 +149,8 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                         // ...
                     }
                 });
+
+
     }
 
     @Override
