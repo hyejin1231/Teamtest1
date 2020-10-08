@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,13 +32,19 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
-    ImageView img_btnWrite, img_btnMypage;
+    String key;
+    EditText edit_Search;
+    ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        img_btnNotice = findViewById(R.id.img_btnNotice);
+        img_btnSearch = findViewById(R.id.img_btnSearch);
+        edit_Search = findViewById(R.id.edit_Search);
+        img_btnHotClick = findViewById(R.id.img_btnHotClick);
         img_btnWrite = findViewById(R.id.img_btnWrite);
         img_btnMypage = findViewById(R.id.img_btnMypage);
 
@@ -93,6 +100,34 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+//        img_btnNotice.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), Notice.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        img_btnSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String search = edit_Search.getText().toString();
+//                Intent intent = new Intent(getApplicationContext(), SearchResult.class);
+//
+//                intent.putExtra("search", search);
+//
+//                startActivity(intent);
+//            }
+//        });
+//
+//        img_btnHotClick.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), HotClickView.class);
+//                startActivity(intent);
+//            }
+//        });
 
 
 

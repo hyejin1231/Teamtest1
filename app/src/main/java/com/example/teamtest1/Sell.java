@@ -3,19 +3,23 @@ package com.example.teamtest1;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 public class Sell extends AppCompatActivity {
@@ -24,6 +28,7 @@ public class Sell extends AppCompatActivity {
     EditText edit_bid, edit_price, edit_title, edit_detail;
     ImageView img_writeImage;
     Uri uri;
+    Bitmap img;
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
@@ -58,16 +63,23 @@ public class Sell extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                 String imageUrl =  getPath(uri);;
+                String image = getImageUri(Sell.this, img).toString();
                 String title = edit_title.getText().toString();
                 String detail = edit_detail.getText().toString();
                 String bid = edit_bid.getText().toString();
                 String price = edit_price.getText().toString();
+                int count = 0;
 
                 //String title, String detail, String price, String bid, String image
-                Product product = new Product(title, detail, price, bid );
+                Product product = new Product(title, detail, price, bid, image,count );
 //                databaseReference.child("Pd_04").push().setValue(product);
                 databaseReference.push().setValue(product);
+
+                Toast.makeText(getApplicationContext(),"등록 완료", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
 
             }
         });
@@ -83,7 +95,8 @@ public class Sell extends AppCompatActivity {
                     // 선택한 이미지에서 비트맵 생성
                     InputStream in = getContentResolver().openInputStream(data.getData());
 
-                    Bitmap img = BitmapFactory.decodeStream(in);
+                    img = BitmapFactory.decodeStream(in);
+//                    Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
                     img_writeImage.setImageBitmap(img);
 
@@ -95,6 +108,14 @@ public class Sell extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    // 이미지 경로 알아오는 함수..?
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     // 이미지 경로 알아오는 함수..?

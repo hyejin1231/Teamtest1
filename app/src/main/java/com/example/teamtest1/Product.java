@@ -12,16 +12,26 @@ public class Product {
     private String status;
     private String image;
     private String seller;
+    private int count;
 
     public Product(){}
 
 
-    public Product(String title, String detail, String price, String bid) {
+    public Product(String title, String detail, String price, String bid, String image,int count) {
         this.title = title;
         this.detail = detail;
         this.price = price;
         this.bid = bid;
-//        this.image = image;
+        this.count = count;
+        this.image = image;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public String getTitle() {

@@ -2,6 +2,8 @@ package com.example.teamtest1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -19,6 +28,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     private ArrayList<Product> arrayList;
     private Context context;
+
+    int count;
+    String abcd;
+    String key;
 
     public CustomAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -35,15 +48,27 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CustomViewHolder holder, int position) {
         // 각 아이템들에 대한 매칭
-        Glide.with(holder.itemView)
-                .load(arrayList.get(position).getImage())
-                .into(holder.iv_productImage);
+//        Glide.with(holder.itemView)
+//                .load(arrayList.get(position).getImage())
+//                .into(holder.iv_productImage);
+
+        Uri uri = Uri.parse(arrayList.get(position).getImage());
+
+        Glide.with(holder.itemView).asBitmap()
+                .load(uri)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        holder.iv_productImage.setImageBitmap(resource);
+                    }
+                });
 
         holder.tv_productBid.setText(arrayList.get(position).getBid());
         holder.tv_productTitle.setText(arrayList.get(position).getTitle());
         holder.tv_productPrice.setText(arrayList.get(position).getPrice());
+        holder.tv_viewCnt.setText(String.valueOf(arrayList.get(position).getCount()));
 
 //        holder.tv_productDetail.setText(arrayList.get(position).getDetail());
 //        holder.tv_productSeller.setText(arrayList.get(position).getSeller());
@@ -64,12 +89,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         TextView tv_productTitle;
         TextView tv_productBid;
         TextView tv_productPrice;
+        TextView tv_viewCnt;
 //        TextView tv_productSeller;
 //        TextView tv_productDate;
 //        TextView tv_productDeadline;
 //        TextView tv_productDetail;
 //        TextView tv_productCategory;
 //        TextView tv_productStatus;
+        private FirebaseDatabase database;
+        private DatabaseReference databaseReference;
 
 
         public CustomViewHolder(@NonNull View itemView) {
@@ -78,6 +106,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.tv_productPrice = itemView.findViewById(R.id.tv_productPrice);
             this.tv_productBid = itemView.findViewById(R.id.tv_productBid);
             this.iv_productImage = itemView.findViewById(R.id.iv_productImage);
+            this.tv_viewCnt = itemView.findViewById(R.id.tv_viewCnt);
 //            this.tv_productSeller = itemView.findViewById(R.id.tv_productSeller);
 //            this.tv_productDate = itemView.findViewById(R.id.tv_productDate);
 //            this.tv_productDeadline = itemView.findViewById(R.id.tv_productDeadline);
@@ -85,6 +114,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 //            this.tv_productStatus = itemView.findViewById(R.id.tv_productStatus);
 //            this.tv_productDetail = itemView.findViewById(R.id.tv_productDetail);
 
+            database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
+            databaseReference = database.getReference("Product"); // DB 테이블 연동
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,9 +132,30 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 //                    byte[] byteArray = stream.toByteArray();
 
                     int position = getAdapterPosition();
+                    abcd = arrayList.get(position).getTitle();
+
+                    count = arrayList.get(position).getCount() + 1;
+
+                    databaseReference.orderByChild("title").equalTo(abcd).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot child : snapshot.getChildren()) {
+                                key = child.getKey();
+                            }
+
+                            snapshot.getRef().child(key).child("count").setValue(count);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
                     Intent intent = new Intent(v.getContext(), Sub.class);
 
+                    intent.putExtra("count", String.valueOf(arrayList.get(position).getCount()));
                     intent.putExtra("image", arrayList.get(position).getImage());
                     intent.putExtra("title", arrayList.get(position).getTitle());
                     intent.putExtra("price", arrayList.get(position).getPrice());
