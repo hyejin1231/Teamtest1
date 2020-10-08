@@ -26,6 +26,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
     private SignInButton btn_google; //구글 로그인 버튼
@@ -38,6 +43,13 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
     private EditText et_pw_login;
     private Button btn_signup_go;
     private Button btn_login;
+
+    String key;
+    String checkId;
+
+    // 혜진 코드 삽입
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
   //  private  static final String TAG = "MainActivity";
 
@@ -53,6 +65,10 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 
         auth = FirebaseAuth.getInstance();
 
+        // 혜진 코드 삽입
+        database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
+        databaseReference = database.getReference("User"); // DB 테이블 연동
+
         //로그인버튼을 눌렀을때
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +77,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                 String pw = et_pw_login.getText().toString();
 
 
+                // 혜진 코드 삽입
                 if(id.equals("admin") && pw.equals("1234") ) {
                     Toast.makeText(Login2.this, "관리자 로그인", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), AdminMain.class);
@@ -112,6 +129,8 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
             public void onClick(View v) {
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
                 startActivityForResult(intent, REQ_SIGN_GOOGLE);
+
+
             }
         });
 
@@ -184,8 +203,45 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                             intent.putExtra("myId",account.getEmail());
                             intent.putExtra("myToken",account.getIdToken());
 
+                            // 혜진 코드 삽입
+                            String checkId = account.getEmail();
+//                            String photoUrl = String.valueOf(account.getPhotoUrl());
+//                            String nickName = account.getDisplayName();
+
+
+                            databaseReference.orderByChild("id").equalTo(checkId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot child : snapshot.getChildren()) {
+                                        key = child.getKey();
+                                    }
+
+                                    String myid = account.getEmail();
+                                    String photoUrl = String.valueOf(account.getPhotoUrl());
+                                    String nickName = account.getDisplayName();
+
+                                    if (key == null) {
+                                        User user = new User(photoUrl, myid, nickName);
+
+                                        databaseReference.push().setValue(user);
+
+                                        Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+//                            User user = new User(photoUrl, myid, nickName);
+//
+//                            databaseReference.push().setValue(user);
+//
+//                            Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
 
                             startActivity(intent);
+
                         }else{ //로그인이 실패했으면...
                             Toast.makeText(Login2.this, "로그인 실패", Toast.LENGTH_SHORT).show();
                         }

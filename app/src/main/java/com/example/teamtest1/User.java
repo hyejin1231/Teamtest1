@@ -1,19 +1,26 @@
 package com.example.teamtest1;
 
 public class User {
-    private String profile;
+    private String photoUrl;
     private String id;
     private int pw;
-    private String userName;
+    private String nickName;
 
     public User(){}
 
-    public String getProfile() {
-        return profile;
+    public User(String photoUrl, String id, String nickName) {
+        this.photoUrl = photoUrl;
+        this.id = id;
+//        this.pw = pw;
+        this.nickName = nickName;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getId() {
@@ -32,11 +39,11 @@ public class User {
         this.pw = pw;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }
