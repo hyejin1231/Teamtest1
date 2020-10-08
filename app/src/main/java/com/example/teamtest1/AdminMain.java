@@ -19,22 +19,22 @@ public class AdminMain extends AppCompatActivity {
         btn_member = findViewById(R.id.btn_member);
         btn_notice = findViewById(R.id.btn_notice);
 
-//        btn_goods.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), AdminGoods.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        btn_member.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), AdminMember.class);
-//                startActivity(intent);
-//            }
-//        });
-//
+        btn_goods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AdminGoods.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_member.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AdminMember.class);
+                startActivity(intent);
+            }
+        });
+
         btn_notice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
