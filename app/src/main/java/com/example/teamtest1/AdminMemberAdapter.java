@@ -46,7 +46,7 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
     }
 
 
-    
+
     @Override
     public int getItemCount() {
          return (arrayList != null ? arrayList.size() : 0);
