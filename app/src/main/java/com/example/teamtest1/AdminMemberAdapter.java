@@ -41,10 +41,12 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
         String abcd = arrayList.get(position).getId();
         Glide.with(holder.itemView).load(arrayList.get(position).getPhotoUrl()).into(holder.img_admemImg); //프로필 uri를 이미지 뷰에 세팅
         holder.tv_admemuid.setText(arrayList.get(position).getUid());
-//        holder.tv_admemid.setText(arrayList.get(position).getId());
+        holder.tv_admemid.setText(arrayList.get(position).getId());
 //        Toast.makeText(context, arrayList.get(position).getUid(),Toast.LENGTH_SHORT).show();
     }
 
+
+    
     @Override
     public int getItemCount() {
          return (arrayList != null ? arrayList.size() : 0);
@@ -59,7 +61,7 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
             super(itemView);
 
             this.img_admemImg = itemView.findViewById(R.id.img_admemImg);
-            this.tv_admemid = itemView.findViewById(R.id.tv_adminID);
+            this.tv_admemid = itemView.findViewById(R.id.tv_admemid);
             this.tv_admemuid = itemView.findViewById(R.id.tv_admemuid);
 
 
