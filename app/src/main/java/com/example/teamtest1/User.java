@@ -6,15 +6,26 @@ public class User {
     private int pw;
     private String nickName;
 
+
+    private  String uid;
+
     public User(){}
 
-    public User(String photoUrl, String id, String nickName) {
+    public User(String photoUrl, String id, String nickName,String uid) {
         this.photoUrl = photoUrl;
         this.id = id;
 //        this.pw = pw;
+        this.uid = uid;
         this.nickName = nickName;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
     public String getPhotoUrl() {
         return photoUrl;
     }

@@ -50,6 +50,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
     // 혜진 코드 삽입
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+    FirebaseUser Cuser = FirebaseAuth.getInstance().getCurrentUser();
 
   //  private  static final String TAG = "MainActivity";
 
@@ -108,6 +109,9 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SignUp.class);
                 startActivity(intent);
+
+
+
             }
         });
 
@@ -219,9 +223,10 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                                     String myid = account.getEmail();
                                     String photoUrl = String.valueOf(account.getPhotoUrl());
                                     String nickName = account.getDisplayName();
+                                    String my_uid = Cuser.getUid();
 
                                     if (key == null) {
-                                        User user = new User(photoUrl, myid, nickName);
+                                        User user = new User(photoUrl, myid, nickName,my_uid);
 
                                         databaseReference.push().setValue(user);
 
