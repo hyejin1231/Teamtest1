@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminMember"></activity>
+        <activity android:name=".BuyDetailActivity"></activity>
+        <activity android:name=".SellDetailActivity" />
+        <activity android:name=".AdminMember" />
         <activity android:name=".AdminGoods" />
         <activity android:name=".WriteNotice" />
         <activity android:name=".SubAdNotice" />

@@ -38,7 +38,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
-        android:layout_height="530dp"
+        android:layout_height="450dp"
         android:layout_marginTop="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -103,6 +103,17 @@
             app:layout_constraintEnd_toStartOf="@+id/img_btnNotice"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/click" />
+
+        <ImageView
+            android:id="@+id/img_btnChat"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toEndOf="@+id/img_btnMypage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/chat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

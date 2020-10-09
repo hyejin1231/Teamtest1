@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     String key;
     EditText edit_Search;
-    ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick;
+    ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick,img_btnChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         img_btnHotClick = findViewById(R.id.img_btnHotClick);
         img_btnWrite = findViewById(R.id.img_btnWrite);
         img_btnMypage = findViewById(R.id.img_btnMypage);
+        img_btnChat = findViewById(R.id.img_btnChat);
 
         recyclerView =  findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존 성능 강화
@@ -129,6 +130,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        img_btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
 

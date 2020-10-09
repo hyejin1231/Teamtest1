@@ -12,6 +12,9 @@ public class Product {
     private String status;
     private String image;
     private String seller;
+    private String buyer;
+
+
     private int count;
 
     public Product(){}
@@ -24,6 +27,13 @@ public class Product {
         this.bid = bid;
         this.count = count;
         this.image = image;
+    }
+    public String getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
     }
 
     public int getCount() {
