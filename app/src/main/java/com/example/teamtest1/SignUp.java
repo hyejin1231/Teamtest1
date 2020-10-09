@@ -136,7 +136,7 @@ public class SignUp extends AppCompatActivity {
                                 //updateUI(user);
                             } else {
 
-                                // If sign in fails, display a message to the user.
+                                // If sign in fails, display  message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                 Toast.makeText(SignUp.this, "회원가입 실패",
                                         Toast.LENGTH_SHORT).show();

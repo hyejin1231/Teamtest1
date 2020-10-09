@@ -203,7 +203,6 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                             Intent intent = new Intent(getApplicationContext(), MyPage.class);
                             intent.putExtra("nickName", account.getDisplayName());
                             intent.putExtra("photoUrl", String.valueOf(account.getPhotoUrl())); //string.valueof() 특정 자료형을 string 형태로 변환
-
                             intent.putExtra("myId",account.getEmail());
                             intent.putExtra("myToken",account.getIdToken());
 

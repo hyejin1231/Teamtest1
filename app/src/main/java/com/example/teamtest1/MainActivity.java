@@ -133,7 +133,8 @@ public class MainActivity extends AppCompatActivity {
         img_btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /*Intent intent  = new Intent(getApplicationContext(), );
+                startActivity(intent);*/
             }
         });
 
