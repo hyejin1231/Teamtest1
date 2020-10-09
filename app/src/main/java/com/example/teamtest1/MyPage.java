@@ -1,8 +1,11 @@
 package com.example.teamtest1;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.icu.text.Edits;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +15,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MyPage extends AppCompatActivity {
 
@@ -29,28 +41,60 @@ public class MyPage extends AppCompatActivity {
     private Button btn_logout;
     private ImageView btn_main;
 
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private ArrayList<User> arrayList;
+
+    String uids;
+    String key;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
 
+        database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
+        databaseReference = database.getReference("User"); // DB 테이블 연동
+//
         Intent intent = getIntent();
-        String nickName = intent.getStringExtra("nickName"); //MainActivity로 부터 닉네임 전달받음.
-        String photoUrl = intent.getStringExtra("photoUrl"); //MainActivity로 부터 프로필사진 url 전달받음.
-        String myId = intent.getStringExtra("myId");
-        String myToken = intent.getStringExtra("myToken");
+//        String nickName = intent.getStringExtra("nickName"); //MainActivity로 부터 닉네임 전달받음.
+//        String photoUrl = intent.getStringExtra("photoUrl"); //MainActivity로 부터 프로필사진 url 전달받음.
+//        String myId = intent.getStringExtra("myId");
+//        String myToken = intent.getStringExtra("myToken");
 
+        uids = intent.getStringExtra("uid");
+//        Toast.makeText(getApplicationContext(),uid,Toast.LENGTH_SHORT).show();
+//
         tv_result = findViewById(R.id.tv_result);
-        tv_result.setText(nickName);
-
+//        tv_result.setText(nickName);
+//
         iv_profile = findViewById(R.id.iv_profile);
-        Glide.with(this).load(photoUrl).into(iv_profile); //프로필 uri를 이미지 뷰에 세팅
-
+//        Glide.with(this).load(photoUrl).into(iv_profile); //프로필 uri를 이미지 뷰에 세팅
+//
         tv_id = findViewById(R.id.tv_email_login);
-        tv_id.setText(myId);
+//        tv_id.setText(myId);
 
         //tv_token = findViewById(R.id.tv_token);
         //tv_token.setText(myToken);
+
+        databaseReference.orderByChild("uid").equalTo(uids).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+                tv_id.setText(snapshot.child(key).child("id").getValue().toString());
+                tv_result.setText(snapshot.child(key).child("uid").getValue().toString());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         btn_main = findViewById(R.id.btn_main);
         btn_buylist = findViewById(R.id.btn_buylist);

@@ -45,6 +45,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
     private Button btn_login;
 
     String key;
+    String my_uid;
     String checkId;
 
     // 혜진 코드 삽입
@@ -159,6 +160,9 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
+                            intent.putExtra("uid",Cuser.getUid());
+                            Toast.makeText(Login2.this, Cuser.getUid(), Toast.LENGTH_SHORT).show();
+
                             startActivity(intent);
                             //updateUI(user);
                         } else {
@@ -200,11 +204,13 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) { //로그인이 성공했으면...
                             Toast.makeText(Login2.this, "로그인 성공",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), MyPage.class);
-                            intent.putExtra("nickName", account.getDisplayName());
-                            intent.putExtra("photoUrl", String.valueOf(account.getPhotoUrl())); //string.valueof() 특정 자료형을 string 형태로 변환
-                            intent.putExtra("myId",account.getEmail());
-                            intent.putExtra("myToken",account.getIdToken());
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+//                            intent.putExtra("uid",Cuser.getUid());
+//                            intent.putExtra("nickName", account.getDisplayName());
+//                            intent.putExtra("photoUrl", String.valueOf(account.getPhotoUrl())); //string.valueof() 특정 자료형을 string 형태로 변환
+//                            intent.putExtra("myId",account.getEmail());
+//                            intent.putExtra("myToken",account.getIdToken());
 
                             // 혜진 코드 삽입
                             String checkId = account.getEmail();
@@ -222,7 +228,8 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                                     String myid = account.getEmail();
                                     String photoUrl = String.valueOf(account.getPhotoUrl());
                                     String nickName = account.getDisplayName();
-                                    String my_uid = Cuser.getUid();
+//                                    String my_uid = Cuser.getUid();
+                                     my_uid = Cuser.getUid();
 
                                     if (key == null) {
                                         User user = new User(photoUrl, myid, nickName,my_uid);
@@ -243,6 +250,9 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 //                            databaseReference.push().setValue(user);
 //
 //                            Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
+
+                            intent.putExtra("uid",Cuser.getUid());
+//                            Toast.makeText(Login2.this, Cuser.getUid(), Toast.LENGTH_SHORT).show();
 
                             startActivity(intent);
 

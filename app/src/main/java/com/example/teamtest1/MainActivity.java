@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.teamtest1.fragment.ChatFragment;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
 
     String key;
+    String uids;
     EditText edit_Search;
     ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick,img_btnChat;
 
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Product"); // DB 테이블 연동
+
+        Intent intent = getIntent();
+         uids = intent.getStringExtra("uid");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -97,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MyPage.class);
 
+                intent.putExtra("uid" , uids);
                 //문제 해결
                 startActivity(intent);
                 finish();
