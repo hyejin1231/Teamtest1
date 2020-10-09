@@ -84,8 +84,8 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                     Intent intent = new Intent(getApplicationContext(), AdminMain.class);
                     startActivity(intent);
                 }else{
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                    startActivity(intent);
                 }
                  Login2();
 
