@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.teamtest1.fragment.ChatFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -133,8 +134,9 @@ public class MainActivity extends AppCompatActivity {
         img_btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent  = new Intent(getApplicationContext(), );
-                startActivity(intent);*/
+                //getSupportFragmentManager().beginTransaction().replace(R.id.img_btnChat,new ChatFragment()).commit();
+                Intent intent = new Intent(getApplicationContext(),ChatActivity.class);
+                startActivity(intent);
             }
         });
 

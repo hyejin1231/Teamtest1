@@ -1,5 +1,6 @@
 package com.example.teamtest1;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -90,6 +92,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         TextView tv_productBid;
         TextView tv_productPrice;
         TextView tv_viewCnt;
+        Button btn_bid,btn_Buynow;
 //        TextView tv_productSeller;
 //        TextView tv_productDate;
 //        TextView tv_productDeadline;
@@ -107,6 +110,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.tv_productBid = itemView.findViewById(R.id.tv_productBid);
             this.iv_productImage = itemView.findViewById(R.id.iv_productImage);
             this.tv_viewCnt = itemView.findViewById(R.id.tv_viewCnt);
+            this.btn_bid = itemView.findViewById(R.id.btn_bid);
+            this.btn_Buynow = itemView.findViewById(R.id.btn_Buynow);
 //            this.tv_productSeller = itemView.findViewById(R.id.tv_productSeller);
 //            this.tv_productDate = itemView.findViewById(R.id.tv_productDate);
 //            this.tv_productDeadline = itemView.findViewById(R.id.tv_productDeadline);
@@ -166,6 +171,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 }
             });
 
+            btn_Buynow.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(),MessageActivity.class);
+                       intent.putExtra("destinationUID","9eg8i0VRUcdkZnPZRYoyJjlV44z2");
+                       ActivityOptions activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(),R.anim.fromleft,R.anim.fromtoright);
+                       view.getContext().startActivity(intent);
+                }
+            });
 
         }
     }

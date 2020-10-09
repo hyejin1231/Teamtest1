@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BuyDetailActivity"></activity>
+        <activity android:name=".fragment_people"></activity>
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".MessageActivity" />
+        <activity android:name=".BuyDetailActivity" />
         <activity android:name=".SellDetailActivity" />
         <activity android:name=".AdminMember" />
         <activity android:name=".AdminGoods" />

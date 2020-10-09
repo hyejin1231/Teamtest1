@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -120,9 +121,14 @@ public class SignUp extends AppCompatActivity {
 
                                             User user = new User(photoUrl, myid, nickName,my_uid);
 
-                                            databaseReference.push().setValue(user);
+                                            databaseReference.child(my_uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>(){
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
 
-                                            Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
+
 
                                     }
 
