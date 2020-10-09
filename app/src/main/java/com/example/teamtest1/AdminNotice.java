@@ -35,7 +35,7 @@ public class AdminNotice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_notice);
 
-        AdNoticeRecycler = findViewById(R.id.AdNoticeRecycler);
+        AdNoticeRecycler = findViewById(R.id.AdMemRecycler);
         AdNoticeRecycler.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         AdNoticeRecycler.setLayoutManager(layoutManager);
