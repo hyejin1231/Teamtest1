@@ -23,7 +23,7 @@ public class Product {
     public Product(){}
 
 
-    public Product(String title, String detail, String price, String bid, String image,int count,String unique,String date,String deadline) {
+    public Product(String title, String detail, String price, String bid, String image,int count,String unique,String date,String deadline,String seller) {
         this.title = title;
         this.detail = detail;
         this.price = price;
@@ -33,6 +33,7 @@ public class Product {
         this.unique= unique;
         this.date = date;
         this.deadline = deadline;
+        this.seller = seller;
     }
 
     public String getUnique() {

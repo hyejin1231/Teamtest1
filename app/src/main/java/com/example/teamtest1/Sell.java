@@ -36,6 +36,7 @@ public class Sell extends AppCompatActivity {
     ImageView img_writeImage;
     Uri uri;
     Bitmap img;
+    String uids;
     private DatePickerDialog.OnDateSetListener callbackMethod;
 
     private FirebaseDatabase database;
@@ -75,6 +76,9 @@ public class Sell extends AppCompatActivity {
 
         tv_writeToday.setText(date);
 
+        Intent intent = getIntent();
+        uids = intent.getStringExtra("uid");
+
         this.InitializeListener();
 
         btn_gallery.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +110,7 @@ public class Sell extends AppCompatActivity {
                 }
 
                 //String title, String detail, String price, String bid, String image
-                Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline );
+                Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline,uids );
 //                databaseReference.child("Pd_04").push().setValue(product);
                 databaseReference.push().setValue(product);
 

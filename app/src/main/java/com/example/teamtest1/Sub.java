@@ -22,7 +22,7 @@ public class Sub extends AppCompatActivity {
     TextView tv_title;
     TextView tv_bid;
     TextView tv_price;
-    EditText edit_detail;
+    TextView edit_detail;
     TextView tv_count;
     ImageView img_btnBackMain;
 

@@ -91,13 +91,14 @@
         app:layout_constraintStart_toEndOf="@+id/tv_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_image" />
 
-    <EditText
+    <TextView
         android:id="@+id/edit_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="212dp"
+        android:layout_height="64dp"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="상품 상세 설명"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
