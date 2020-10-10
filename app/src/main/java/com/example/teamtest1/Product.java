@@ -15,20 +15,34 @@ public class Product {
     private String buyer;
     private String pid;
 
+    private String unique;
+
 
     private int count;
 
     public Product(){}
 
 
-    public Product(String title, String detail, String price, String bid, String image,int count) {
+    public Product(String title, String detail, String price, String bid, String image,int count,String unique,String date,String deadline) {
         this.title = title;
         this.detail = detail;
         this.price = price;
         this.bid = bid;
         this.count = count;
         this.image = image;
+        this.unique= unique;
+        this.date = date;
+        this.deadline = deadline;
     }
+
+    public String getUnique() {
+        return unique;
+    }
+
+    public void setUnique(String unique) {
+        this.unique = unique;
+    }
+
     public String getBuyer() {
         return buyer;
     }

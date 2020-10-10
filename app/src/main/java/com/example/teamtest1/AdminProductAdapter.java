@@ -101,9 +101,9 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
                 @Override
                 public void onClick(View view) {
                     final int position = getAdapterPosition();
-                    abcd = arrayList.get(position).getTitle();
+                    abcd = arrayList.get(position).getUnique();
 
-                    databaseReference.orderByChild("title").equalTo(abcd).addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReference.orderByChild("unique").equalTo(abcd).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot child : snapshot.getChildren()) {
