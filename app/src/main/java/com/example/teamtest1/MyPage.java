@@ -39,8 +39,8 @@ public class MyPage extends AppCompatActivity {
     private Button btn_selllist;
     //private Button btn_likelist;
     private Button btn_logout;
-    private ImageView btn_main;
-
+//    private ImageView btn_main;
+     ImageView img_btnMyBack;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private ArrayList<User> arrayList;
@@ -96,7 +96,8 @@ public class MyPage extends AppCompatActivity {
 
 
 
-        btn_main = findViewById(R.id.btn_main);
+        img_btnMyBack = findViewById(R.id.img_btnMyBack);
+//        btn_main = findViewById(R.id.btn_main);
         btn_buylist = findViewById(R.id.btn_buylist);
         btn_selllist = findViewById(R.id.btn_selllist);
         //btn_likelist = findViewById(R.id.btn_likelist);
@@ -104,6 +105,13 @@ public class MyPage extends AppCompatActivity {
 
 
         auth = FirebaseAuth.getInstance();
+
+        img_btnMyBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btn_buylist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,14 +131,15 @@ public class MyPage extends AppCompatActivity {
             }
         });
 
-        btn_main.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        btn_main.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+
 
         //아직 자바파일 안만들어뒀음
 //        btn_likelist.setOnClickListener(new View.OnClickListener() {

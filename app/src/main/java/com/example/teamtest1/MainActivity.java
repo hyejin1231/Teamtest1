@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("uid" , uids);
                 //문제 해결
                 startActivity(intent);
-                finish();
+//                finish();
             }
         });
 

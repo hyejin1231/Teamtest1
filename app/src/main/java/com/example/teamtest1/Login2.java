@@ -161,7 +161,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
                             intent.putExtra("uid",Cuser.getUid());
-                            Toast.makeText(Login2.this, Cuser.getUid(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Login2.this, Cuser.getUid(), Toast.LENGTH_SHORT).show();
 
                             startActivity(intent);
                             //updateUI(user);
@@ -252,7 +252,6 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 //                            Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
 
                             intent.putExtra("uid",Cuser.getUid());
-//                            Toast.makeText(Login2.this, Cuser.getUid(), Toast.LENGTH_SHORT).show();
 
                             startActivity(intent);
 
