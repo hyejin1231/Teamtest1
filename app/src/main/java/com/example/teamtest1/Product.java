@@ -13,6 +13,7 @@ public class Product {
     private String image;
     private String seller;
     private String buyer;
+    private String pid;
 
 
     private int count;
@@ -122,5 +123,13 @@ public class Product {
 
     public void setSeller(String seller) {
         this.seller = seller;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 }

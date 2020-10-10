@@ -79,30 +79,22 @@ public class BuyListAdapter extends RecyclerView.Adapter<BuyListAdapter.CustomVi
             this.tv_buy_seller = itemView.findViewById(R.id.tv_buy_seller);
             this.tv_buy_buyer = itemView.findViewById(R.id.tv_buy_buyer);
 
-//            itemView.setOnClickListener(this);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = getAdapterPosition();
-//                    listener.onClick(v,getAdapterPosition());
-//                }
-//            });
-
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
 
-                    Intent intent = new Intent(view.getContext(), BuyDetailActivity.class);
+                    Intent intent_buy = new Intent(view.getContext(), BuyDetailActivity.class);
 
-                    intent.putExtra("tv_sd_price", String.valueOf(arrayList.get(position).getPrice()));
-                    intent.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
-                    intent.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
-                    intent.putExtra("tv_sd_name", arrayList.get(position).getTitle());
+                    intent_buy.putExtra("iv_bd_profile",arrayList.get(position).getImage());//
+                    intent_buy.putExtra("tv_bd_price", String.valueOf(arrayList.get(position).getPrice()));
+                    intent_buy.putExtra("tv_bd_seller", arrayList.get(position).getSeller());
+                    intent_buy.putExtra("tv_bd_buyer", arrayList.get(position).getBuyer());
+                    intent_buy.putExtra("tv_bd_name", arrayList.get(position).getTitle());
+                    intent_buy.putExtra("p_id", arrayList.get(position).getPid());
 
-                    view.getContext().startActivity(intent);
+                    view.getContext().startActivity(intent_buy);
                 }
             });
 

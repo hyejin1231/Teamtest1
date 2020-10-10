@@ -21,10 +21,6 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
     private Context context;
 
 
-//    public interface RecyclerViewClickListener {
-//        void onClick(View v, int position);
-//    }
-
     public SellListAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
@@ -79,30 +75,38 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
             this.tv_sell_seller = itemView.findViewById(R.id.tv_sell_seller);
             this.tv_sell_buyer = itemView.findViewById(R.id.tv_sell_buyer);
 
-//            itemView.setOnClickListener(this);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = getAdapterPosition();
-//                    listener.onClick(v,getAdapterPosition());
-//                }
-//            });
-
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
 
-                    Intent intent = new Intent(view.getContext(), SellDetailActivity.class);
+                    //상품이 판매중인 경우
+                    if((arrayList.get(position).getStatus()).equals("selling")){
+                        Intent intent_selling = new Intent(view.getContext(),SellingDetailActivity.class);
 
-                    intent.putExtra("tv_sd_price", String.valueOf(arrayList.get(position).getPrice()));
-                    intent.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
-                    intent.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
-                    intent.putExtra("tv_sd_name", arrayList.get(position).getTitle());
+                        intent_selling.putExtra("iv_sd_profile",arrayList.get(position).getImage());//
+                        intent_selling.putExtra("tv_sd_price", String.valueOf(arrayList.get(position).getPrice()));
+                        intent_selling.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
+                        intent_selling.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
+                        intent_selling.putExtra("tv_sd_name", arrayList.get(position).getTitle());
+                        //intent_selling.putExtra("p_id",arrayList.get(position).getId());
 
-                    view.getContext().startActivity(intent);
+                        view.getContext().startActivity(intent_selling);
+                    }
+                    else if((arrayList.get(position).getStatus()).equals("complete")){ //상품이 판매완료인 경우
+                        Intent intent_complete = new Intent(view.getContext(), CompleteDetailActivity.class);
+
+                        intent_complete.putExtra("iv_sd_profile",arrayList.get(position).getImage());//
+                        intent_complete.putExtra("tv_sd_price", String.valueOf(arrayList.get(position).getPrice()));
+                        intent_complete.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
+                        intent_complete.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
+                        intent_complete.putExtra("tv_sd_name", arrayList.get(position).getTitle());
+                        intent_complete.putExtra("p_id",arrayList.get(position).getPid());
+
+                        view.getContext().startActivity(intent_complete);
+                    }
+
                 }
             });
 
