@@ -58,7 +58,7 @@ public class ChatFragment extends Fragment{
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         public ChatRecyclerViewAdapter() {
             Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-            FirebaseDatabase.getInstance().getReference().child("ChatRooms").orderByChild("users/"+Uid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener(){
+            FirebaseDatabase.getInstance().getReference().child("ChatRooms").orderByChild("User/"+Uid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     chatModels.clear();
@@ -90,14 +90,14 @@ public class ChatFragment extends Fragment{
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
             final CustomViewHolder customViewHolder = ((CustomViewHolder)holder);
             String destinationUID = null;
-            for(String user: chatModels.get(position).users.keySet()){
+            for(String user: chatModels.get(position).User.keySet()){
                 if(!user.equals(Uid)){
                     destinationUID = user;
                     destinationUsers.add(destinationUID);
                 }
             }
             assert destinationUID != null;
-            FirebaseDatabase.getInstance().getReference().child("users").child(destinationUID).addListenerForSingleValueEvent(new ValueEventListener(){
+            FirebaseDatabase.getInstance().getReference().child("User").child(destinationUID).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User User = snapshot.getValue(User.class);

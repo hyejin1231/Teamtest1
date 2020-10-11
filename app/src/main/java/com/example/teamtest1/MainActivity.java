@@ -2,9 +2,15 @@ package com.example.teamtest1;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -139,11 +146,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         img_btnChat.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceType")
             @Override
-            public void onClick(View v) {
-                //getSupportFragmentManager().beginTransaction().replace(R.id.img_btnChat,new ChatFragment()).commit();
-                Intent intent = new Intent(getApplicationContext(),ChatActivity.class);
-                startActivity(intent);
+            public void onClick(View v){
+                /*FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(,new ChatFragment());
+                fragmentTransaction.commit();*/
+                Intent intent = new Intent(getApplicationContext(),ChatList.class);
+                ActivityOptions activityOptions = null;
+                activityOptions = ActivityOptions.makeCustomAnimation(v.getContext(),R.anim.fromleft,R.anim.fromtoright);
+                startActivity(intent,activityOptions.toBundle());
             }
         });
 

@@ -61,8 +61,8 @@ public class MessageActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 ChatModel chatModel = new ChatModel();
-                chatModel.users.put(Uid, true);
-                chatModel.users.put(destinationUID, true);
+                chatModel.User.put(Uid, true);
+                chatModel.User.put(destinationUID, true);
                 if (ChatRoomUid == null) {
 
                     String nullTextMeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"살짝 되나?";
@@ -91,13 +91,13 @@ public class MessageActivity extends AppCompatActivity{
     }
 
     private void CheckChatRoom(){
-        FirebaseDatabase.getInstance().getReference().child("ChatRooms").orderByChild("users/"+Uid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener(){
+        FirebaseDatabase.getInstance().getReference().child("ChatRooms").orderByChild("User/"+Uid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot item : dataSnapshot.getChildren()){
                     ChatModel chatModel = item.getValue(ChatModel.class);
                     assert chatModel != null;
-                    if(chatModel.users.containsKey(destinationUID)){
+                    if(chatModel.User.containsKey(destinationUID)){
                         ChatRoomUid = item.getKey();
                         recyclerView.setLayoutManager(new LinearLayoutManager((MessageActivity.this)));
                         recyclerView.setAdapter(new RecyclerViewAdapter());
@@ -119,7 +119,7 @@ public class MessageActivity extends AppCompatActivity{
         User User;
         public RecyclerViewAdapter(){
             comments = new ArrayList<>();
-            FirebaseDatabase.getInstance().getReference().child("users").child(destinationUID)
+            FirebaseDatabase.getInstance().getReference().child("User").child(destinationUID)
                     .addListenerForSingleValueEvent(new ValueEventListener(){
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

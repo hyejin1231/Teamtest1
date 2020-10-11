@@ -115,7 +115,7 @@ public class SignUp extends AppCompatActivity {
                                         String myid = user.getEmail();
                                         String nickName = user.getDisplayName();
                                         String photoUrl = String.valueOf(user.getPhotoUrl());
-                                        String my_uid = user.getUid();
+                                        String my_uid = user.getUid(); // uid 가져와서 user db에 저장
 
 
 
