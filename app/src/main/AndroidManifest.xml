@@ -16,10 +16,8 @@
         <activity android:name=".CompleteDetailActivity" />
         <activity android:name=".SellingDetailActivity" />
         <activity android:name=".fragment_people" />
-        <activity android:name=".ChatActivity" />
         <activity android:name=".MessageActivity" />
         <activity android:name=".BuyDetailActivity" />
-        <activity android:name=".SellDetailActivity" />
         <activity android:name=".AdminMember" />
         <activity android:name=".AdminGoods" />
         <activity android:name=".WriteNotice" />

@@ -16,12 +16,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.teamtest1.fragment.ChatFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         img_btnWrite = findViewById(R.id.img_btnWrite);
         img_btnMypage = findViewById(R.id.img_btnMypage);
         img_btnChat = findViewById(R.id.img_btnChat);
-
         recyclerView =  findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존 성능 강화
         layoutManager = new LinearLayoutManager(this);
@@ -145,18 +146,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        img_btnChat.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceType")
+        img_btnChat.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){
-                /*FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(,new ChatFragment());
-                fragmentTransaction.commit();*/
+            public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),ChatList.class);
-                ActivityOptions activityOptions = null;
-                activityOptions = ActivityOptions.makeCustomAnimation(v.getContext(),R.anim.fromleft,R.anim.fromtoright);
-                startActivity(intent,activityOptions.toBundle());
+                startActivity(intent);
             }
         });
 
