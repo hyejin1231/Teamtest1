@@ -174,7 +174,8 @@ public class Sell extends AppCompatActivity {
     private Uri getImageUri(Context context, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "title", null);
+//        String path = MediaStore.Images.Media.in
         return Uri.parse(path);
     }
 
