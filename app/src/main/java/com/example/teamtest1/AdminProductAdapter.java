@@ -67,7 +67,8 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
         holder.tv_adProductTitle.setText(arrayList.get(position).getTitle());
         holder.tv_adProductPrice.setText(arrayList.get(position).getPrice());
-        holder.tv_adProductBid.setText(arrayList.get(position).getBid());
+//        holder.tv_adProductBid.setText(arrayList.get(position).getBid());
+        holder.tv_adProductBid.setText(String.valueOf(arrayList.get(position).getBid()));
     }
 
     @Override

@@ -7,13 +7,16 @@ public class Product {
     private String date;
     private String deadline;
     private String price;
-    private  String bid;
     private String category;
     private String status;
     private String image;
     private String seller;
     private String buyer;
     private String pid;
+
+
+
+    private int bid;
 
     private String unique;
 
@@ -23,7 +26,7 @@ public class Product {
     public Product(){}
 
 
-    public Product(String title, String detail, String price, String bid, String image,int count,String unique,String date,String deadline,String seller) {
+    public Product(String title, String detail, String price, int bid, String image,int count,String unique,String date,String deadline,String seller) {
         this.title = title;
         this.detail = detail;
         this.price = price;
@@ -34,6 +37,14 @@ public class Product {
         this.date = date;
         this.deadline = deadline;
         this.seller = seller;
+    }
+
+    public int getBid() {
+        return bid;
+    }
+
+    public void setBid(int bid) {
+        this.bid = bid;
     }
 
     public String getUnique() {
@@ -100,13 +111,7 @@ public class Product {
         this.price = price;
     }
 
-    public String getBid() {
-        return bid;
-    }
 
-    public void setBid(String bid) {
-        this.bid = bid;
-    }
 
     public String getCategory() {
         return category;

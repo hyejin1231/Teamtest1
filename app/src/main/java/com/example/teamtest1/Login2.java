@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -252,6 +253,9 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 //                            Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
 
                             intent.putExtra("uid",Cuser.getUid());
+
+                            Intent intent1 = new Intent(getApplicationContext(), CustomAdapter.CustomViewHolder.class);
+                            intent1.putExtra("uid", Cuser.getUid());
 
                             startActivity(intent);
 

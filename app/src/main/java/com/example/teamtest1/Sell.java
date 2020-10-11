@@ -71,6 +71,7 @@ public class Sell extends AppCompatActivity {
         edit_price = findViewById(R.id.edit_price);
         btn_SelectDate=findViewById(R.id.btn_SelectDate);
 
+
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Product"); // DB 테이블 연동
 
@@ -98,9 +99,10 @@ public class Sell extends AppCompatActivity {
                 String image = getImageUri(Sell.this, img).toString();
                 String title = edit_title.getText().toString();
                 String detail = edit_detail.getText().toString();
-                String bid = edit_bid.getText().toString();
+//                String bid = edit_bid.getText().toString();
                 String price = edit_price.getText().toString();
                 String deadline = tv_writeDeadline.getText().toString();
+                int bid = Integer.parseInt(edit_bid.getText().toString());
                 int count = 0;
 
                 String unique = "";

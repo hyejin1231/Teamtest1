@@ -1,7 +1,10 @@
 package com.example.teamtest1;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
@@ -32,8 +37,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     private Context context;
 
     int count;
-    String abcd;
-    String key;
+    String abcd,abcde;
+    String key,key1;
 
     public CustomAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -67,7 +72,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     }
                 });
 
-        holder.tv_productBid.setText(arrayList.get(position).getBid());
+        holder.tv_productBid.setText(String.valueOf(arrayList.get(position).getBid()));
+//        holder.tv_productBid.setText(arrayList.get(position).getBid());
         holder.tv_productTitle.setText(arrayList.get(position).getTitle());
         holder.tv_productPrice.setText(arrayList.get(position).getPrice());
         holder.tv_viewCnt.setText(String.valueOf(arrayList.get(position).getCount()));
@@ -103,7 +109,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         private DatabaseReference databaseReference;
 
 
-        public CustomViewHolder(@NonNull View itemView) {
+        public CustomViewHolder(@NonNull final View itemView) {
             super(itemView);
             this.tv_productTitle = itemView.findViewById(R.id.tv_productTitle);
             this.tv_productPrice = itemView.findViewById(R.id.tv_productPrice);
@@ -137,11 +143,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 //                    byte[] byteArray = stream.toByteArray();
 
                     int position = getAdapterPosition();
-                    abcd = arrayList.get(position).getTitle();
+                    abcd = arrayList.get(position).getUnique();
 
                     count = arrayList.get(position).getCount() + 1;
 
-                    databaseReference.orderByChild("title").equalTo(abcd).addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReference.orderByChild("unique").equalTo(abcd).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot child : snapshot.getChildren()) {
@@ -164,10 +170,85 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     intent.putExtra("image", arrayList.get(position).getImage());
                     intent.putExtra("title", arrayList.get(position).getTitle());
                     intent.putExtra("price", arrayList.get(position).getPrice());
-                    intent.putExtra("bid", arrayList.get(position).getBid());
+//                    intent.putExtra("bid", arrayList.get(position).getBid());
+                    intent.putExtra("bid", String.valueOf(arrayList.get(position).getBid()));
                     intent.putExtra("detail", arrayList.get(position).getDetail());
 
                     v.getContext().startActivity(intent);
+                }
+            });
+            btn_bid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final List<String> ListItems = new ArrayList<>();
+                    ListItems.add("500");
+                    ListItems.add("1000");
+                    ListItems.add("5000");
+                    ListItems.add("10000");
+                    ListItems.add("50000");
+                    final CharSequence[] items =  ListItems.toArray(new String[ ListItems.size()]);
+
+                    final List SelectedItems  = new ArrayList();
+                    int defaultItem = 0;
+                    SelectedItems.add(defaultItem);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                    builder.setTitle("입찰가격을 선택해주세요!!");
+                    builder.setSingleChoiceItems(items, defaultItem,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SelectedItems.clear();
+                                    SelectedItems.add(which);
+                                }
+                            });
+                    builder.setPositiveButton("Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    int position = getAdapterPosition();
+                                    abcde = arrayList.get(position).getTitle();
+                                    String selectBid ="";
+                                    if (!SelectedItems.isEmpty()) {
+                                        int index = (int) SelectedItems.get(0);
+                                        selectBid = ListItems.get(index);
+                                    }
+                                    int intBid = Integer.parseInt(selectBid);
+
+                                    final int attendBid = arrayList.get(position).getBid()+ intBid;
+                                    Intent intent = ((Activity)context).getIntent();
+                                    final String buyer = intent.getStringExtra("uid");
+//                                    final String buyer = arrayList.get(position).getBuyer();
+                                    databaseReference.orderByChild("title").equalTo(abcde).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot child : snapshot.getChildren()) {
+                                                key1 = child.getKey();
+                                            }
+
+                                            // 입찰가격bid이랑 입찰자 (bidder) uid 담기
+                                            snapshot.getRef().child(key1).child("bid").setValue(attendBid);
+                                            snapshot.getRef().child(key1).child("buyer").setValue(buyer);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+//                                    Intent intent = new Intent(itemView.getContext(), MainActivity.class);
+//                                    itemView.getContext().startActivity(intent);
+                                    Toast.makeText(itemView.getContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+
+                                    tv_productBid.setText(String.valueOf(attendBid));
+                                }
+                            });
+                    builder.setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(itemView.getContext(), "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                }
+                            });
+                    builder.show();
                 }
             });
 
@@ -180,6 +261,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                        view.getContext().startActivity(intent);
                 }
             });
+
+
 
         }
     }

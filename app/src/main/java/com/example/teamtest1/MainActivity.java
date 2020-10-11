@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CustomAdapter(arrayList,this);
         recyclerView.setAdapter(adapter); //리사이클러뷰에 어뎁터 연결
 
+
         img_btnWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
