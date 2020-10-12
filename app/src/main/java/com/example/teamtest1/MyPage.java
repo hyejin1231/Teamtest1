@@ -37,7 +37,7 @@ public class MyPage extends AppCompatActivity {
 
     private Button btn_buylist;
     private Button btn_selllist;
-    //private Button btn_likelist;
+    private Button btn_likelist;
     private Button btn_logout;
 //    private ImageView btn_main;
      ImageView img_btnMyBack;
@@ -55,7 +55,6 @@ public class MyPage extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("User"); // DB 테이블 연동
-//
         Intent intent = getIntent();
 //        String nickName = intent.getStringExtra("nickName"); //MainActivity로 부터 닉네임 전달받음.
 //        String photoUrl = intent.getStringExtra("photoUrl"); //MainActivity로 부터 프로필사진 url 전달받음.
@@ -100,7 +99,7 @@ public class MyPage extends AppCompatActivity {
 //        btn_main = findViewById(R.id.btn_main);
         btn_buylist = findViewById(R.id.btn_buylist);
         btn_selllist = findViewById(R.id.btn_selllist);
-        //btn_likelist = findViewById(R.id.btn_likelist);
+        btn_likelist = findViewById(R.id.btn_likelist);
         btn_logout = findViewById(R.id.btn_logout);
 
 
@@ -131,28 +130,15 @@ public class MyPage extends AppCompatActivity {
             }
         });
 
-//        btn_main.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        btn_likelist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LikelistActivity.class);
+                startActivity(intent);
 
+            }
+        });
 
-        //아직 자바파일 안만들어뒀음
-//        btn_likelist.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), LikeListActivity.class);
-//                startActivity(intent);
-//
-//            }
-//        });
-
-
-        //로그아웃할 때
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

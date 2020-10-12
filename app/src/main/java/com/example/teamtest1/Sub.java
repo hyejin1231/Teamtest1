@@ -12,10 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,13 +36,13 @@ public class Sub extends AppCompatActivity {
     TextView tv_price;
     TextView edit_detail;
     TextView tv_count;
-    ImageView img_btnBackMain;
+    ImageView img_btnBackMain,img_btnLike;
     Button btn_SubBtn,btn_price;
     TextView tv_subDate,tv_subDeadline,tv_subAlarm;
-    String key;
+    String key,key1,unique;
 
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,databaseReference_like;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +62,16 @@ public class Sub extends AppCompatActivity {
         tv_subDeadline = findViewById(R.id.tv_subDeadline);
         tv_subDate = findViewById(R.id.tv_subDate);
         tv_subAlarm=findViewById(R.id.tv_subAlarm);
+        img_btnLike = findViewById(R.id.img_btnLike);
 
 
-        database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
-        databaseReference = database.getReference("Product"); // DB 테이블 연동
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("Product");
+        databaseReference_like = database.getReference("Like");
 
         Intent intent = getIntent();
 
-        String unique = intent.getExtras().getString("unique");
+        unique = intent.getExtras().getString("unique");
 
         Glide.with(this).asBitmap()
                 .load(intent.getExtras().getString("image"))
@@ -129,6 +134,61 @@ public class Sub extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        //다혜가 추가한 부분 (10/12)
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String currentUid = user.getUid();
+
+        //클릭 => 관심상품 등록
+        img_btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Like 테이블 참조
+                databaseReference_like.orderByChild("id").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Like like_add = new Like(unique, currentUid);
+                        databaseReference_like.push().setValue(like_add);
+                        Toast.makeText(getApplicationContext(), "관심상품 등록", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(), "관심상품 등록실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        //롱클릭 => 관심상품 등록취소
+        //이미지뷰라서 롱클릭 안먹나???
+        img_btnLike.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                databaseReference_like.orderByChild("id").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot child : snapshot.getChildren()) {
+                            key1 = child.getKey();
+                        }
+                        if (((snapshot.child(key1).child("unique").getValue()).equals(unique)) &&
+                                ((snapshot.child(key1).child("id").getValue()).equals(currentUid))) {
+                            snapshot.getRef().child(key1).removeValue();
+                            Toast.makeText(getApplicationContext(), "관심상품 취소", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(), "관심상품 등록실패", Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+                return false;
+            }
+        });
+
 
     }
 }

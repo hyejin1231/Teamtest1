@@ -27,14 +27,14 @@ public class CompleteDetailActivity extends AppCompatActivity {
     private DatabaseReference databaseReference1;
     private ArrayList<Product> arrayList;
 
-    ImageView iv_sd_profile;
-    TextView tv_sd_name;
-    TextView tv_sd_price;
-    TextView tv_sd_buyer;
-    TextView tv_sd_seller;
-    Button btn_del_detail;
-    String p_id, p_id_key;
-    Button btn_like;//
+    ImageView iv_cd_profile;
+    TextView tv_cd_name;
+    TextView tv_cd_price;
+    TextView tv_cd_buyer;
+    TextView tv_cd_seller;
+    Button btn_cdel_detail;
+    String p_id, p_id_key,unique;
+    //Button btn_like;//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,27 +47,27 @@ public class CompleteDetailActivity extends AppCompatActivity {
 
         Intent intent_complete = getIntent();
 
-        iv_sd_profile = findViewById(R.id.iv_sd_profile);
-        tv_sd_name = findViewById(R.id.tv_sd_name);
-        tv_sd_price = findViewById(R.id.tv_sd_price);
-        tv_sd_buyer = findViewById(R.id.tv_sd_buyer);
-        tv_sd_seller = findViewById(R.id.tv_sd_seller);
-        btn_del_detail = findViewById(R.id.btn_del_detail);
-        btn_like = findViewById(R.id.btn_like); //
+        iv_cd_profile = findViewById(R.id.iv_cd_profile);
+        tv_cd_name = findViewById(R.id.tv_cd_name);
+        tv_cd_price = findViewById(R.id.tv_cd_price);
+        tv_cd_buyer = findViewById(R.id.tv_cd_buyer);
+        tv_cd_seller = findViewById(R.id.tv_cd_seller);
+        btn_cdel_detail = findViewById(R.id.btn_cdel_detail);
+        //btn_like = findViewById(R.id.btn_like); //
 
 
-        Glide.with(this).load(intent_complete.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_sd_profile);
-        tv_sd_name.setText(intent_complete.getExtras().getString("tv_sd_name"));
-        tv_sd_price.setText(intent_complete.getExtras().getString("tv_sd_price"));
-        tv_sd_buyer.setText(intent_complete.getExtras().getString("tv_sd_buyer"));
-        tv_sd_seller.setText(intent_complete.getExtras().getString("tv_sd_seller"));
-        p_id = intent_complete.getExtras().getString("p_id");
+        Glide.with(this).load(intent_complete.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_cd_profile);
+        tv_cd_name.setText(intent_complete.getExtras().getString("tv_sd_name"));
+        tv_cd_price.setText(intent_complete.getExtras().getString("tv_sd_price"));
+        tv_cd_buyer.setText(intent_complete.getExtras().getString("tv_sd_buyer"));
+        tv_cd_seller.setText(intent_complete.getExtras().getString("tv_sd_seller"));
+        unique = intent_complete.getExtras().getString("unique");
 
 
-        btn_del_detail.setOnClickListener(new View.OnClickListener() {
+        btn_cdel_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseReference.orderByChild("p_id").equalTo(p_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot child : snapshot.getChildren()) {

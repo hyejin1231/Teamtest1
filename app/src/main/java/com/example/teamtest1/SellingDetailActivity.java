@@ -32,10 +32,10 @@ public class SellingDetailActivity extends AppCompatActivity {
     TextView tv_sd_price;
     TextView tv_sd_buyer;
     TextView tv_sd_seller;
-    Button btn_del_detail, btn_update_detail;
+    Button btn_sdel_detail, btn_update_detail;
     String p_id, p_id_key;
     EditText et_sd_name;
-    String abcd;
+    String abcd,unique;
 
 
     @Override
@@ -50,11 +50,11 @@ public class SellingDetailActivity extends AppCompatActivity {
         Intent intent_selling = getIntent();
 
         iv_sd_profile = findViewById(R.id.iv_sd_profile);
-        tv_sd_name = findViewById(R.id.tv_sd_name);
+        //tv_sd_name = findViewById(R.id.tv_sd_name);
         tv_sd_price = findViewById(R.id.tv_sd_price);
         tv_sd_buyer = findViewById(R.id.tv_sd_buyer);
         tv_sd_seller = findViewById(R.id.tv_sd_seller);
-        btn_del_detail = findViewById(R.id.btn_del_detail);
+        btn_sdel_detail = findViewById(R.id.btn_sdel_detail);
         btn_update_detail = findViewById(R.id.btn_update_detail);
         et_sd_name = findViewById(R.id.et_sd_name);
 
@@ -62,15 +62,15 @@ public class SellingDetailActivity extends AppCompatActivity {
         tv_sd_price.setText(intent_selling.getExtras().getString("tv_sd_price"));
         tv_sd_buyer.setText(intent_selling.getExtras().getString("tv_sd_buyer"));
         tv_sd_seller.setText(intent_selling.getExtras().getString("tv_sd_seller"));
-        p_id = intent_selling.getExtras().getString("p_id");
+        unique = intent_selling.getExtras().getString("unique");
         et_sd_name.setText(intent_selling.getExtras().getString("tv_sd_name"));
 
 
-        btn_del_detail.setOnClickListener(new View.OnClickListener() {
+        btn_sdel_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                databaseReference.orderByChild("p_id").equalTo(p_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot child : snapshot.getChildren()) {
@@ -95,7 +95,7 @@ public class SellingDetailActivity extends AppCompatActivity {
         btn_update_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseReference.orderByChild("p_id").equalTo(p_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot child : snapshot.getChildren()) {

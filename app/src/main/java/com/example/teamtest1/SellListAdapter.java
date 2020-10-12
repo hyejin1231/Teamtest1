@@ -102,7 +102,7 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
                         intent_complete.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
                         intent_complete.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
                         intent_complete.putExtra("tv_sd_name", arrayList.get(position).getTitle());
-                        intent_complete.putExtra("p_id",arrayList.get(position).getPid());
+                        intent_complete.putExtra("unique",arrayList.get(position).getUnique());
 
                         view.getContext().startActivity(intent_complete);
                     }

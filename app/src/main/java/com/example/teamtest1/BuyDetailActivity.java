@@ -37,7 +37,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     TextView tv_bd_buyer;
     TextView tv_bd_seller;
     Button btn_del_detail;
-    String p_id, p_id_key;
+    String p_id, p_id_key,unique;
 
 
 
@@ -56,7 +56,7 @@ public class BuyDetailActivity extends AppCompatActivity {
         tv_bd_price = findViewById(R.id.tv_bd_price);
         tv_bd_buyer = findViewById(R.id.tv_bd_buyer);
         tv_bd_seller = findViewById(R.id.tv_bd_seller);
-        btn_del_detail = findViewById(R.id.btn_del_detail);
+        btn_del_detail = findViewById(R.id.btn_bdel_detail);
 
 
         Glide.with(this).load(intent_buy.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_bd_profile);
@@ -64,13 +64,13 @@ public class BuyDetailActivity extends AppCompatActivity {
         tv_bd_price.setText(intent_buy.getExtras().getString("tv_bd_price"));
         tv_bd_buyer.setText(intent_buy.getExtras().getString("tv_bd_buyer"));
         tv_bd_seller.setText(intent_buy.getExtras().getString("tv_bd_seller"));
-        p_id = intent_buy.getExtras().getString("p_id");
+        unique = intent_buy.getExtras().getString("unique");
 
         btn_del_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                databaseReference.orderByChild("p_id").equalTo(p_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot child : snapshot.getChildren()) {

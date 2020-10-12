@@ -92,7 +92,7 @@ public class BuyListAdapter extends RecyclerView.Adapter<BuyListAdapter.CustomVi
                     intent_buy.putExtra("tv_bd_seller", arrayList.get(position).getSeller());
                     intent_buy.putExtra("tv_bd_buyer", arrayList.get(position).getBuyer());
                     intent_buy.putExtra("tv_bd_name", arrayList.get(position).getTitle());
-                    intent_buy.putExtra("p_id", arrayList.get(position).getPid());
+                    intent_buy.putExtra("unique", arrayList.get(position).getUnique());
 
                     view.getContext().startActivity(intent_buy);
                 }

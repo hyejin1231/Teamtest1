@@ -146,11 +146,11 @@ public class Product {
         this.seller = seller;
     }
 
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
+//    public String getPid() {
+//        return pid;
+//    }
+//
+//    public void setPid(String pid) {
+//        this.pid = pid;
+//    }
 }
