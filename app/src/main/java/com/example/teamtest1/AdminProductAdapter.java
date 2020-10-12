@@ -24,14 +24,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapter.CustomViewHolder> {
 
     private ArrayList<Product> arrayList;
     private Context context;
     String key;
-    String abcd;
+    String abcd,test;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
     public AdminProductAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -69,6 +73,37 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
         holder.tv_adProductPrice.setText(arrayList.get(position).getPrice());
 //        holder.tv_adProductBid.setText(arrayList.get(position).getBid());
         holder.tv_adProductBid.setText(String.valueOf(arrayList.get(position).getBid()));
+
+        database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
+        databaseReference = database.getReference("Product"); // DB 테이블 연동
+
+        test = arrayList.get(position).getUnique();
+
+        databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+                long now = System.currentTimeMillis();
+                Date today = new Date(now);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String date = simpleDateFormat.format(today);
+                String deadline = snapshot.child(key).child("deadline").getValue().toString();
+
+
+                if (deadline.equals(date)) {
+                    holder.tv_adAlarmDead.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -78,7 +113,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_adProductTitle,tv_adProductBid,tv_adProductPrice;
+        TextView tv_adProductTitle,tv_adProductBid,tv_adProductPrice,tv_adAlarmDead;
         Button btn_warn,btn_adProductDel;
         ImageView iv_adProductImage;
 
@@ -97,6 +132,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
             this.tv_adProductPrice = itemView.findViewById(R.id.tv_adProductPrice);
             this.btn_warn = itemView.findViewById(R.id.btn_warn);
             this.btn_adProductDel = itemView.findViewById(R.id.btn_adProductDel);
+            this.tv_adAlarmDead = itemView.findViewById(R.id.tv_adAlarmDead);
 
             btn_adProductDel.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Sub">
-
     <ImageView
         android:id="@+id/tv_image"
         android:layout_width="210dp"
@@ -91,18 +90,17 @@
         app:layout_constraintStart_toEndOf="@+id/tv_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_image" />
 
-    <TextView
+    <EditText
         android:id="@+id/edit_detail"
-        android:layout_width="212dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="상품 상세 설명"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <Button
         android:id="@+id/btn_price"
@@ -116,7 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_detail" />
 
     <Button
-        android:id="@+id/btn_bid"
+        android:id="@+id/btn_SubBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -132,13 +130,12 @@
         android:id="@+id/imgBtn_like"
         android:layout_width="74dp"
         android:layout_height="65dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_bid"
+        app:layout_constraintTop_toBottomOf="@+id/edit_detail"
         app:srcCompat="@drawable/heart" />
-
 
     <ImageView
         android:id="@+id/img_btnBackMain"
@@ -150,4 +147,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_price"
         app:srcCompat="@drawable/back" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="109dp"
+        android:layout_marginLeft="109dp"
+        android:layout_marginTop="8dp"
+        android:text="등록일"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/tv_subDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:hint="등록일"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
+        app:layout_constraintStart_toEndOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="109dp"
+        android:layout_marginLeft="109dp"
+        android:layout_marginTop="8dp"
+        android:text="마감일"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/tv_subDeadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:hint="마감일"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView19"
+        app:layout_constraintStart_toEndOf="@+id/textView19" />
+
+    <TextView
+        android:id="@+id/tv_subAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="마감임박!!"
+        android:textColor="#E81212"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_subDeadline"
+        app:layout_constraintStart_toEndOf="@+id/tv_subDeadline" />
 </androidx.constraintlayout.widget.ConstraintLayout>

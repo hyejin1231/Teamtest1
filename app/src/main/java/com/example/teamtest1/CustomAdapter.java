@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,18 +29,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
     private ArrayList<Product> arrayList;
     private Context context;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
     int count;
     String abcd,abcde;
-    String key,key1,key2;
+    String key,key1,key2,test;;
     String destinationUID;
+    String uniqueTest;
     public CustomAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
@@ -78,6 +84,47 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         holder.tv_productPrice.setText(arrayList.get(position).getPrice());
         holder.tv_viewCnt.setText(String.valueOf(arrayList.get(position).getCount()));
 
+        database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
+        databaseReference = database.getReference("Product"); // DB 테이블 연동
+
+        test = arrayList.get(position).getUnique();
+
+        databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    uniqueTest = child.getKey();
+                }
+                long now = System.currentTimeMillis();
+                Date today = new Date(now);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String date = simpleDateFormat.format(today);
+                String deadline = snapshot.child(uniqueTest).child("deadline").getValue().toString();
+
+
+                int Caldate = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(deadline.replace("-", ""));
+
+
+                if (deadline.equals(date)) {
+                    holder.tv_alaram.setVisibility(View.VISIBLE);
+                }
+
+                if(Caldate > 0 ) {
+                    holder.btn_bid.setVisibility(View.INVISIBLE);
+                    holder.btn_Buynow.setVisibility(View.INVISIBLE);
+                    holder.tv_alaram.setVisibility(View.VISIBLE);
+                    holder.tv_alaram.setText("판매 종료!!!");
+                    holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 //        holder.tv_productDetail.setText(arrayList.get(position).getDetail());
 //        holder.tv_productSeller.setText(arrayList.get(position).getSeller());
 //        holder.tv_productDate.setText(arrayList.get(position).getDate());
@@ -99,6 +146,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         TextView tv_productPrice;
         TextView tv_viewCnt;
         Button btn_bid,btn_Buynow;
+        TextView tv_alaram;
 //        TextView tv_productSeller;
 //        TextView tv_productDate;
 //        TextView tv_productDeadline;
@@ -118,6 +166,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.tv_viewCnt = itemView.findViewById(R.id.tv_viewCnt);
             this.btn_bid = itemView.findViewById(R.id.btn_bid);
             this.btn_Buynow = itemView.findViewById(R.id.btn_Buynow);
+            this.tv_alaram = itemView.findViewById(R.id.tv_alaram);
 //            this.tv_productSeller = itemView.findViewById(R.id.tv_productSeller);
 //            this.tv_productDate = itemView.findViewById(R.id.tv_productDate);
 //            this.tv_productDeadline = itemView.findViewById(R.id.tv_productDeadline);
@@ -166,6 +215,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                     Intent intent = new Intent(v.getContext(), Sub.class);
 
+                    intent.putExtra("unique", arrayList.get(position).getUnique());
                     intent.putExtra("count", String.valueOf(arrayList.get(position).getCount()));
                     intent.putExtra("image", arrayList.get(position).getImage());
                     intent.putExtra("title", arrayList.get(position).getTitle());
@@ -206,7 +256,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     int position = getAdapterPosition();
-                                    abcde = arrayList.get(position).getTitle();
+                                    abcde = arrayList.get(position).getUnique();
                                     String selectBid ="";
                                     if (!SelectedItems.isEmpty()) {
                                         int index = (int) SelectedItems.get(0);
@@ -218,7 +268,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                     Intent intent = ((Activity)context).getIntent();
                                     final String buyer = intent.getStringExtra("uid");
 //                                    final String buyer = arrayList.get(position).getBuyer();
-                                    databaseReference.orderByChild("title").equalTo(abcde).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    databaseReference.orderByChild("unique").equalTo(abcde).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             for(DataSnapshot child : snapshot.getChildren()) {
@@ -256,9 +306,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    String ChatTitle = arrayList.get(position).getTitle();
+                    String ChatTitle = arrayList.get(position).getUnique();
 
-                    databaseReference.orderByChild("title").equalTo(ChatTitle).addListenerForSingleValueEvent(new ValueEventListener(){
+                    databaseReference.orderByChild("unique").equalTo(ChatTitle).addListenerForSingleValueEvent(new ValueEventListener(){
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot child : snapshot.getChildren()){
