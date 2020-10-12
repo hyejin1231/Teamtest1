@@ -38,7 +38,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     int count;
     String abcd,abcde;
-    String key,key1;
+    String key,key1,key2;
     String destinationUID;
     public CustomAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -257,14 +257,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     String ChatTitle = arrayList.get(position).getTitle();
+
                     databaseReference.orderByChild("title").equalTo(ChatTitle).addListenerForSingleValueEvent(new ValueEventListener(){
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot child : snapshot.getChildren()){
-                                key1 = child.getKey();
+                                key2 = child.getKey();
                             }
-                            destinationUID = snapshot.child(key1).child("uid").getValue().toString();
-                            notifyDataSetChanged();
+                            destinationUID = snapshot.child(key2).child("uid").getValue().toString();
+//                            notifyDataSetChanged();
 
                         }
 
