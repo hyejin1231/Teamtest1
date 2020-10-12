@@ -264,7 +264,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                             for (DataSnapshot child : snapshot.getChildren()){
                                 key2 = child.getKey();
                             }
-                            destinationUID = snapshot.child(key2).child("uid").getValue().toString();
+                            destinationUID = snapshot.child(key2).child("seller").getValue().toString();
 //                            notifyDataSetChanged();
 
                         }
