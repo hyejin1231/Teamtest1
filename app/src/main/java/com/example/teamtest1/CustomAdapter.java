@@ -110,6 +110,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 }
 
                 if(Caldate > 0 ) {
+                    snapshot.getRef().child(uniqueTest).child("status").setValue("complete");
                     holder.btn_bid.setVisibility(View.INVISIBLE);
                     holder.btn_Buynow.setVisibility(View.INVISIBLE);
                     holder.tv_alaram.setVisibility(View.VISIBLE);

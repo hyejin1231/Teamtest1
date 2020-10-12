@@ -104,6 +104,7 @@ public class Sell extends AppCompatActivity {
                 String deadline = tv_writeDeadline.getText().toString();
                 int bid = Integer.parseInt(edit_bid.getText().toString());
                 int count = 0;
+                String status = "selling";
 
                 String unique = "";
 
@@ -112,7 +113,7 @@ public class Sell extends AppCompatActivity {
                 }
 
                 //String title, String detail, String price, String bid, String image
-                Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline,uids );
+                Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline,uids,status );
 //                databaseReference.child("Pd_04").push().setValue(product);
                 databaseReference.push().setValue(product);
 

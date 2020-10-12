@@ -26,7 +26,7 @@ public class Product {
     public Product(){}
 
 
-    public Product(String title, String detail, String price, int bid, String image,int count,String unique,String date,String deadline,String seller) {
+    public Product(String title, String detail, String price, int bid, String image,int count,String unique,String date,String deadline,String seller,String status) {
         this.title = title;
         this.detail = detail;
         this.price = price;
@@ -37,6 +37,7 @@ public class Product {
         this.date = date;
         this.deadline = deadline;
         this.seller = seller;
+        this.status = status;
     }
 
     public int getBid() {
