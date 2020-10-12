@@ -39,7 +39,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     int count;
     String abcd,abcde;
     String key,key1;
-
+    String destinationUID;
     public CustomAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
@@ -255,10 +255,28 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             btn_Buynow.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(),MessageActivity.class);
-                       intent.putExtra("destinationUID","9eg8i0VRUcdkZnPZRYoyJjlV44z2");
-                       ActivityOptions activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(),R.anim.fromleft,R.anim.fromtoright);
-                       view.getContext().startActivity(intent);
+                    int position = getAdapterPosition();
+                    String ChatTitle = arrayList.get(position).getTitle();
+                    databaseReference.orderByChild("title").equalTo(ChatTitle).addListenerForSingleValueEvent(new ValueEventListener(){
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot child : snapshot.getChildren()){
+                                key1 = child.getKey();
+                            }
+                            destinationUID = snapshot.child(key1).child("uid").getValue().toString();
+                            notifyDataSetChanged();
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                    Intent intent = new Intent(view.getContext(),MessageActivity.class);
+                    intent.putExtra("destinationUID",destinationUID);
+                    view.getContext().startActivity(intent);
+
                 }
             });
 
