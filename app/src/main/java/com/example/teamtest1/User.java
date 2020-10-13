@@ -5,18 +5,27 @@ public class User {
     private String id;
     private int pw;
     private String nickName;
-
+    private String  warn;
 
     private  String uid;
 
     public User(){}
 
-    public User(String photoUrl, String id, String nickName,String uid) {
+    public User(String photoUrl, String id, String nickName,String uid, String warn) {
         this.photoUrl = photoUrl;
         this.id = id;
 //        this.pw = pw;
         this.uid = uid;
         this.nickName = nickName;
+        this.warn =warn;
+    }
+
+    public String getWarn() {
+        return warn;
+    }
+
+    public void setWarn(String warn) {
+        this.warn = warn;
     }
 
     public String getUid() {

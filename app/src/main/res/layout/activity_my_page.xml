@@ -95,6 +95,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/back" />
 
+    <ImageView
+        android:id="@+id/img_MyWarn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
+        app:srcCompat="@drawable/warn" />
+
+    <TextView
+        android:id="@+id/tv_MyWarn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="48dp"
+        android:hint="경고"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/img_MyWarn"
+        app:layout_constraintTop_toBottomOf="@+id/btn_buylist" />
+
+    <TextView
+        android:id="@+id/tv_Message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:text="경고5회가 되면 강제 탈퇴됩니다."
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_MyWarn" />
+
     <!--    <ImageView-->
 <!--        android:id="@+id/btn_main"-->
 <!--        android:layout_width="100dp"-->

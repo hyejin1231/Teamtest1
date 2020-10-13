@@ -35,6 +35,10 @@ public class MyPage extends AppCompatActivity {
     private TextView tv_id;
     //private  TextView tv_token;
 
+    private ImageView img_MyWarn;
+    private TextView tv_MyWarn;
+    private TextView tv_Message;
+
     private Button btn_buylist;
     private Button btn_selllist;
     private Button btn_likelist;
@@ -76,6 +80,12 @@ public class MyPage extends AppCompatActivity {
         //tv_token = findViewById(R.id.tv_token);
         //tv_token.setText(myToken);
 
+        img_MyWarn = findViewById(R.id.img_MyWarn);
+        tv_MyWarn = findViewById(R.id.tv_MyWarn);
+        tv_Message = findViewById(R.id.tv_Message);
+
+
+
         databaseReference.orderByChild("uid").equalTo(uids).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -84,6 +94,26 @@ public class MyPage extends AppCompatActivity {
                 }
                 tv_id.setText(snapshot.child(key).child("id").getValue().toString());
                 tv_result.setText(snapshot.child(key).child("uid").getValue().toString());
+
+                if(snapshot.child(key).child("warn").getValue().toString().isEmpty()) {
+                    tv_MyWarn.setVisibility(View.INVISIBLE);
+                    img_MyWarn.setVisibility(View.INVISIBLE);
+                } else if (snapshot.child(key).child("warn").getValue().toString().equals("경고4회")) {
+                    img_MyWarn.setVisibility(View.VISIBLE);
+                    tv_MyWarn.setText(snapshot.child(key).child("warn").getValue().toString());
+                    tv_MyWarn.setVisibility(View.VISIBLE);
+                    tv_Message.setVisibility(View.VISIBLE);
+                }else if (snapshot.child(key).child("warn").getValue().toString().equals("경고5회")){
+                    img_MyWarn.setVisibility(View.VISIBLE);
+                    tv_MyWarn.setText(snapshot.child(key).child("warn").getValue().toString());
+                    tv_MyWarn.setVisibility(View.VISIBLE);
+                    tv_Message.setText("경고 5회로 강제 회원탈퇴 될 예정입니다.");
+                    tv_Message.setVisibility(View.VISIBLE);
+                }else {
+                    img_MyWarn.setVisibility(View.VISIBLE);
+                    tv_MyWarn.setText(snapshot.child(key).child("warn").getValue().toString());
+                    tv_MyWarn.setVisibility(View.VISIBLE);
+                }
 
             }
 

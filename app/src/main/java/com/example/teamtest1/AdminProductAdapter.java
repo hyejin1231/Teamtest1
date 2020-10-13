@@ -18,11 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,17 +57,17 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
     @Override
     public void onBindViewHolder(@NonNull final CustomViewHolder holder, int position) {
 
-        Uri uri1 = Uri.parse(arrayList.get(position).getImage());
-
-
-        Glide.with(holder.itemView).asBitmap()
-                .load(uri1)
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                        holder.iv_adProductImage.setImageBitmap(resource);
-                    }
-                });
+//        Uri uri1 = Uri.parse(arrayList.get(position).getImage());
+//
+//
+//        Glide.with(holder.itemView).asBitmap()
+//                .load(uri1)
+//                .into(new SimpleTarget<Bitmap>() {
+//                    @Override
+//                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+//                        holder.iv_adProductImage.setImageBitmap(resource);
+//                    }
+//                });
 
 //                Glide.with(holder.itemView)
 //                .load(arrayList.get(position).getImage())
@@ -96,7 +100,24 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
                     holder.tv_adAlarmDead.setVisibility(View.VISIBLE);
                 }
 
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                StorageReference storageReference = storage.getReference();
+                String path = snapshot.child(key).child("image").getValue().toString();
+                storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+//                        Toast.makeText(context, "성공", Toast.LENGTH_SHORT).show();
 
+                        Glide.with(holder.itemView)
+                                .load(uri)
+                                .into(holder.iv_adProductImage);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override

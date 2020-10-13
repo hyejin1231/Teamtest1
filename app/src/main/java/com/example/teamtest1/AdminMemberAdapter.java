@@ -3,6 +3,7 @@ package com.example.teamtest1;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,10 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
     private ArrayList<User> arrayList;
     private Context context;
     String aaa;
-    String uid;
+    String uid, uid1;
+    String id;
+    String key,key1;
+    int WarnCount = 0;
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
@@ -49,13 +53,45 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdminMemberAdapter.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final AdminMemberAdapter.CustomViewHolder holder, int position) {
 
         String abcd = arrayList.get(position).getId();
         Glide.with(holder.itemView).load(arrayList.get(position).getPhotoUrl()).into(holder.img_admemImg); //프로필 uri를 이미지 뷰에 세팅
         holder.tv_admemuid.setText(arrayList.get(position).getUid());
         holder.tv_admemid.setText(arrayList.get(position).getId());
 //        Toast.makeText(context, arrayList.get(position).getUid(),Toast.LENGTH_SHORT).show();
+
+        uid1 = arrayList.get(position).getUid();
+        databaseReference.orderByChild("uid").equalTo(uid1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    key1 = child.getKey();
+                }
+                String AdWarnContent = snapshot.child(key1).child("warn").getValue().toString();
+
+                if(snapshot.child(key1).child("warn").getValue().toString().isEmpty()) {
+                    holder.tv_AdMessage.setVisibility(View.INVISIBLE);
+                    holder.img_AdMessage.setVisibility(View.INVISIBLE);
+                } else if(snapshot.child(key1).child("warn").getValue().toString().equals("경고5회")){
+                    holder.tv_AdMessage.setText(AdWarnContent);
+                    holder.tv_AdMessage.setTextColor(Color.parseColor("#EC1313"));
+                    holder.tv_AdMessage.setVisibility(View.VISIBLE);
+                    holder.img_AdMessage.setVisibility(View.VISIBLE);
+                    holder.btn_adMemDrop.setTextColor(Color.parseColor("#EC1313"));
+                } else {
+                    holder.tv_AdMessage.setText(AdWarnContent);
+                    holder.tv_AdMessage.setTextColor(Color.parseColor("#1838EC"));
+                    holder.tv_AdMessage.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
@@ -67,6 +103,8 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView img_AdMessage;
+        TextView tv_AdMessage;
         ImageView img_admemImg;
         TextView tv_admemid, tv_admemuid;
         Button btn_adMemDrop, btn_adMemWarn;
@@ -74,6 +112,8 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
         public CustomViewHolder(@NonNull final View itemView) {
             super(itemView);
 
+            this.img_AdMessage = itemView.findViewById(R.id.img_AdMessage);
+            this.tv_AdMessage = itemView.findViewById(R.id.tv_AdMessage);
             this.img_admemImg = itemView.findViewById(R.id.img_admemImg);
             this.tv_admemid = itemView.findViewById(R.id.tv_admemid);
             this.tv_admemuid = itemView.findViewById(R.id.tv_admemuid);
@@ -122,6 +162,48 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
                 }
 
 
+            });
+
+            btn_adMemWarn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final int position = getAdapterPosition();
+                    uid = arrayList.get(position).getUid();
+                    id = arrayList.get(position).getId();
+
+                    new AlertDialog.Builder(itemView.getContext()) // TestActivity 부분에는 현재 Activity의 이름 입력.
+                            .setMessage(id + "회원에게 경고 1회 적용하겠습니까?")     // 제목 부분 (직접 작성)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {      // 버튼1 (직접 작성)
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    databaseReference.orderByChild("uid").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot child : snapshot.getChildren()) {
+                                                key = child.getKey();
+                                            }
+                                           WarnCount++;
+                                            snapshot.getRef().child(uid).child("warn").setValue("경고"+WarnCount + "회");
+                                            Toast.makeText(context, id+"회원에게 경고1회 적용되었습니다.", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+//                                    Intent intent = new Intent(itemView.getContext(), MainActivity.class);
+//                                    itemView.getContext().startActivity(intent);
+//                                    Toast.makeText(itemView.getContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {     // 버튼2 (직접 작성)
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(itemView.getContext(), "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                }
+                            })
+                            .show();
+                }
             });
         }
 

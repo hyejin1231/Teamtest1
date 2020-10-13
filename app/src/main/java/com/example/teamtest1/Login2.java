@@ -231,9 +231,10 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                                     String nickName = account.getDisplayName();
 //                                    String my_uid = Cuser.getUid();
                                      my_uid = Cuser.getUid();
+                                     String warn = "";
 
                                     if (key == null) {
-                                        User user = new User(photoUrl, myid, nickName,my_uid);
+                                        User user = new User(photoUrl, myid, nickName,my_uid,warn);
 
                                         databaseReference.push().setValue(user);
 

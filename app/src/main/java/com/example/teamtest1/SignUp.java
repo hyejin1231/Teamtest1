@@ -116,10 +116,11 @@ public class SignUp extends AppCompatActivity {
                                         String nickName = user.getDisplayName();
                                         String photoUrl = String.valueOf(user.getPhotoUrl());
                                         String my_uid = user.getUid(); // uid 가져와서 user db에 저장
+                                        String warn = "";
 
 
 
-                                            User user = new User(photoUrl, myid, nickName,my_uid);
+                                            User user = new User(photoUrl, myid, nickName,my_uid,warn);
 
                                             databaseReference.child(my_uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>(){
                                                 @Override
