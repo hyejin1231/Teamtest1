@@ -112,8 +112,8 @@ public class Sell extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String image = getImageUri(Sell.this, img).toString();
-//                String image = String.valueOf(filePath);
+//                String image = getImageUri(Sell.this, img).toString();
+                String image = String.valueOf(filePath);
                 String title = edit_title.getText().toString();
                 String detail = edit_detail.getText().toString();
 //                String bid = edit_bid.getText().toString();
