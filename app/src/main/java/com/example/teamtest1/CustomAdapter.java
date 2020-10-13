@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,22 +66,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CustomViewHolder holder, final int position) {
         // 각 아이템들에 대한 매칭
 //        Glide.with(holder.itemView)
 //                .load(arrayList.get(position).getImage())
 //                .into(holder.iv_productImage);
 
-        Uri uri = Uri.parse(arrayList.get(position).getImage());
-
-        Glide.with(holder.itemView).asBitmap()
-                .load(uri)
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                        holder.iv_productImage.setImageBitmap(resource);
-                    }
-                });
+//        Uri uri = Uri.parse(arrayList.get(position).getImage());
+////
+////        Glide.with(holder.itemView).asBitmap()
+////                .load(uri)
+////                .into(new SimpleTarget<Bitmap>() {
+////                    @Override
+////                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+////                        holder.iv_productImage.setImageBitmap(resource);
+////                    }
+////                });
 
         holder.tv_productBid.setText(String.valueOf(arrayList.get(position).getBid()));
 //        holder.tv_productBid.setText(arrayList.get(position).getBid());
@@ -108,7 +109,28 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 String date = simpleDateFormat.format(today);
                 String deadline = snapshot.child(uniqueTest).child("deadline").getValue().toString();
 
+                String image = arrayList.get(position).getImage();
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                StorageReference storageReference = storage.getReference();
 
+                String path = snapshot.child(uniqueTest).child("image").getValue().toString();
+
+//                Toast.makeText(context, path, Toast.LENGTH_SHORT).show(); // 실행할 코드
+                storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+//                        Toast.makeText(context, "성공", Toast.LENGTH_SHORT).show();
+
+                        Glide.with(holder.itemView)
+                                .load(uri)
+                                .into(holder.iv_productImage);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 int Caldate = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(deadline.replace("-", ""));
 

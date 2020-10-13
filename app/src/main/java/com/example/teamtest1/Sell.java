@@ -113,9 +113,9 @@ public class Sell extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String image = getImageUri(Sell.this, img).toString();
+//                String image = getImageUri(Sell.this, img).toString();
 //                String image = String.valueOf(filePath);
-//                String image = filename;
+//                String image = "images/" + filename;
                 String title = edit_title.getText().toString();
                 String detail = edit_detail.getText().toString();
 //                String bid = edit_bid.getText().toString();
@@ -131,11 +131,61 @@ public class Sell extends AppCompatActivity {
                     unique += String.valueOf((char) ((int) (random.nextInt(26)) + 97));
                 }
 
+//                uploadFile();
+                if (filePath != null) {
+                    //업로드 진행 Dialog 보이기
+//            final ProgressDialog progressDialog = new ProgressDialog(this);
+//            progressDialog.setTitle("업로드중...");
+//            progressDialog.show();
+
+                    //storage
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+
+                    //Unique한 파일명을 만들자.
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+                    Date now = new Date();
+                    filename = formatter.format(now) + ".png";
+                    //storage 주소와 폴더 파일명을 지정해 준다.
+//                    StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child("images/" + filename);
+                    StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child( filename);
+                    //올라가거라...
+                    storageRef.putFile(filePath)
+                            //성공시
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
+                                    Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            //실패시
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+//                            progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+//            진행중
+//                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+//                            @SuppressWarnings("VisibleForTests") //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
+//                                    double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
+//                            //dialog에 진행률을 퍼센트로 출력해 준다
+//                            progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+//                        }
+//                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT).show();
+                }
+
                 //String title, String detail, String price, String bid, String image
+//                String image =  "images/" + filename;
+                String image =  filename;
                 Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline,uids,status );
 //                databaseReference.child("Pd_04").push().setValue(product);
                 databaseReference.push().setValue(product);
-                uploadFile();
 
                 Toast.makeText(getApplicationContext(),"등록 완료", Toast.LENGTH_SHORT).show();
 
@@ -202,55 +252,55 @@ public class Sell extends AppCompatActivity {
         return Uri.parse(path);
     }
 
-    private void uploadFile() {
-        //업로드할 파일이 있으면 수행
-        if (filePath != null) {
-            //업로드 진행 Dialog 보이기
-//            final ProgressDialog progressDialog = new ProgressDialog(this);
-//            progressDialog.setTitle("업로드중...");
-//            progressDialog.show();
-
-            //storage
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-
-            //Unique한 파일명을 만들자.
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
-            Date now = new Date();
-             filename = formatter.format(now) + ".png";
-            //storage 주소와 폴더 파일명을 지정해 준다.
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child("images/" + filename);
-            //올라가거라...
-            storageRef.putFile(filePath)
-                    //성공시
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
-                            Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    //실패시
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-//                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-//            진행중
-//                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//    private void uploadFile() {
+//        //업로드할 파일이 있으면 수행
+//        if (filePath != null) {
+//            //업로드 진행 Dialog 보이기
+////            final ProgressDialog progressDialog = new ProgressDialog(this);
+////            progressDialog.setTitle("업로드중...");
+////            progressDialog.show();
+//
+//            //storage
+//            FirebaseStorage storage = FirebaseStorage.getInstance();
+//
+//            //Unique한 파일명을 만들자.
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+//            Date now = new Date();
+//             filename = formatter.format(now) + ".png";
+//            //storage 주소와 폴더 파일명을 지정해 준다.
+//            StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child("images/" + filename);
+//            //올라가거라...
+//            storageRef.putFile(filePath)
+//                    //성공시
+//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 //                        @Override
-//                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                            @SuppressWarnings("VisibleForTests") //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
-//                                    double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
-//                            //dialog에 진행률을 퍼센트로 출력해 준다
-//                            progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+////                            progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
+//                            Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+//                        }
+//                    })
+//                    //실패시
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+////                            progressDialog.dismiss();
+//                            Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
 //                        }
 //                    });
-        } else {
-            Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT).show();
-        }
-    }
+////            진행중
+////                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+////                        @Override
+////                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+////                            @SuppressWarnings("VisibleForTests") //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
+////                                    double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
+////                            //dialog에 진행률을 퍼센트로 출력해 준다
+////                            progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+////                        }
+////                    });
+//        } else {
+//            Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     // 이미지 경로 알아오는 함수..?
 //    private String getPath(Uri uri)
