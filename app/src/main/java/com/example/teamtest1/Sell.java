@@ -47,6 +47,7 @@ public class Sell extends AppCompatActivity {
     Uri uri;
     Bitmap img;
     String uids;
+    String filename;
     private DatePickerDialog.OnDateSetListener callbackMethod;
 
     private Uri filePath;
@@ -112,8 +113,9 @@ public class Sell extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String image = getImageUri(Sell.this, img).toString();
-                String image = String.valueOf(filePath);
+                String image = getImageUri(Sell.this, img).toString();
+//                String image = String.valueOf(filePath);
+//                String image = filename;
                 String title = edit_title.getText().toString();
                 String detail = edit_detail.getText().toString();
 //                String bid = edit_bid.getText().toString();
@@ -214,7 +216,7 @@ public class Sell extends AppCompatActivity {
             //Unique한 파일명을 만들자.
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
-            String filename = formatter.format(now) + ".png";
+             filename = formatter.format(now) + ".png";
             //storage 주소와 폴더 파일명을 지정해 준다.
             StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child("images/" + filename);
             //올라가거라...
