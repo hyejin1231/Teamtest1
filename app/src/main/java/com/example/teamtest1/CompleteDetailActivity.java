@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,11 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -35,6 +40,8 @@ public class CompleteDetailActivity extends AppCompatActivity {
     Button btn_cdel_detail;
     String p_id, p_id_key,unique;
     //Button btn_like;//
+    String key,test;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +62,43 @@ public class CompleteDetailActivity extends AppCompatActivity {
         btn_cdel_detail = findViewById(R.id.btn_cdel_detail);
         //btn_like = findViewById(R.id.btn_like); //
 
+        test = intent_complete.getExtras().getString("unique");
+        databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
 
-        Glide.with(this).load(intent_complete.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_cd_profile);
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                StorageReference storageReference = storage.getReference();
+                String path = snapshot.child(key).child("image").getValue().toString();
+                storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+//                        Toast.makeText(context, "성공", Toast.LENGTH_SHORT).show();
+
+                        Glide.with(getApplicationContext())
+                                .load(uri)
+                                .override(300,300)
+                                .into(iv_cd_profile);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+//        Glide.with(this).load(intent_complete.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_cd_profile);
         tv_cd_name.setText(intent_complete.getExtras().getString("tv_sd_name"));
         tv_cd_price.setText(intent_complete.getExtras().getString("tv_sd_price"));
         tv_cd_buyer.setText(intent_complete.getExtras().getString("tv_sd_buyer"));

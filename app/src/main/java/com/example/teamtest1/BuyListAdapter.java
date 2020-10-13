@@ -2,16 +2,27 @@ package com.example.teamtest1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -20,7 +31,11 @@ public class BuyListAdapter extends RecyclerView.Adapter<BuyListAdapter.CustomVi
     private ArrayList<Product> arrayList;
     private Context context;
 
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
+    String test;
+    String key;
 //    public interface RecyclerViewClickListener {
 //        void onClick(View v, int position);
 //    }
@@ -45,10 +60,48 @@ public class BuyListAdapter extends RecyclerView.Adapter<BuyListAdapter.CustomVi
 
 
     @Override
-    public void onBindViewHolder(@NonNull BuyListAdapter.CustomViewHolder holder, int position) {
-        Glide.with(holder.itemView)
-                .load(arrayList.get(position).getImage())
-                .into(holder.iv_buy_image);
+    public void onBindViewHolder(@NonNull final BuyListAdapter.CustomViewHolder holder, int position) {
+//        Glide.with(holder.itemView)
+//                .load(arrayList.get(position).getImage())
+//                .into(holder.iv_buy_image);
+
+        database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
+        databaseReference = database.getReference("Product"); // DB 테이블 연동
+
+        test = arrayList.get(position).getUnique();
+        databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                StorageReference storageReference = storage.getReference();
+                String path = snapshot.child(key).child("image").getValue().toString();
+                storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+//                        Toast.makeText(context, "성공", Toast.LENGTH_SHORT).show();
+
+                        Glide.with(holder.itemView)
+                                .load(uri)
+                                .into(holder.iv_buy_image);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         holder.tv_buy_title.setText("제품명 " + arrayList.get(position).getTitle());
         holder.tv_buy_price.setText("가격 " + String.valueOf(arrayList.get(position).getPrice()) + "원");
         holder.tv_buy_seller.setText("판매자 " + arrayList.get(position).getSeller());

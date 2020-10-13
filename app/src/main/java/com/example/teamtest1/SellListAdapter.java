@@ -2,16 +2,27 @@ package com.example.teamtest1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -19,7 +30,11 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
 
     private ArrayList<Product> arrayList;
     private Context context;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
+    String test;
+    String key;
 
     public SellListAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -41,10 +56,47 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
 
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        Glide.with(holder.itemView)
-                .load(arrayList.get(position).getImage())
-                .into(holder.iv_sell_image);
+    public void onBindViewHolder(@NonNull final CustomViewHolder holder, int position) {
+//        Glide.with(holder.itemView)
+//                .load(arrayList.get(position).getImage())
+//                .into(holder.iv_sell_image);
+
+        database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
+        databaseReference = database.getReference("Product"); // DB 테이블 연동
+
+        test = arrayList.get(position).getUnique();
+        databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                StorageReference storageReference = storage.getReference();
+                String path = snapshot.child(key).child("image").getValue().toString();
+                storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+//                        Toast.makeText(context, "성공", Toast.LENGTH_SHORT).show();
+
+                        Glide.with(holder.itemView)
+                                .load(uri)
+                                .into(holder.iv_sell_image);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         holder.tv_sell_title.setText("제품명 " + arrayList.get(position).getTitle());
         holder.tv_sell_price.setText("가격 " + String.valueOf(arrayList.get(position).getPrice()) + "원");
         holder.tv_sell_seller.setText("판매자 " + arrayList.get(position).getSeller());
@@ -90,6 +142,7 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
                         intent_selling.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
                         intent_selling.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
                         intent_selling.putExtra("tv_sd_name", arrayList.get(position).getTitle());
+                        intent_selling.putExtra("unique", arrayList.get(position).getUnique());
                         //intent_selling.putExtra("p_id",arrayList.get(position).getId());
 
                         view.getContext().startActivity(intent_selling);

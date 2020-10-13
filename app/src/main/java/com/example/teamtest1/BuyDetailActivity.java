@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,8 +24,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BuyDetailActivity extends AppCompatActivity {
 
@@ -38,6 +45,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     TextView tv_bd_seller;
     Button btn_del_detail;
     String p_id, p_id_key,unique;
+    String key,test;
 
 
 
@@ -59,7 +67,41 @@ public class BuyDetailActivity extends AppCompatActivity {
         btn_del_detail = findViewById(R.id.btn_bdel_detail);
 
 
-        Glide.with(this).load(intent_buy.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_bd_profile);
+        test = intent_buy.getExtras().getString("unique");
+        databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                StorageReference storageReference = storage.getReference();
+                String path = snapshot.child(key).child("image").getValue().toString();
+                storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+//                        Toast.makeText(context, "성공", Toast.LENGTH_SHORT).show();
+
+                        Glide.with(getApplicationContext())
+                                .load(uri)
+                                .override(300,300)
+                                .into(iv_bd_profile);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+       // Glide.with(this).load(intent_buy.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_bd_profile);
         tv_bd_name.setText(intent_buy.getExtras().getString("tv_bd_name"));
         tv_bd_price.setText(intent_buy.getExtras().getString("tv_bd_price"));
         tv_bd_buyer.setText(intent_buy.getExtras().getString("tv_bd_buyer"));
