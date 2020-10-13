@@ -80,7 +80,7 @@
                 app:layout_constraintStart_toEndOf="@+id/textView15" />
 
             <Button
-                android:id="@+id/btn_warn"
+                android:id="@+id/btn_adPdwarn"
                 android:layout_width="100dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="72dp"
@@ -99,7 +99,7 @@
                 android:text="삭제하기"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_warn" />
+                app:layout_constraintStart_toEndOf="@+id/btn_adPdwarn" />
 
             <TextView
                 android:id="@+id/tv_adAlarmDead"

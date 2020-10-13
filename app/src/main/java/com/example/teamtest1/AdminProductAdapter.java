@@ -1,8 +1,10 @@
 package com.example.teamtest1;
 
+import android.app.AlertDialog;
+import android.app.AppOpsManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -38,8 +38,11 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
     private Context context;
     String key;
     String abcd,test;
+    String unique;
+    String seller;
+    String key1;
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, databaseReference2;
 
     public AdminProductAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -80,6 +83,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Product"); // DB 테이블 연동
+        databaseReference2 = database.getReference("User");
 
         test = arrayList.get(position).getUnique();
 
@@ -135,13 +139,13 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         TextView tv_adProductTitle,tv_adProductBid,tv_adProductPrice,tv_adAlarmDead;
-        Button btn_warn,btn_adProductDel;
+        Button btn_adPdwarn,btn_adProductDel;
         ImageView iv_adProductImage;
 
         private FirebaseDatabase database;
         private DatabaseReference databaseReference;
 
-        public CustomViewHolder(@NonNull View itemView) {
+        public CustomViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             database = FirebaseDatabase.getInstance();
@@ -151,7 +155,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
             this.tv_adProductTitle = itemView.findViewById(R.id.tv_adProductTitle);
             this.tv_adProductBid = itemView.findViewById(R.id.tv_adProductBid);
             this.tv_adProductPrice = itemView.findViewById(R.id.tv_adProductPrice);
-            this.btn_warn = itemView.findViewById(R.id.btn_warn);
+            this.btn_adPdwarn = itemView.findViewById(R.id.btn_adPdwarn);
             this.btn_adProductDel = itemView.findViewById(R.id.btn_adProductDel);
             this.tv_adAlarmDead = itemView.findViewById(R.id.tv_adAlarmDead);
 
@@ -183,7 +187,55 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
                 }
             });
 
+            btn_adPdwarn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final  int position = getAdapterPosition();
+                    unique = arrayList.get(position).getUnique();
+                    seller = arrayList.get(position).getSeller();
+
+                    new AlertDialog.Builder(itemView.getContext())
+                            .setMessage(seller + " 판매자에게 경고 1회 적용하겠습니까?")
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {      // 버튼1 (직접 작성)
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    databaseReference2.orderByChild("uid").equalTo(seller).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot child : snapshot.getChildren()) {
+                                                key1 = child.getKey();
+                                            }
+                                            String warn = snapshot.child(key1).child("warn").getValue().toString().replace("경고","").replace("회","");
+                                            int warnInt = Integer.parseInt(warn);
+
+                                            warnInt++;
+
+                                            snapshot.getRef().child(seller).child("warn").setValue("경고"+warnInt + "회");
+                                            Toast.makeText(context, seller+"회원에게 경고1회 적용되었습니다.", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+//                                    Intent intent = new Intent(itemView.getContext(), MainActivity.class);
+//                                    itemView.getContext().startActivity(intent);
+//                                    Toast.makeText(itemView.getContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {     // 버튼2 (직접 작성)
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(itemView.getContext(), "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                }
+                            })
+                            .show();
+                }
+            });
+                }
+
+
         }
     }
 
-}
+

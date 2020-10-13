@@ -46,6 +46,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     Button btn_del_detail;
     String p_id, p_id_key,unique;
     String key,test;
+    Button btn_estimate;
 
 
 
@@ -59,6 +60,7 @@ public class BuyDetailActivity extends AppCompatActivity {
 
         Intent intent_buy = getIntent();
 
+        btn_estimate = findViewById(R.id.btn_estimate);
         iv_bd_profile = findViewById(R.id.iv_bd_profile);
         tv_bd_name = findViewById(R.id.tv_bd_name);
         tv_bd_price = findViewById(R.id.tv_bd_price);
@@ -132,6 +134,21 @@ public class BuyDetailActivity extends AppCompatActivity {
                     }
                 });
 
+            }
+        });
+
+        btn_estimate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Estimate.class);
+                String buyer = tv_bd_buyer.getText().toString();
+                String seller = tv_bd_seller.getText().toString();
+
+                intent.putExtra("buyer", buyer);
+                intent.putExtra("seller", seller);
+
+                startActivity(intent);
+                finish();
             }
         });
 

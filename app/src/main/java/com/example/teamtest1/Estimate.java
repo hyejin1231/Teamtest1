@@ -1,0 +1,20 @@
+package com.example.teamtest1;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+public class Estimate extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_estimate);
+        Intent intent = getIntent();
+
+        intent.getExtras().getString("buyer");
+        intent.getExtras().getString("seller");
+
+    }
+}
