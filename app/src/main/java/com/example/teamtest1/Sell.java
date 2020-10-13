@@ -41,7 +41,7 @@ import java.util.Random;
 public class Sell extends AppCompatActivity {
 
     TextView tv_writeToday,tv_writeDeadline;
-    Button btn_register,btn_gallery,btn_SelectDate,btn_SellUpload;
+    Button btn_register,btn_gallery,btn_SelectDate;
     EditText edit_bid, edit_price, edit_title, edit_detail;
     ImageView img_writeImage;
     Uri uri;
@@ -83,7 +83,6 @@ public class Sell extends AppCompatActivity {
         img_writeImage = findViewById(R.id.img_writeImage);
         edit_price = findViewById(R.id.edit_price);
         btn_SelectDate=findViewById(R.id.btn_SelectDate);
-        btn_SellUpload =findViewById(R.id.btn_SellUpload);
 
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
@@ -107,12 +106,7 @@ public class Sell extends AppCompatActivity {
             }
         });
 
-//        btn_SellUpload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                uploadFile();
-//            }
-//        });
+
 
         // register 버튼을 누르면 파이어베이스에 데이터 저장 가능??!!ㅠㅠ 제발..
         btn_register.setOnClickListener(new View.OnClickListener() {
