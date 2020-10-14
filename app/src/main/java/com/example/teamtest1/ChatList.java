@@ -28,7 +28,7 @@ public class ChatList extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
-        getSupportFragmentManager().beginTransaction().replace(R.id.FL_Chat_list,new ChatFragment()).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.FL_Chat_list,new ChatFragment()).commit();
 
 
 

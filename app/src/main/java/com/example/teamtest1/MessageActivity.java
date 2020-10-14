@@ -101,8 +101,10 @@ public class MessageActivity extends AppCompatActivity{
                         ChatRoomUid = item.getKey();
                         recyclerView.setLayoutManager(new LinearLayoutManager((MessageActivity.this)));
                         recyclerView.setAdapter(new RecyclerViewAdapter());
+                        String nullTextMeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"살짝 되나?";
+                        Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(MessageActivity.this,"실패",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MessageActivity.this,"실패"+destinationUID,Toast.LENGTH_SHORT).show();
                     }
                 }
             }

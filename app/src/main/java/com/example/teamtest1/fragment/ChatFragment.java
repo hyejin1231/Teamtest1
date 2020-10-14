@@ -64,7 +64,6 @@ public class ChatFragment extends Fragment{
                     chatModels.clear();
                     for(DataSnapshot item : snapshot.getChildren()){
                         chatModels.add(item.getValue(ChatModel.class));
-
                     }
                     notifyDataSetChanged();
                 }

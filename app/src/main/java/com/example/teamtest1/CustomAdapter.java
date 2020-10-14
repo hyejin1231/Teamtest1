@@ -337,16 +337,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    String ChatTitle = arrayList.get(position).getUnique();
+                    String Seller = arrayList.get(position).getSeller();
 
-                    databaseReference.orderByChild("unique").equalTo(ChatTitle).addListenerForSingleValueEvent(new ValueEventListener(){
+                    databaseReference.orderByChild("seller").equalTo(Seller).addListenerForSingleValueEvent(new ValueEventListener(){
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot child : snapshot.getChildren()){
                                 key2 = child.getKey();
                             }
                             destinationUID = snapshot.child(key2).child("seller").getValue().toString();
-//                            notifyDataSetChanged();
+                           notifyDataSetChanged();
 
                         }
 
