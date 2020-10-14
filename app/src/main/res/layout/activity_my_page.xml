@@ -132,6 +132,89 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_MyWarn" />
 
+    <ImageView
+        android:id="@+id/img_UserFace_soso"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:srcCompat="@drawable/netural" />
+
+    <TextView
+        android:id="@+id/tv_UserEstimateCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="판매자 점수"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/img_UserFace_soso"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <ImageView
+        android:id="@+id/img_UserFace_good"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:srcCompat="@drawable/good" />
+
+    <ImageView
+        android:id="@+id/img_UserFace_angry"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:srcCompat="@drawable/angry" />
+
+    <ImageView
+        android:id="@+id/img_UserFace_dis"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:srcCompat="@drawable/disappoint" />
+
+    <ImageView
+        android:id="@+id/img_UserFace_smile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:srcCompat="@drawable/smile" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="132dp"
+        android:text="판매자 점수"
+        app:layout_constraintStart_toEndOf="@+id/img_UserFace_soso"
+        app:layout_constraintTop_toBottomOf="@+id/btn_selllist" />
+
     <!--    <ImageView-->
 <!--        android:id="@+id/btn_main"-->
 <!--        android:layout_width="100dp"-->

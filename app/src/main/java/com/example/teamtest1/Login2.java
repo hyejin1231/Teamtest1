@@ -232,9 +232,11 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 //                                    String my_uid = Cuser.getUid();
                                      my_uid = Cuser.getUid();
                                      String warn = "";
+                                     int estimate = 50;
+                                     int estimateUser = 1;
 
                                     if (key == null) {
-                                        User user = new User(photoUrl, myid, nickName,my_uid,warn);
+                                        User user = new User(photoUrl, myid, nickName,my_uid,warn, estimate,estimateUser);
 
                                         databaseReference.push().setValue(user);
 

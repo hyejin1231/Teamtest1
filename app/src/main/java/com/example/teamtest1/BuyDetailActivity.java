@@ -46,6 +46,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     Button btn_del_detail;
     String p_id, p_id_key,unique;
     String key,test;
+    String seller22,buyer22;
     Button btn_estimate;
 
 
@@ -110,6 +111,8 @@ public class BuyDetailActivity extends AppCompatActivity {
         tv_bd_seller.setText(intent_buy.getExtras().getString("tv_bd_seller"));
         unique = intent_buy.getExtras().getString("unique");
 
+         seller22 = intent_buy.getExtras().getString("tv_bd_seller");
+        buyer22 = intent_buy.getExtras().getString("tv_bd_buyer");
         btn_del_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,11 +144,11 @@ public class BuyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Estimate.class);
-                String buyer = tv_bd_buyer.getText().toString();
-                String seller = tv_bd_seller.getText().toString();
+//                String buyer = tv_bd_buyer.getText().toString();
+//                String seller = tv_bd_seller.getText().toString();
 
-                intent.putExtra("buyer", buyer);
-                intent.putExtra("seller", seller);
+                intent.putExtra("buyer2", buyer22);
+                intent.putExtra("seller2", seller22);
 
                 startActivity(intent);
                 finish();

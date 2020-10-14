@@ -39,6 +39,9 @@ public class MyPage extends AppCompatActivity {
     private TextView tv_MyWarn;
     private TextView tv_Message;
 
+    private  TextView tv_UserEstimateCount;
+    private  ImageView img_UserFace_smile,img_UserFace_dis,img_UserFace_angry,img_UserFace_good,img_UserFace_soso;
+
     private Button btn_buylist;
     private Button btn_selllist;
     private Button btn_likelist;
@@ -84,6 +87,14 @@ public class MyPage extends AppCompatActivity {
         tv_MyWarn = findViewById(R.id.tv_MyWarn);
         tv_Message = findViewById(R.id.tv_Message);
 
+        tv_UserEstimateCount = findViewById(R.id.tv_UserEstimateCount);
+        img_UserFace_smile = findViewById(R.id.img_UserFace_smile);
+        img_UserFace_dis = findViewById(R.id.img_UserFace_dis);
+        img_UserFace_angry = findViewById(R.id.img_UserFace_angry);
+        img_UserFace_good = findViewById(R.id.img_UserFace_good);
+        img_UserFace_soso = findViewById(R.id.img_UserFace_soso);
+
+
 
 
         databaseReference.orderByChild("uid").equalTo(uids).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -94,6 +105,9 @@ public class MyPage extends AppCompatActivity {
                 }
                 tv_id.setText(snapshot.child(key).child("id").getValue().toString());
                 tv_result.setText(snapshot.child(key).child("uid").getValue().toString());
+
+                tv_UserEstimateCount.setText(snapshot.child(key).child("estimate").getValue().toString());
+                int progress = Integer.parseInt(snapshot.child(key).child("estimate").getValue().toString());
 
                 if(snapshot.child(key).child("warn").getValue().toString().isEmpty()) {
                     tv_MyWarn.setVisibility(View.INVISIBLE);
@@ -115,6 +129,45 @@ public class MyPage extends AppCompatActivity {
                     tv_MyWarn.setVisibility(View.VISIBLE);
                 }
 
+                if (progress >= 0 && progress <= 20) {
+                    img_UserFace_angry.setVisibility(View.VISIBLE);
+
+                    img_UserFace_smile.setVisibility(View.INVISIBLE);
+                    img_UserFace_good.setVisibility(View.INVISIBLE);
+                    img_UserFace_soso.setVisibility(View.INVISIBLE);
+                    img_UserFace_dis.setVisibility(View.INVISIBLE);
+                }else if(progress > 20 && progress <= 40) {
+                    img_UserFace_dis.setVisibility(View.VISIBLE);
+
+                    img_UserFace_angry.setVisibility(View.INVISIBLE);
+                    img_UserFace_smile.setVisibility(View.INVISIBLE);
+                    img_UserFace_good.setVisibility(View.INVISIBLE);
+                    img_UserFace_soso.setVisibility(View.INVISIBLE);
+                }else if(progress > 40 && progress <= 60){
+                    img_UserFace_soso.setVisibility(View.VISIBLE);
+
+                    img_UserFace_dis.setVisibility(View.INVISIBLE);
+                    img_UserFace_angry.setVisibility(View.INVISIBLE);
+                    img_UserFace_smile.setVisibility(View.INVISIBLE);
+                    img_UserFace_good.setVisibility(View.INVISIBLE);
+                }else if(progress > 60 && progress <= 80) {
+                    img_UserFace_smile.setVisibility(View.VISIBLE);
+
+                    img_UserFace_dis.setVisibility(View.INVISIBLE);
+                    img_UserFace_angry.setVisibility(View.INVISIBLE);
+                    img_UserFace_good.setVisibility(View.INVISIBLE);
+                    img_UserFace_soso.setVisibility(View.INVISIBLE);
+                }else {
+                    img_UserFace_good.setVisibility(View.VISIBLE);
+
+                    img_UserFace_smile.setVisibility(View.INVISIBLE);
+                    img_UserFace_soso.setVisibility(View.INVISIBLE);
+                    img_UserFace_dis.setVisibility(View.INVISIBLE);
+                    img_UserFace_angry.setVisibility(View.INVISIBLE);
+                }
+
+
+
             }
 
             @Override
@@ -122,6 +175,7 @@ public class MyPage extends AppCompatActivity {
 
             }
         });
+
 
 
 

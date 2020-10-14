@@ -7,17 +7,42 @@ public class User {
     private String nickName;
     private String  warn;
 
+
+
+    private int estimate;
+
+
+    private int estimateUser;
+
     private  String uid;
 
     public User(){}
 
-    public User(String photoUrl, String id, String nickName,String uid, String warn) {
+    public User(String photoUrl, String id, String nickName,String uid, String warn, int estimate, int estimateUser ) {
         this.photoUrl = photoUrl;
         this.id = id;
 //        this.pw = pw;
         this.uid = uid;
         this.nickName = nickName;
         this.warn =warn;
+        this.estimate = estimate;
+        this.estimateUser = estimateUser;
+    }
+
+    public int getEstimateUser() {
+        return estimateUser;
+    }
+
+    public void setEstimateUser(int estimateUser) {
+        this.estimateUser = estimateUser;
+    }
+
+    public int getEstimate() {
+        return estimate;
+    }
+
+    public void setEstimate(int estimate) {
+        this.estimate = estimate;
     }
 
     public String getWarn() {
