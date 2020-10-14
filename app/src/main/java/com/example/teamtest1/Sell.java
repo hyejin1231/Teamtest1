@@ -183,7 +183,8 @@ public class Sell extends AppCompatActivity {
                 //String title, String detail, String price, String bid, String image
 //                String image =  "images/" + filename;
                 String image =  filename;
-                Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline,uids,status );
+                String estiStatus = "yet";
+                Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline,uids,status,estiStatus );
 //                databaseReference.child("Pd_04").push().setValue(product);
                 databaseReference.push().setValue(product);
 

@@ -15,6 +15,9 @@ public class Product {
     private String pid;
 
 
+    private String estiStatus; // 평가 상태
+
+
 
     private int bid;
 
@@ -26,7 +29,7 @@ public class Product {
     public Product(){}
 
 
-    public Product(String title, String detail, String price, int bid, String image,int count,String unique,String date,String deadline,String seller,String status) {
+    public Product(String title, String detail, String price, int bid, String image,int count,String unique,String date,String deadline,String seller,String status,String estiStatus) {
         this.title = title;
         this.detail = detail;
         this.price = price;
@@ -38,6 +41,15 @@ public class Product {
         this.deadline = deadline;
         this.seller = seller;
         this.status = status;
+        this.estiStatus = estiStatus;
+    }
+
+    public String getEstiStatus() {
+        return estiStatus;
+    }
+
+    public void setEstiStatus(String estiStatus) {
+        this.estiStatus = estiStatus;
     }
 
     public int getBid() {

@@ -97,6 +97,12 @@ public class BuyDetailActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                String estiStatus = snapshot.child(key).child("estiStatus").getValue().toString();
+
+                if (estiStatus.equals("end")) {
+                    btn_estimate.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
@@ -154,6 +160,8 @@ public class BuyDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
 
     }

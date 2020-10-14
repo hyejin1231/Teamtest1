@@ -24,12 +24,12 @@ import com.google.firebase.database.ValueEventListener;
 public class Estimate extends AppCompatActivity {
 
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, databaseReference2;
     TextView tv_es_buyer, tv_es_seller,tv_es_count;
     SeekBar seekBar;
     Button btn_es_register;
     ImageView img_face_smile,img_face_angry,img_face_disapp,img_face_good,img_face_soso;
-    String key;
+    String key,key2;
 
     public int number = 0;
     int UserInputNumber;
@@ -60,6 +60,7 @@ public class Estimate extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance(); //파이어벵스 데이터베이스 연동
         databaseReference = database.getReference("User");
+        databaseReference2 = database.getReference("Product");
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -154,6 +155,22 @@ public class Estimate extends AppCompatActivity {
                                      snapshot.getRef().child(seller).child("estimateUser").setValue(estimateUserCount);
 
                                      Toast.makeText(Estimate.this, "판매자 평가 완료 ", Toast.LENGTH_SHORT).show();
+
+                                     databaseReference2.orderByChild("seller").equalTo(seller).addListenerForSingleValueEvent(new ValueEventListener() {
+                                         @Override
+                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                             for (DataSnapshot child : snapshot.getChildren()) {
+                                                 key2 = child.getKey();
+                                             }
+
+                                             snapshot.getRef().child(key2).child("estiStatus").setValue("end");
+                                         }
+
+                                         @Override
+                                         public void onCancelled(@NonNull DatabaseError error) {
+
+                                         }
+                                     });
                                      finish();
                                  }
 
