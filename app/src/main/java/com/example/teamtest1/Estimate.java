@@ -143,13 +143,12 @@ public class Estimate extends AppCompatActivity {
                                      String estimateUserString = snapshot.child(key).child("estimateUser").getValue().toString();
 
                                      int estimateUserCount = Integer.parseInt(estimateUserString);
-
                                      estimateUserCount++;
 
                                      int estimateCount = Integer.parseInt(estimateString);
                                      int BuyerEstimate = UserInputNumber;
 
-                                     int average = (estimateCount + BuyerEstimate) / estimateUserCount;
+                                     int average = (estimateCount + BuyerEstimate) / 2;
 
                                      snapshot.getRef().child(seller).child("estimate").setValue(average);
                                      snapshot.getRef().child(seller).child("estimateUser").setValue(estimateUserCount);

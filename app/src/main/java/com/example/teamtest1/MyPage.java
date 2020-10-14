@@ -39,6 +39,8 @@ public class MyPage extends AppCompatActivity {
     private TextView tv_MyWarn;
     private TextView tv_Message;
 
+
+    private TextView tv_participate;
     private  TextView tv_UserEstimateCount;
     private  ImageView img_UserFace_smile,img_UserFace_dis,img_UserFace_angry,img_UserFace_good,img_UserFace_soso;
 
@@ -87,6 +89,7 @@ public class MyPage extends AppCompatActivity {
         tv_MyWarn = findViewById(R.id.tv_MyWarn);
         tv_Message = findViewById(R.id.tv_Message);
 
+        tv_participate = findViewById(R.id.tv_participate);
         tv_UserEstimateCount = findViewById(R.id.tv_UserEstimateCount);
         img_UserFace_smile = findViewById(R.id.img_UserFace_smile);
         img_UserFace_dis = findViewById(R.id.img_UserFace_dis);
@@ -107,6 +110,9 @@ public class MyPage extends AppCompatActivity {
                 tv_result.setText(snapshot.child(key).child("uid").getValue().toString());
 
                 tv_UserEstimateCount.setText(snapshot.child(key).child("estimate").getValue().toString());
+                int count = Integer.parseInt(snapshot.child(key).child("estimateUser").getValue().toString()) -1 ;
+
+                tv_participate.setText( count+ "명 참여");
                 int progress = Integer.parseInt(snapshot.child(key).child("estimate").getValue().toString());
 
                 if(snapshot.child(key).child("warn").getValue().toString().isEmpty()) {
