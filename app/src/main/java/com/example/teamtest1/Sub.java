@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,13 +65,11 @@ public class Sub extends AppCompatActivity {
         tv_subAlarm=findViewById(R.id.tv_subAlarm);
         img_btnLike = findViewById(R.id.img_btnLike);
 
-
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Product");
         databaseReference_like = database.getReference("Like");
 
         Intent intent = getIntent();
-
         unique = intent.getExtras().getString("unique");
 
         Glide.with(this).asBitmap()
@@ -148,9 +147,17 @@ public class Sub extends AppCompatActivity {
                 databaseReference_like.orderByChild("id").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Like like_add = new Like(unique, currentUid);
-                        databaseReference_like.push().setValue(like_add);
-                        Toast.makeText(getApplicationContext(), "관심상품 등록", Toast.LENGTH_SHORT).show();
+                        for (DataSnapshot child : snapshot.getChildren()) {
+                            key1 = child.getKey();
+
+                        } if (((snapshot.child(key1).child("unique").getValue()).equals(unique)) &&
+                                ((snapshot.child(key1).child("id").getValue()).equals(currentUid))) {
+                            Toast.makeText(getApplicationContext(), "이미 관심상품으로 등록되어있습니다.", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Like like_add = new Like(currentUid, unique);
+                            databaseReference_like.push().setValue(like_add);
+                            Toast.makeText(getApplicationContext(), "관심상품 등록", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -171,12 +178,14 @@ public class Sub extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot child : snapshot.getChildren()) {
                             key1 = child.getKey();
+
+                            if (((snapshot.child(key1).child("unique").getValue()).equals(unique)) &&
+                                    ((snapshot.child(key1).child("id").getValue()).equals(currentUid))) {
+                                snapshot.getRef().child(key1).removeValue();
+                                Toast.makeText(getApplicationContext(), "관심상품 취소", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        if (((snapshot.child(key1).child("unique").getValue()).equals(unique)) &&
-                                ((snapshot.child(key1).child("id").getValue()).equals(currentUid))) {
-                            snapshot.getRef().child(key1).removeValue();
-                            Toast.makeText(getApplicationContext(), "관심상품 취소", Toast.LENGTH_SHORT).show();
-                        }
+
                     }
 
                     @Override

@@ -133,6 +133,7 @@
         android:layout_marginTop="70dp"
         android:layout_marginEnd="28dp"
         android:layout_marginRight="28dp"
+        android:clickable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_detail"
         app:srcCompat="@drawable/heart" />
@@ -206,4 +207,5 @@
         android:visibility="invisible"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_subDeadline"
         app:layout_constraintStart_toEndOf="@+id/tv_subDeadline" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
