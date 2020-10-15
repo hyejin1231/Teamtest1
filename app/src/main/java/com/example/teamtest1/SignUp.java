@@ -80,7 +80,7 @@ public class SignUp extends AppCompatActivity {
 
     private void signUp() {
         String email = et_email.getText().toString();
-        String password = et_pw.getText().toString();
+        final String password = et_pw.getText().toString();
         String passwordCheck = et_pw_check.getText().toString();
 
         if (password.equals(passwordCheck)) {
@@ -117,12 +117,13 @@ public class SignUp extends AppCompatActivity {
                                         String photoUrl = String.valueOf(user.getPhotoUrl());
                                         String my_uid = user.getUid(); // uid 가져와서 user db에 저장
                                         String warn = "";
+                                        String pw = password;
                                         int estimate = 50;
                                         int estimateUser = 1;
 
 
 
-                                            User user = new User(photoUrl, myid, nickName,my_uid,warn,estimate,estimateUser);
+                                            User user = new User(photoUrl, myid, nickName,my_uid,warn,estimate,estimateUser,pw);
 
                                             databaseReference.child(my_uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>(){
                                                 @Override

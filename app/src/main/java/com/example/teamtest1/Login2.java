@@ -234,9 +234,9 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                                      String warn = "";
                                      int estimate = 50;
                                      int estimateUser = 1;
-
+                                    String pw = "";
                                     if (key == null) {
-                                        User user = new User(photoUrl, myid, nickName,my_uid,warn, estimate,estimateUser);
+                                        User user = new User(photoUrl, myid, nickName,my_uid,warn, estimate,estimateUser,pw);
 
                                         databaseReference.push().setValue(user);
 

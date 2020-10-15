@@ -3,7 +3,7 @@ package com.example.teamtest1;
 public class User {
     private String photoUrl;
     private String id;
-    private int pw;
+    private String pw;
     private String nickName;
     private String  warn;
 
@@ -18,7 +18,7 @@ public class User {
 
     public User(){}
 
-    public User(String photoUrl, String id, String nickName,String uid, String warn, int estimate, int estimateUser ) {
+    public User(String photoUrl, String id, String nickName,String uid, String warn, int estimate, int estimateUser,String pw) {
         this.photoUrl = photoUrl;
         this.id = id;
 //        this.pw = pw;
@@ -27,6 +27,7 @@ public class User {
         this.warn =warn;
         this.estimate = estimate;
         this.estimateUser = estimateUser;
+        this.pw = pw;
     }
 
     public int getEstimateUser() {
@@ -76,11 +77,11 @@ public class User {
         this.id = id;
     }
 
-    public int getPw() {
+    public String getPw() {
         return pw;
     }
 
-    public void setPw(int pw) {
+    public void setPw(String pw) {
         this.pw = pw;
     }
 
