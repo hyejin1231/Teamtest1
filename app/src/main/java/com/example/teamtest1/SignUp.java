@@ -33,6 +33,7 @@ public class SignUp extends AppCompatActivity {
     private EditText et_age;
     private EditText et_pw_check;
     private Button btn_signup;
+    private EditText et_nickname;
 
     // 혜진 코드 삽입
     private FirebaseDatabase database;
@@ -51,10 +52,10 @@ public class SignUp extends AppCompatActivity {
 
         et_email = findViewById(R.id.et_email);
         et_pw = findViewById(R.id.et_pw);
-        et_age = findViewById(R.id.et_age);
         et_name = findViewById(R.id.name);
         btn_signup = findViewById(R.id.btn_signup);
         et_pw_check = findViewById(R.id.et_pw_check);
+        et_nickname = findViewById(R.id.et_nickname);
 
         // 혜진 코드 삽입
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
@@ -82,6 +83,7 @@ public class SignUp extends AppCompatActivity {
         String email = et_email.getText().toString();
         final String password = et_pw.getText().toString();
         String passwordCheck = et_pw_check.getText().toString();
+        //String nickName = et_nickname.getText().toString();
 
         if (password.equals(passwordCheck)) {
 //            if (TextUtils.isEmpty(email)) {
@@ -112,25 +114,49 @@ public class SignUp extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                        String myid = user.getEmail();
-                                        String nickName = user.getDisplayName();
-                                        String photoUrl = String.valueOf(user.getPhotoUrl());
-                                        String my_uid = user.getUid(); // uid 가져와서 user db에 저장
-                                        String warn = "";
-                                        String pw = password;
-                                        int estimate = 50;
-                                        int estimateUser = 1;
+                                        final String myid = user.getEmail();
+                                        final String nickName = et_nickname.getText().toString();
+                                        final String photoUrl = String.valueOf(user.getPhotoUrl());
+                                        final String my_uid = user.getUid(); // uid 가져와서 user db에 저장
+                                        final String warn = "";
+                                        final String pw = password;
+                                        final int estimate = 50;
+                                        final int estimateUser = 1;
 
-
-
-                                            User user = new User(photoUrl, myid, nickName,my_uid,warn,estimate,estimateUser,pw);
-
-                                            databaseReference.child(my_uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>(){
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
+                                        databaseReference.orderByChild("nickName").equalTo(nickName).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for (DataSnapshot child : snapshot.getChildren()) {
+                                                    String key = child.getKey();
+                                                    String key2 = snapshot.getRef().child(key).child("nickName").toString();
+                                                    if(nickName.equals(key2)){
+                                                        Toast.makeText(SignUp.this, "중복된 닉네임입니다.",
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }else{
+                                                        User user = new User(photoUrl, myid, nickName,my_uid,warn,estimate,estimateUser,pw);
+                                                        databaseReference.child(my_uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>(){
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    }
                                                 }
-                                            });
+
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+
+
+
+
+
+
 
 
 
@@ -143,18 +169,13 @@ public class SignUp extends AppCompatActivity {
                                 });
                                 startActivity(intent);
 
-                                //updateUI(user);
                             } else {
 
-                                // If sign in fails, display  message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                 Toast.makeText(SignUp.this, "회원가입 실패",
                                         Toast.LENGTH_SHORT).show();
-                                ///updateUI(null);
-
                             }
 
-                            // ...
                         }
                     });
         } else {

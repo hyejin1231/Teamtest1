@@ -91,15 +91,6 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                 }
                  Login2();
 
-
-//                switch (v.getId()) {
-//                    case R.id.btn_login:
-//                        Log.e("클릭", "클릭");
-//                        Login2();
-//                        break;
-//                }
-//                Intent intent = new Intent(getApplicationContext(), MypageActivity.class);
-//                startActivity(intent);
             }
         });
 

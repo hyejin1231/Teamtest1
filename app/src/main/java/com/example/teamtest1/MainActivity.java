@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     String uids;
     EditText edit_Search;
     ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick,img_btnChat;
+    String modify_name,modify_pw,modify_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
          uids = intent.getStringExtra("uid");
+        // modify_name = intent.getStringExtra(g
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -111,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MyPage.class);
-
                 intent.putExtra("uid" , uids);
+
                 //문제 해결
                 startActivity(intent);
 //                finish();

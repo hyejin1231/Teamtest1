@@ -48,6 +48,8 @@ public class MyPage extends AppCompatActivity {
     private Button btn_selllist;
     private Button btn_likelist;
     private Button btn_logout;
+    private Button btn_modify;
+
 //    private ImageView btn_main;
      ImageView img_btnMyBack;
     private FirebaseDatabase database;
@@ -96,6 +98,7 @@ public class MyPage extends AppCompatActivity {
         img_UserFace_angry = findViewById(R.id.img_UserFace_angry);
         img_UserFace_good = findViewById(R.id.img_UserFace_good);
         img_UserFace_soso = findViewById(R.id.img_UserFace_soso);
+        btn_modify = findViewById(R.id.btn_modify);
 
 
 
@@ -107,7 +110,7 @@ public class MyPage extends AppCompatActivity {
                     key = child.getKey();
                 }
                 tv_id.setText(snapshot.child(key).child("id").getValue().toString());
-                tv_result.setText(snapshot.child(key).child("uid").getValue().toString());
+                tv_result.setText(snapshot.child(key).child("nickName").getValue().toString());
 
                 tv_UserEstimateCount.setText(snapshot.child(key).child("estimate").getValue().toString());
                 int count = Integer.parseInt(snapshot.child(key).child("estimateUser").getValue().toString()) -1 ;
@@ -237,6 +240,15 @@ public class MyPage extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 Toast.makeText(MyPage.this, "로그아웃",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btn_modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ModifyMyInfo.class);
+                intent.putExtra("uid" , uids);
+                startActivity(intent);
             }
         });
 

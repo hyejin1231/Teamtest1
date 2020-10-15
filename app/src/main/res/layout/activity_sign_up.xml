@@ -7,25 +7,16 @@
     tools:context=".SignUp">
 
     <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="이름"
-        app:layout_constraintBottom_toBottomOf="@+id/et_name"
-        app:layout_constraintEnd_toEndOf="@+id/tv_age"
-        app:layout_constraintTop_toTopOf="@+id/et_name"
-        app:layout_constraintVertical_bias="0.49" />
-
-    <TextView
-        android:id="@+id/tv_age"
+        android:id="@+id/tv_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="나이"
-        app:layout_constraintBottom_toBottomOf="@+id/et_age"
-        app:layout_constraintEnd_toStartOf="@+id/et_age"
-        app:layout_constraintTop_toTopOf="@+id/et_age"
-        app:layout_constraintVertical_bias="0.47000003" />
+        android:layout_marginRight="8dp"
+        android:text="닉네임"
+        app:layout_constraintBottom_toBottomOf="@+id/et_nickname"
+        app:layout_constraintEnd_toStartOf="@+id/et_nickname"
+        app:layout_constraintTop_toTopOf="@+id/et_nickname"
+        app:layout_constraintVertical_bias="0.49" />
 
     <EditText
         android:id="@+id/et_email"
@@ -36,7 +27,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="70dp" />
 
     <EditText
         android:id="@+id/et_pw"
@@ -49,17 +41,6 @@
         app:layout_constraintEnd_toEndOf="@+id/et_email"
         app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
-    <EditText
-        android:id="@+id/et_age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="(선택)"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/et_pw_check"
-        app:layout_constraintTop_toBottomOf="@+id/et_pw_check" />
-
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="0dp"
@@ -70,20 +51,16 @@
         android:text="회원가입"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_name" />
+        app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
 
     <EditText
-        android:id="@+id/et_name"
+        android:id="@+id/et_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="(선택)"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/et_age"
-        app:layout_constraintStart_toEndOf="@+id/tv_name"
-        app:layout_constraintTop_toBottomOf="@+id/et_age" />
+        app:layout_constraintStart_toStartOf="@+id/et_pw_check"
+        app:layout_constraintTop_toBottomOf="@+id/et_pw_check" />
 
     <TextView
         android:id="@+id/tv_email"
@@ -93,7 +70,8 @@
         android:text="이메일"
         app:layout_constraintBottom_toBottomOf="@+id/et_email"
         app:layout_constraintEnd_toStartOf="@+id/et_email"
-        app:layout_constraintTop_toTopOf="@+id/et_email" />
+        app:layout_constraintTop_toTopOf="@+id/et_email"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/tv_pw"
@@ -103,7 +81,8 @@
         android:text="비밀번호"
         app:layout_constraintBottom_toBottomOf="@+id/et_pw"
         app:layout_constraintEnd_toStartOf="@+id/et_pw"
-        app:layout_constraintTop_toTopOf="@+id/et_pw" />
+        app:layout_constraintTop_toTopOf="@+id/et_pw"
+        android:layout_marginRight="8dp" />
 
     <EditText
         android:id="@+id/et_pw_check"
@@ -114,7 +93,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_pw" />
+        app:layout_constraintTop_toBottomOf="@+id/et_pw"
+        android:layout_marginRight="65dp" />
 
     <TextView
         android:id="@+id/tv_pw_check"
@@ -124,5 +104,6 @@
         android:text="비밀번호확인"
         app:layout_constraintBottom_toBottomOf="@+id/et_pw_check"
         app:layout_constraintEnd_toStartOf="@+id/et_pw_check"
-        app:layout_constraintTop_toTopOf="@+id/et_pw_check" />
+        app:layout_constraintTop_toTopOf="@+id/et_pw_check"
+        android:layout_marginRight="8dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
