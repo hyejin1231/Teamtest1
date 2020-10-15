@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -27,7 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Sub extends AppCompatActivity {
 
@@ -40,7 +45,12 @@ public class Sub extends AppCompatActivity {
     ImageView img_btnBackMain,img_btnLike;
     Button btn_SubBtn,btn_price;
     TextView tv_subDate,tv_subDeadline,tv_subAlarm;
-    String key,key1,unique;
+    String key,key1,unique,unique1;
+    String key3;
+    String nowBid;
+    int nowBidInt;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    final String currentUid = user.getUid();
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference,databaseReference_like;
@@ -71,6 +81,7 @@ public class Sub extends AppCompatActivity {
 
         Intent intent = getIntent();
         unique = intent.getExtras().getString("unique");
+        nowBid = intent.getExtras().getString("bid");
 
         Glide.with(this).asBitmap()
                 .load(intent.getExtras().getString("image"))
@@ -125,6 +136,82 @@ public class Sub extends AppCompatActivity {
             }
         });
 
+        btn_SubBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final List<String> ListItems = new ArrayList<>();
+                ListItems.add("500");
+                ListItems.add("1000");
+                ListItems.add("5000");
+                ListItems.add("10000");
+                ListItems.add("50000");
+                final CharSequence[] items =  ListItems.toArray(new String[ ListItems.size()]);
+
+                final List SelectedItems  = new ArrayList();
+                int defaultItem = 0;
+                SelectedItems.add(defaultItem);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Sub.this);
+                builder.setTitle("입찰가격을 선택해주세요!!");
+                builder.setSingleChoiceItems(items, defaultItem,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SelectedItems.clear();
+                                SelectedItems.add(which);
+                            }
+                        });
+
+                builder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String selectBid ="";
+                                if (!SelectedItems.isEmpty()) {
+                                    int index = (int) SelectedItems.get(0);
+                                    selectBid = ListItems.get(index);
+                                }
+                                int intBid = Integer.parseInt(selectBid); // 선택한 값 숫자로 변환
+                                nowBidInt = Integer.parseInt(nowBid);
+                               final int attendBid = intBid + nowBidInt;
+//                                currentUid
+
+                                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot child: snapshot.getChildren()) {
+                                            key3 = child.getKey();
+                                        }
+
+//                                        Toast.makeText(Sub.this,  key3, Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                        snapshot.getRef().child(key3).child("bid").setValue(attendBid);
+                                        snapshot.getRef().child(key3).child("bidder").setValue(currentUid);
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+//                                    Intent intent = new Intent(itemView.getContext(), MainActivity.class);
+//                                    itemView.getContext().startActivity(intent);
+//                                Toast.makeText(Sub.this, attendBid, Toast.LENGTH_SHORT).show(); // 실행할 코드
+
+                                tv_bid.setText(String.valueOf(attendBid));
+                            }
+                        });
+
+                builder.setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(Sub.this, "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                            }
+                        });
+                builder.show();
+            }
+        });
+
         img_btnBackMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,9 +222,9 @@ public class Sub extends AppCompatActivity {
         });
 
 
-        //다혜가 추가한 부분 (10/12)
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final String currentUid = user.getUid();
+        //다혜가 추가한 부분 (10/12) 다혜야 밑에 두 주석 위로 올릴게
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        final String currentUid = user.getUid();
 
         //클릭 => 관심상품 등록
         img_btnLike.setOnClickListener(new View.OnClickListener() {

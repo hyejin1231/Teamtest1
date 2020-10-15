@@ -106,25 +106,22 @@
         android:id="@+id/btn_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="99dp"
-        android:layout_marginLeft="99dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
         android:text="즉시구매하기"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_detail" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_SubBtn"
+        app:layout_constraintStart_toEndOf="@+id/btn_SubBtn" />
 
     <Button
         android:id="@+id/btn_SubBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="101dp"
-        android:layout_marginRight="101dp"
+        android:layout_marginStart="101dp"
+        android:layout_marginLeft="101dp"
+        android:layout_marginTop="22dp"
         android:text="입찰하기"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_price" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_detail" />
 
     <ImageView
         android:id="@+id/img_btnLike"

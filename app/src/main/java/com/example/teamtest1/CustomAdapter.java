@@ -308,7 +308,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                                             // 입찰가격bid이랑 입찰자 (bidder) uid 담기
                                             snapshot.getRef().child(key1).child("bid").setValue(attendBid);
-                                            snapshot.getRef().child(key1).child("buyer").setValue(buyer);
+                                            snapshot.getRef().child(key1).child("bidder").setValue(buyer);
                                         }
 
                                         @Override

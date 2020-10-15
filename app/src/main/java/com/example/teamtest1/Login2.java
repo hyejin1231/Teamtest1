@@ -157,7 +157,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                             // Sign in success, update UI with the signed-in user's information
 //                            Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = auth.getCurrentUser();
-                            Toast.makeText(Login2.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Login2.this, "로그인 성공", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
