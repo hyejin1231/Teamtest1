@@ -77,9 +77,7 @@ public class User {
         this.id = id;
     }
 
-    public String getPw() {
-        return pw;
-    }
+    public String getPw() { return pw; }
 
     public void setPw(String pw) {
         this.pw = pw;

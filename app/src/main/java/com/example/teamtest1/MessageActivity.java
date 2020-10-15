@@ -63,10 +63,11 @@ public class MessageActivity extends AppCompatActivity{
                 ChatModel chatModel = new ChatModel();
                 chatModel.User.put(Uid, true);
                 chatModel.User.put(destinationUID, true);
+                String nullTextMeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"부릉부릉?";
+                Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
                 if (ChatRoomUid == null) {
-
-                    String nullTextMeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"살짝 되나?";
-                    Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
+                    String nullTextMeeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"살짝 되나?";
+                    Toast.makeText(MessageActivity.this,nullTextMeeee,Toast.LENGTH_LONG).show();
                     FirebaseDatabase.getInstance().getReference().child("ChatRooms").push().setValue(chatModel).addOnSuccessListener(new OnSuccessListener<Void>(){
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -79,7 +80,7 @@ public class MessageActivity extends AppCompatActivity{
                     comment.Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     comment.message = editText.getText().toString();
                     comment.timeStamp = ServerValue.TIMESTAMP;
-                    String notnullTextMessage = "DestinationUid"+destinationUID+"Uid"+ Uid +"RoomNum"+ChatRoomUid+"커멘트 못가져옴";
+                    String notnullTextMessage = "DestinationUid"+destinationUID+"Uid"+ Uid +"RoomNum"+ChatRoomUid+"정상 전송 완료";
                     FirebaseDatabase.getInstance().getReference().child("ChatRooms").child(ChatRoomUid).child("comments").push().setValue(comment);
                     Toast.makeText(MessageActivity.this,notnullTextMessage,Toast.LENGTH_LONG).show();
                 }
@@ -171,13 +172,13 @@ public class MessageActivity extends AppCompatActivity{
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             MessageViewHolder messageViewHolder = ((MessageViewHolder)holder);
             if(comments.get(position).Uid.equals(destinationUID)){
+                messageViewHolder.textView_message.setText(destinationUID);
                 messageViewHolder.textView_message.setText(comments.get(position).message);
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.out_message_bg);
-                messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
+                messageViewHolder.linearLayout_destination.setVisibility(View.VISIBLE);
             }
             else{
-                //messageViewHolder.textView_name.setText(User.getId());
-                messageViewHolder.linearLayout_destination.setVisibility(View.VISIBLE);
+                messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.in_message_bg);
                 messageViewHolder.textView_message.setText(comments.get(position).message);
 
