@@ -3,7 +3,9 @@ package com.example.teamtest1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,10 +33,10 @@ import java.util.Date;
 public class DeadlineCompleteActivity extends AppCompatActivity {
 
     TextView tv_dead_title,tv_dead_seller,tv_dead_bidder,tv_dead_bid,tv_dead_deadline;
-    Button btn_dead_chat,btn_dead_update,btn_dead_selDate;
+    Button btn_dead_chat,btn_dead_update,btn_dead_selDate,btn_dead_complete;
     ImageView img_dead_profile;
     String unique;
-    String key,key1;
+    String key,key1,key2;
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
@@ -66,6 +68,7 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
         btn_dead_chat = findViewById(R.id.btn_dead_chat);
         btn_dead_update = findViewById(R.id.btn_dead_update);
         btn_dead_selDate = findViewById(R.id.btn_dead_selDate);
+        btn_dead_complete = findViewById(R.id.btn_dead_complete);
 
         img_dead_profile = findViewById(R.id.img_dead_profile);
 
@@ -153,6 +156,46 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+
+        // 낙찰자와 채팅을 하고 판매종료를 누를때, 혹은 입찰자가 없지만 그냥 판매종료하고 싶을때
+        btn_dead_complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(DeadlineCompleteActivity.this)
+                        .setMessage("판매 종료 하겠습니까?")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot child: snapshot.getChildren()){
+                                            key2 = child.getKey();
+
+                                            snapshot.getRef().child(key2).child("status").setValue("complete");
+                                            Toast.makeText(getApplicationContext(), "판매 종료되었습니다.", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getApplicationContext(), SellistActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(DeadlineCompleteActivity.this, "취소", Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+
+
             }
         });
 

@@ -153,4 +153,14 @@
         android:visibility="invisible"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_dead_deadline"
         app:layout_constraintStart_toEndOf="@+id/tv_dead_deadline" />
+
+    <Button
+        android:id="@+id/btn_dead_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="판매종료하기"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_dead_chat" />
 </androidx.constraintlayout.widget.ConstraintLayout>
