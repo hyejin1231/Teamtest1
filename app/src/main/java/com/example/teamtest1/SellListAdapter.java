@@ -112,6 +112,11 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
         }else if(status.equals("complete")) {
             holder.tv_sell_status.setText("판매 종료!!");
             holder.tv_sell_status.setTextColor(Color.parseColor("#1838EC"));
+        } else if(status.equals("due")) {
+            holder.tv_sell_status.setText("낙찰자와 채팅필요!");
+            holder.tv_sell_buyer.setText("입찰자 " + arrayList.get(position).getBidder());
+            holder.tv_sell_status.setTextColor(Color.parseColor("#4CAF50"));
+
         }
     }
 
@@ -175,6 +180,17 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
                         intent_complete.putExtra("deadline", arrayList.get(position).getDeadline());
 
                         view.getContext().startActivity(intent_complete);
+                    }
+                    else if((arrayList.get(position).getStatus()).equals("due")) {
+                        Intent intent_deadline = new Intent(view.getContext(), DeadlineCompleteActivity.class);
+                        intent_deadline.putExtra("iv_sd_profile",arrayList.get(position).getImage());//
+                        intent_deadline.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
+                        intent_deadline.putExtra("tv_sd_name", arrayList.get(position).getTitle());
+                        intent_deadline.putExtra("unique",arrayList.get(position).getUnique());
+                        intent_deadline.putExtra("tv_sd_bidder",arrayList.get(position).getBidder());
+                        intent_deadline.putExtra("bid", String.valueOf(arrayList.get(position).getBid()));
+                        intent_deadline.putExtra("deadline", arrayList.get(position).getDeadline());
+                        view.getContext().startActivity(intent_deadline);
                     }
 
                 }

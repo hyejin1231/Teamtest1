@@ -174,7 +174,7 @@ public class SellingDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(SellingDetailActivity.this)
-                        .setMessage("판매자 평가를 완료하겠습니까?")
+                        .setMessage("판매 종료 하겠습니까?")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

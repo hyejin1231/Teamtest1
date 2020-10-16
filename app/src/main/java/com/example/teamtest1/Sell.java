@@ -64,8 +64,8 @@ public class Sell extends AppCompatActivity {
     SimpleDateFormat format = new SimpleDateFormat("yyyy");
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
     SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd");
-    int year = Integer.parseInt(format.format(today));
     String date = simpleDateFormat.format(today);
+    int year = Integer.parseInt(format.format(today));
     int month  = Integer.parseInt(dateFormat.format(today));
     int day = Integer.parseInt(dateFormat2.format(today));
 
