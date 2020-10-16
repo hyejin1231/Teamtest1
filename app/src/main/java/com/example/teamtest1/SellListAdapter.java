@@ -2,6 +2,7 @@ package com.example.teamtest1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,7 +102,17 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
         holder.tv_sell_price.setText("가격 " + String.valueOf(arrayList.get(position).getPrice()) + "원");
         holder.tv_sell_seller.setText("판매자 " + arrayList.get(position).getSeller());
         holder.tv_sell_buyer.setText("구매자 " + arrayList.get(position).getBuyer());
+        holder.tv_sell_deadline.setText("마감일 " + arrayList.get(position).getDeadline());
 
+        String status = arrayList.get(position).getStatus();
+
+        if (status.equals("selling")){
+            holder.tv_sell_status.setText("판매 중!!");
+            holder.tv_sell_status.setTextColor(Color.parseColor("#EC1313"));
+        }else if(status.equals("complete")) {
+            holder.tv_sell_status.setText("판매 종료!!");
+            holder.tv_sell_status.setTextColor(Color.parseColor("#1838EC"));
+        }
     }
 
     @Override
@@ -118,6 +129,8 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
         TextView tv_sell_price;
         TextView tv_sell_seller;
         TextView tv_sell_buyer;
+        TextView tv_sell_deadline;
+        TextView tv_sell_status;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -126,6 +139,8 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
             this.tv_sell_price = itemView.findViewById(R.id.tv_sell_price);
             this.tv_sell_seller = itemView.findViewById(R.id.tv_sell_seller);
             this.tv_sell_buyer = itemView.findViewById(R.id.tv_sell_buyer);
+            this.tv_sell_deadline = itemView.findViewById(R.id.tv_sell_deadline);
+            this.tv_sell_status = itemView.findViewById(R.id.tv_sell_status);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +158,7 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
                         intent_selling.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
                         intent_selling.putExtra("tv_sd_name", arrayList.get(position).getTitle());
                         intent_selling.putExtra("unique", arrayList.get(position).getUnique());
+                        intent_selling.putExtra("deadline", arrayList.get(position).getDeadline());
                         //intent_selling.putExtra("p_id",arrayList.get(position).getId());
 
                         view.getContext().startActivity(intent_selling);
@@ -156,6 +172,7 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
                         intent_complete.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
                         intent_complete.putExtra("tv_sd_name", arrayList.get(position).getTitle());
                         intent_complete.putExtra("unique",arrayList.get(position).getUnique());
+                        intent_complete.putExtra("deadline", arrayList.get(position).getDeadline());
 
                         view.getContext().startActivity(intent_complete);
                     }

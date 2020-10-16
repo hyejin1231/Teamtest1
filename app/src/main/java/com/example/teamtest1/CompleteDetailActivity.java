@@ -41,6 +41,7 @@ public class CompleteDetailActivity extends AppCompatActivity {
     String p_id, p_id_key,unique;
     //Button btn_like;//
     String key,test;
+    TextView tv_cd_deadline;
 
 
     @Override
@@ -61,6 +62,7 @@ public class CompleteDetailActivity extends AppCompatActivity {
         tv_cd_seller = findViewById(R.id.tv_cd_seller);
         btn_cdel_detail = findViewById(R.id.btn_cdel_detail);
         //btn_like = findViewById(R.id.btn_like); //
+        tv_cd_deadline = findViewById(R.id.tv_cd_deadline);
 
         test = intent_complete.getExtras().getString("unique");
         databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -104,6 +106,7 @@ public class CompleteDetailActivity extends AppCompatActivity {
         tv_cd_buyer.setText(intent_complete.getExtras().getString("tv_sd_buyer"));
         tv_cd_seller.setText(intent_complete.getExtras().getString("tv_sd_seller"));
         unique = intent_complete.getExtras().getString("unique");
+        tv_cd_deadline.setText(intent_complete.getExtras().getString("deadline"));
 
 
         btn_cdel_detail.setOnClickListener(new View.OnClickListener() {

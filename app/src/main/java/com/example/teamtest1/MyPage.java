@@ -102,7 +102,7 @@ public class MyPage extends AppCompatActivity {
 
 
 
-
+        // 코드가 지저분해도 참아줘 ..^_^ _혜진
         databaseReference.orderByChild("uid").equalTo(uids).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

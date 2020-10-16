@@ -3,6 +3,8 @@ package com.example.teamtest1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,8 +43,10 @@ public class SellingDetailActivity extends AppCompatActivity {
     String p_id, p_id_key;
     EditText et_sd_name;
     String abcd,unique;
+    TextView tv_sd_deadline;
+    Button btn_sd_complete;
 
-    String key,test;
+    String key,test,key2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,8 @@ public class SellingDetailActivity extends AppCompatActivity {
         btn_sdel_detail = findViewById(R.id.btn_sdel_detail);
         btn_update_detail = findViewById(R.id.btn_update_detail);
         et_sd_name = findViewById(R.id.et_sd_name);
+        tv_sd_deadline = findViewById(R.id.tv_sd_deadline);
+        btn_sd_complete = findViewById(R.id.btn_sd_complete);
 
         test = intent_selling.getExtras().getString("unique");
         databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -105,7 +111,7 @@ public class SellingDetailActivity extends AppCompatActivity {
         tv_sd_seller.setText(intent_selling.getExtras().getString("tv_sd_seller"));
         unique = intent_selling.getExtras().getString("unique");
         et_sd_name.setText(intent_selling.getExtras().getString("tv_sd_name"));
-
+        tv_sd_deadline.setText(intent_selling.getExtras().getString("deadline"));
 
         btn_sdel_detail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +168,47 @@ public class SellingDetailActivity extends AppCompatActivity {
             }
 
         });//업데이트 버튼
+
+        // 판매중인 상품을 즉시구매하면서 거래 완료되면 판매종료로 바꿔야하니까 필요한 버튼
+        btn_sd_complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(SellingDetailActivity.this)
+                        .setMessage("판매자 평가를 완료하겠습니까?")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot child : snapshot.getChildren()) {
+                                            key2 = child.getKey();
+                                        }
+
+                                        snapshot.getRef().child(key2).child("status").setValue("complete");
+                                        Toast.makeText(getApplicationContext(), "판매 종료되었습니다.", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), SellistActivity.class);
+                                        startActivity(intent);
+                                        finish();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(SellingDetailActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                    }
+                }).show();
+
+
+            }
+        });
 
     }
 }
