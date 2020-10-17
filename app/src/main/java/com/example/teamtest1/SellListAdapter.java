@@ -105,6 +105,7 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
         holder.tv_sell_deadline.setText("마감일 " + arrayList.get(position).getDeadline());
 
         String status = arrayList.get(position).getStatus();
+        String bidder = arrayList.get(position).getBidder();
 
         if (status.equals("selling")){
             holder.tv_sell_status.setText("판매 중!!");
@@ -113,10 +114,15 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
             holder.tv_sell_status.setText("판매 종료!!");
             holder.tv_sell_status.setTextColor(Color.parseColor("#1838EC"));
         } else if(status.equals("due")) {
-            holder.tv_sell_status.setText("낙찰자와 채팅필요!");
-            holder.tv_sell_buyer.setText("입찰자 " + arrayList.get(position).getBidder());
-            holder.tv_sell_status.setTextColor(Color.parseColor("#4CAF50"));
-
+            if (bidder.equals("")) {
+                holder.tv_sell_status.setText("판매기간 종료!");
+                holder.tv_sell_buyer.setText("입찰자 없음");
+                holder.tv_sell_status.setTextColor(Color.parseColor("#BE151414"));
+            }else {
+                holder.tv_sell_status.setText("낙찰자와 채팅필요!");
+                holder.tv_sell_buyer.setText("입찰자 " + arrayList.get(position).getBidder());
+                holder.tv_sell_status.setTextColor(Color.parseColor("#4CAF50"));
+            }
         }
     }
 

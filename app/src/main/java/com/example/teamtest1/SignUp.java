@@ -140,6 +140,8 @@ public class SignUp extends AppCompatActivity {
                                                                 Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
+
+
                                                     }
                                                 }
 

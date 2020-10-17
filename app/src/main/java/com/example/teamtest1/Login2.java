@@ -229,7 +229,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                                     if (key == null) {
                                         User user = new User(photoUrl, myid, nickName,my_uid,warn, estimate,estimateUser,pw);
 
-                                        databaseReference.push().setValue(user);
+                                        databaseReference.child(my_uid).setValue(user);
 
                                         Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
                                     }

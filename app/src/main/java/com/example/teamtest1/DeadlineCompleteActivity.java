@@ -128,6 +128,7 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
             tv_dead_bidder.setText("입찰자가 없습니다.");
             btn_dead_selDate.setVisibility(View.VISIBLE);
             btn_dead_update.setVisibility(View.VISIBLE);
+            btn_dead_chat.setVisibility(View.INVISIBLE);
         }
 
 

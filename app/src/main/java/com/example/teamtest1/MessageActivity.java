@@ -23,7 +23,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -66,10 +68,10 @@ public class MessageActivity extends AppCompatActivity{
                 chatModel.User.put(Uid, true);
                 chatModel.User.put(destinationUID, true);
                 String nullTextMeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"부릉부릉?";
-                Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
+//                Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
                 if (ChatRoomUid == null) {
                     String nullTextMeeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"살짝 되나?";
-                    Toast.makeText(MessageActivity.this,nullTextMeeee,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MessageActivity.this,nullTextMeeee,Toast.LENGTH_LONG).show();
                     FirebaseDatabase.getInstance().getReference().child("ChatRooms").push().setValue(chatModel).addOnSuccessListener(new OnSuccessListener<Void>(){
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -83,8 +85,14 @@ public class MessageActivity extends AppCompatActivity{
                     comment.message = editText.getText().toString();
                     comment.timeStamp = ServerValue.TIMESTAMP;
                     String notnullTextMessage = "DestinationUid"+destinationUID+"Uid"+ Uid +"RoomNum"+ChatRoomUid+"정상 전송 완료";
-                    FirebaseDatabase.getInstance().getReference().child("ChatRooms").child(ChatRoomUid).child("comments").push().setValue(comment);
-                    Toast.makeText(MessageActivity.this,notnullTextMessage,Toast.LENGTH_LONG).show();
+                    FirebaseDatabase.getInstance().getReference().child("ChatRooms").child(ChatRoomUid).child("comments").push().setValue(comment)
+                    .addOnCompleteListener(new OnCompleteListener<Void>(){
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            editText.setText("");
+                        }
+                    });
+//                    Toast.makeText(MessageActivity.this,notnullTextMessage,Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -105,9 +113,9 @@ public class MessageActivity extends AppCompatActivity{
                         recyclerView.setLayoutManager(new LinearLayoutManager((MessageActivity.this)));
                         recyclerView.setAdapter(new RecyclerViewAdapter());
                         String nullTextMeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"살짝 되나?";
-                        Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
+//                        Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(MessageActivity.this,"실패"+destinationUID,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MessageActivity.this,"실패"+destinationUID,Toast.LENGTH_SHORT).show();
                     }
                 }
             }
