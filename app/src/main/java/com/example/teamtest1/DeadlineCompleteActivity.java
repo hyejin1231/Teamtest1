@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -36,9 +37,10 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
     Button btn_dead_chat,btn_dead_update,btn_dead_selDate,btn_dead_complete;
     ImageView img_dead_profile;
     String unique;
-    String key,key1,key2;
-
+    String key,key1,key2,key3;
     private FirebaseDatabase database;
+    String destinationUID;
+    String seller;
     private DatabaseReference databaseReference;
 
     private DatePickerDialog.OnDateSetListener callbackMethod;
@@ -206,7 +208,29 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+               databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener(){
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot snapshot) {
+                       for(DataSnapshot child : snapshot.getChildren()){
+                           key3 = child.getKey();
+                           destinationUID = snapshot.child(key3).child("bidder").getValue().toString();
+                           Toast.makeText(getApplicationContext(), destinationUID, Toast.LENGTH_SHORT).show();
+                           Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                           intent.putExtra("destinationUID",destinationUID);
+                           startActivity(intent);
+                           finish();
+                       }
+
+                       }
+
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError error) {
+
+                   }
+               });
+
             }
+
         });
 
 

@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -178,6 +180,10 @@ public class MessageActivity extends AppCompatActivity{
                 messageViewHolder.linearLayout_destination.setVisibility(View.VISIBLE);
             }
             else{
+                /*Glide.with(holder.itemView.getContext())
+                        .load(User.getPhotoUrl())
+                        .apply(new RequestOptions().circleCrop())
+                        .into(messageViewHolder.imageView_profile); 이미지 생기면 받아올 수 있음*/
                 messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.in_message_bg);
                 messageViewHolder.textView_message.setText(comments.get(position).message);

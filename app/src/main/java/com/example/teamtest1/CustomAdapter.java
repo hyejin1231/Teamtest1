@@ -335,7 +335,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
             btn_Buynow.setOnClickListener(new View.OnClickListener(){
                 @Override
-                public void onClick(View view) {
+                public void onClick(final View view) {
                     int position = getAdapterPosition();
                     String Seller = arrayList.get(position).getSeller();
 
@@ -344,9 +344,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot child : snapshot.getChildren()){
                                 key2 = child.getKey();
+                                destinationUID = snapshot.child(key2).child("seller").getValue().toString();
+                                Toast.makeText(view.getContext(),destinationUID,Toast.LENGTH_SHORT).show();
                             }
                             assert key2 != null;
-                            destinationUID = snapshot.child(key2).child("seller").getValue().toString();
+                            Intent intent = new Intent(view.getContext(),MessageActivity.class);
+                            intent.putExtra("destinationUID",destinationUID);
+                            view.getContext().startActivity(intent);
 
 
                         }
@@ -356,9 +360,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                         }
                     });
-                    Intent intent = new Intent(view.getContext(),MessageActivity.class);
-                    intent.putExtra("destinationUID",destinationUID);
-                    view.getContext().startActivity(intent);
+
 
                 }
             });

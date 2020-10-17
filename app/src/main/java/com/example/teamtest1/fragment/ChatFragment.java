@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.teamtest1.ChatModel;
 import com.example.teamtest1.MessageActivity;
 import com.example.teamtest1.R;
@@ -101,6 +103,10 @@ public class ChatFragment extends Fragment{
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User User = snapshot.getValue(User.class);
                     assert User != null;
+                    /*Glide.with(customViewHolder.itemView.getContext())
+                            .load(User.getPhotoUrl())
+                            .apply(new RequestOptions().circleCrop())
+                            .into(customViewHolder.imageView);이미지 생기면 이미지 받아 올 수 있게 준비*/
                     customViewHolder.textView_title.setText(User.getId());
 
                 }

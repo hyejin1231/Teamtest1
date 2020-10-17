@@ -34,7 +34,7 @@ public class MyPage extends AppCompatActivity {
     private ImageView iv_profile; // 이미지 뷰
     private TextView tv_id;
     //private  TextView tv_token;
-
+    private Button btn_customerChat;
     private ImageView img_MyWarn;
     private TextView tv_MyWarn;
     private TextView tv_Message;
@@ -99,7 +99,7 @@ public class MyPage extends AppCompatActivity {
         img_UserFace_good = findViewById(R.id.img_UserFace_good);
         img_UserFace_soso = findViewById(R.id.img_UserFace_soso);
         btn_modify = findViewById(R.id.btn_modify);
-
+        btn_customerChat = findViewById(R.id.btn_customer_chat);
 
 
         // 코드가 지저분해도 참아줘 ..^_^ _혜진
@@ -250,9 +250,15 @@ public class MyPage extends AppCompatActivity {
                 intent.putExtra("uid" , uids);
                 startActivity(intent);
             }
+        }); // 관리자와의 1:1 채팅 구현
+        btn_customerChat.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MessageActivity.class);
+                intent.putExtra("destinationUID","NbmeBqMmnwPpKofc1nxF4m9awEI3");
+                startActivity(intent);
+            }
         });
-
-
 
     }
 }

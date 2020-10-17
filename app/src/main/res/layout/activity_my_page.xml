@@ -234,6 +234,15 @@
         android:text="정보수정"
         app:layout_constraintBottom_toTopOf="@+id/btn_logout"
         app:layout_constraintEnd_toEndOf="parent" />
+    <Button
+        android:id="@+id/btn_customer_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:text="1:1 문의"
+        app:layout_constraintBottom_toTopOf="@+id/btn_modify"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!--    <ImageView-->
 <!--        android:id="@+id/btn_main"-->

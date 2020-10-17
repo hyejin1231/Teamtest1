@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +48,8 @@ public class Sub extends AppCompatActivity {
     TextView tv_subDate,tv_subDeadline,tv_subAlarm;
     String key,key1,unique,unique1;
     String key3;
+    String Message;
+    String destinationUID;
     String nowBid;
     int nowBidInt;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -253,8 +256,31 @@ public class Sub extends AppCompatActivity {
                     }
                 });
             }
-        });
+        }); //권이 추가 부분 상세구매에서 채팅 연동 완료. uid 정상적 출력, for문 잘못 달아서 여태 오류 뜬 것 으로 추정
+        btn_price.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener(){
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot child : snapshot.getChildren()){
+                            Message = child.getKey();
+                            destinationUID = snapshot.child(Message).child("seller").getValue().toString();
+                        }
+                        Toast.makeText(getApplicationContext(), destinationUID, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                        intent.putExtra("destinationUID",destinationUID);
+                        startActivity(intent);
+                        finish();
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
         //롱클릭 => 관심상품 등록취소
         //이미지뷰라서 롱클릭 안먹나???
         img_btnLike.setOnLongClickListener(new View.OnLongClickListener() {

@@ -80,8 +80,8 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                 String pw = et_pw_login.getText().toString();
 
 
-                // 혜진 코드 삽입
-                if(id.equals("admin") && pw.equals("1234") ) {
+                // 혜진 코드 삽입, 권 관리자 1:1 채팅 메뉴 추가로 인한 id변경
+                if(id.equals("hong@naver.com") && pw.equals("920921") ) {
                     Toast.makeText(Login2.this, "관리자 로그인", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), AdminMain.class);
                     startActivity(intent);
