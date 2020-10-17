@@ -281,8 +281,8 @@ public class Sub extends AppCompatActivity {
                 });
             }
         });
-        //롱클릭 => 관심상품 등록취소
-        //이미지뷰라서 롱클릭 안먹나???
+
+
         img_btnLike.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

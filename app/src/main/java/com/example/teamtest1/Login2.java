@@ -103,8 +103,6 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                 Intent intent = new Intent(getApplicationContext(), SignUp.class);
                 startActivity(intent);
 
-
-
             }
         });
 
@@ -140,14 +138,13 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
         String email = et_email_login.getText().toString();
         String password = et_pw_login.getText().toString();
 
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
 //                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = auth.getCurrentUser();
+                            //FirebaseUser user = auth.getCurrentUser();
 //                            Toast.makeText(Login2.this, "로그인 성공", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);

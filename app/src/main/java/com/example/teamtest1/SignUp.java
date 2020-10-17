@@ -39,6 +39,7 @@ public class SignUp extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
+
 //    DatabaseReference database;
     //ProgressDialog mDialog;
 
@@ -50,6 +51,7 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+
         et_email = findViewById(R.id.et_email);
         et_pw = findViewById(R.id.et_pw);
         et_name = findViewById(R.id.name);
@@ -60,8 +62,6 @@ public class SignUp extends AppCompatActivity {
         // 혜진 코드 삽입
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("User"); // DB 테이블 연동
-
-
         Auth = FirebaseAuth.getInstance();
 
         //회원가입 버튼을 누르면
@@ -80,109 +80,89 @@ public class SignUp extends AppCompatActivity {
 
 
     private void signUp() {
-        String email = et_email.getText().toString();
+        final String email = et_email.getText().toString();
         final String password = et_pw.getText().toString();
-        String passwordCheck = et_pw_check.getText().toString();
-        //String nickName = et_nickname.getText().toString();
+        final String passwordCheck = et_pw_check.getText().toString();
+        final String nickName = et_nickname.getText().toString();
+        //final FirebaseUser user = Auth.getCurrentUser();
 
-        if (password.equals(passwordCheck)) {
-//            if (TextUtils.isEmpty(email)) {
-//                Toast.makeText(SignActivity.this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
-//                return;
-//            } else if (TextUtils.isEmpty(password)) {
-//                Toast.makeText(SignActivity.this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-//                return;
-//            } else if (password.length() < 4) {
-//                Toast.makeText(SignActivity.this, "비밀번호는 최소 4자 이상이어야 합니다.", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
+        databaseReference.orderByChild("nickName").equalTo(nickName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                final String warn = "";
+               // final String pw = password;
+                final int estimate = 50;
+                final int estimateUser = 1;
+
+                String returnkey1 ="";
+                String returnkey2 ="";
+                String returnkey3 ="";
+                String returnkey4 ="";
+                String returnkey5 ="";
 
 
-            Auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    String key = child.getKey();
+                    String key2 = (snapshot.child(key).child("nickName").getValue()).toString();
+
+                    if(nickName.equals(key2)){
+//                        Toast.makeText(SignUp.this, "중복된 닉네임입니다.", Toast.LENGTH_SHORT).show();
+                        returnkey1 = "no";
+                    }else{
+                        returnkey1 = "yes";
+                    }
+
+
+                }//for문
+
+                //자꾸 회원가입할 때 5개씩 DB에 들어가서..(도대체 왜?)
+                //returnkey로 값 받아와서 판단 후 DB에 넣어주는 방식으로 수정
+                //어떤 에러도 발생하지 않으면...
+
+                //왜 안들어가냐 진짜 빡치게
+                //들어간당 ㅎㅎ
+                if(returnkey1.equals("no")){
+                    Toast.makeText(SignUp.this, "중복된 닉네임입니다.", Toast.LENGTH_SHORT).show();
+                }else if(password.length()<5){
+                    Toast.makeText( SignUp.this, "비밀번호를 4자 이상으로 설정해주세요.", Toast.LENGTH_SHORT).show();
+                }else if(!(password.equals(passwordCheck))){
+                    Toast.makeText(SignUp.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                }else{
+                    Auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                //Log.d(TAG, "createUserWithEmail:success");
+                                Toast.makeText(SignUp.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+
                                 final FirebaseUser user = Auth.getCurrentUser();
-                                Toast.makeText(SignUp.this, "회원가입 성공",
-                                        Toast.LENGTH_SHORT).show();
+                                final String PhotoUrl = String.valueOf(user.getPhotoUrl());
+                                final String my_uid = user.getUid(); // uid 가져와서 user db에 저장
+                                User user11 = new User(PhotoUrl, email, nickName,my_uid,warn,estimate,estimateUser,password);
+                                databaseReference.push().setValue(user11);
                                 Intent intent = new Intent(getApplicationContext(), Login2.class);
-
-                                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                        final String myid = user.getEmail();
-                                        final String nickName = et_nickname.getText().toString();
-                                        final String photoUrl = String.valueOf(user.getPhotoUrl());
-                                        final String my_uid = user.getUid(); // uid 가져와서 user db에 저장
-                                        final String warn = "";
-                                        final String pw = password;
-                                        final int estimate = 50;
-                                        final int estimateUser = 1;
-
-                                        databaseReference.orderByChild("nickName").equalTo(nickName).addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                for (DataSnapshot child : snapshot.getChildren()) {
-                                                    String key = child.getKey();
-                                                    String key2 = snapshot.getRef().child(key).child("nickName").toString();
-                                                    if(nickName.equals(key2)){
-                                                        Toast.makeText(SignUp.this, "중복된 닉네임입니다.",
-                                                                Toast.LENGTH_SHORT).show();
-                                                    }else{
-                                                        User user = new User(photoUrl, myid, nickName,my_uid,warn,estimate,estimateUser,pw);
-                                                        databaseReference.child(my_uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>(){
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Toast.makeText(getApplicationContext(),"user 등록 완료", Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        });
-
-
-                                                    }
-                                                }
-
-
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-                                        });
-
-
-
-
-
-
-
-
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
                                 startActivity(intent);
 
-                            } else {
-
+                            }else if(email.equals("")){
+                                Toast.makeText(SignUp.this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(SignUp.this, "회원가입 실패",
-                                        Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(SignUp.this, "회원가입 실패.", Toast.LENGTH_SHORT).show();
                             }
+
 
                         }
                     });
-        } else {
-            Toast.makeText(SignUp.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }//dataonchange
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         }
     }
-}
