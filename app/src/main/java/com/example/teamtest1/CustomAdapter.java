@@ -46,6 +46,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
+
     int count;
     String abcd,abcde;
     String key,key1,key2,test;;
@@ -256,6 +257,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     intent.putExtra("detail", arrayList.get(position).getDetail());
 
                     v.getContext().startActivity(intent);
+
                 }
             });
             btn_bid.setOnClickListener(new View.OnClickListener() {
