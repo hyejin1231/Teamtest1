@@ -140,7 +140,7 @@ public class SignUp extends AppCompatActivity {
                                 final String PhotoUrl = String.valueOf(user.getPhotoUrl());
                                 final String my_uid = user.getUid(); // uid 가져와서 user db에 저장
                                 User user11 = new User(PhotoUrl, email, nickName,my_uid,warn,estimate,estimateUser,password);
-                                databaseReference.push().setValue(user11);
+                                databaseReference.child(my_uid).setValue(user11);
                                 Intent intent = new Intent(getApplicationContext(), Login2.class);
                                 startActivity(intent);
 

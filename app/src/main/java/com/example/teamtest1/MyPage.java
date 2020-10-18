@@ -255,7 +255,7 @@ public class MyPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),MessageActivity.class);
-                intent.putExtra("destinationUID","NbmeBqMmnwPpKofc1nxF4m9awEI3");
+                intent.putExtra("destinationUID","lj2EwOLJVNTCCkmQrLF7dhuA3vF2");
                 startActivity(intent);
             }
         });
