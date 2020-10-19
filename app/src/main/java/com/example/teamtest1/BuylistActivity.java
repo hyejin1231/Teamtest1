@@ -5,8 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,11 +34,19 @@ public class BuylistActivity extends AppCompatActivity {
     private FirebaseDatabase database2;
     private DatabaseReference databaseReference2;
 
+    ImageView img_btn_buyBack,img_btn_RegCode ;
+    EditText edit_input_buyCode;
+    String key,key1;
+    String compare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buylist);
+
+        img_btn_buyBack = findViewById(R.id.img_btn_buyBack);
+        edit_input_buyCode = findViewById(R.id.edit_input_buyCode);
+        img_btn_RegCode = findViewById(R.id.img_btn_RegCode);
 
         recyclerView2 = findViewById(R.id.Buy_recyclerView); //아이디 연결
         recyclerView2.setHasFixedSize(true); //리사이클러뷰 기존성능 강화
@@ -44,7 +58,7 @@ public class BuylistActivity extends AppCompatActivity {
         databaseReference2 = database2.getReference("Product");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String currentUid = user.getUid();
+       final String currentUid = user.getUid();
 
         databaseReference2.orderByChild("buyer").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -65,6 +79,80 @@ public class BuylistActivity extends AppCompatActivity {
 
         adapter2 = new BuyListAdapter(arrayList2, this);
         recyclerView2.setAdapter(adapter2); //리사이클러뷰에 어댑터 연결
+
+//        String compare1 = edit_input_buyCode.getText().toString();
+//
+//        databaseReference2.orderByChild("unique").equalTo(compare1).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot child: snapshot.getChildren()) {
+//                    key1 = child.getKey();
+//                }
+//                compare = snapshot.child(key1).child("unique").getValue().toString();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
+
+        img_btn_RegCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final String BuyKey = edit_input_buyCode.getText().toString();
+
+
+                            new AlertDialog.Builder(BuylistActivity.this)
+                                    .setMessage("구매 Key를 등록하겠습니까?")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            databaseReference2.orderByChild("unique").equalTo(BuyKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull final DataSnapshot snapshot) {
+                                                    for (DataSnapshot child : snapshot.getChildren()) {
+                                                        key = child.getKey();
+                                                    }
+                                            snapshot.getRef().child(key).child("buyer").setValue(currentUid);
+                                            snapshot.getRef().child(key).child("status").setValue("complete");
+                                            Toast.makeText(BuylistActivity.this, "구매 등록 완료", Toast.LENGTH_SHORT).show();
+                                        }
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                    Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                                }
+                                    });
+                                        }
+
+
+                                    })
+
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                        }
+                                    }).show();
+
+
+                }
+
+
+            });
+
+
+
+
+
+        img_btn_buyBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 }

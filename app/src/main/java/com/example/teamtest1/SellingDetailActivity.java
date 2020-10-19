@@ -45,6 +45,7 @@ public class SellingDetailActivity extends AppCompatActivity {
     String abcd,unique;
     TextView tv_sd_deadline;
     Button btn_sd_complete;
+    TextView tv_sd_uniqueKey;
 
     String key,test,key2;
 
@@ -59,6 +60,7 @@ public class SellingDetailActivity extends AppCompatActivity {
 
         Intent intent_selling = getIntent();
 
+        tv_sd_uniqueKey = findViewById(R.id.tv_sd_uniqueKey);
         iv_sd_profile = findViewById(R.id.iv_sd_profile);
         //tv_sd_name = findViewById(R.id.tv_sd_name);
         tv_sd_price = findViewById(R.id.tv_sd_price);
@@ -71,6 +73,7 @@ public class SellingDetailActivity extends AppCompatActivity {
         btn_sd_complete = findViewById(R.id.btn_sd_complete);
 
         test = intent_selling.getExtras().getString("unique");
+        tv_sd_uniqueKey.setText(test);
         databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

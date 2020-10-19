@@ -149,6 +149,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
                 }
 
+                if (snapshot.child(uniqueTest).child("status").getValue().equals("complete")) {
+                    holder.btn_bid.setVisibility(View.INVISIBLE);
+                    holder.btn_Buynow.setVisibility(View.INVISIBLE);
+                    holder.tv_alaram.setVisibility(View.VISIBLE);
+                    holder.tv_alaram.setText("판매 종료!!!");
+                    holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
+                }
+
             }
 
             @Override
