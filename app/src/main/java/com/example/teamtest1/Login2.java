@@ -112,7 +112,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                 .build();
 
         googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
+                //.enableAutoManage(this,this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,googleSignInOptions)
                 .build();
 
