@@ -80,7 +80,7 @@ public class BuylistActivity extends AppCompatActivity {
         adapter2 = new BuyListAdapter(arrayList2, this);
         recyclerView2.setAdapter(adapter2); //리사이클러뷰에 어댑터 연결
 
-//        String compare1 = edit_input_buyCode.getText().toString();
+//        final String compare1 = edit_input_buyCode.getText().toString();
 //
 //        databaseReference2.orderByChild("unique").equalTo(compare1).addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
@@ -88,7 +88,12 @@ public class BuylistActivity extends AppCompatActivity {
 //                for (DataSnapshot child: snapshot.getChildren()) {
 //                    key1 = child.getKey();
 //                }
-//                compare = snapshot.child(key1).child("unique").getValue().toString();
+//
+////                if (key1 == null) {
+////                    compare = "";
+////                }else {
+//                    compare = snapshot.child(key1).child("unique").getValue().toString();
+////                }
 //            }
 //
 //            @Override
@@ -105,37 +110,42 @@ public class BuylistActivity extends AppCompatActivity {
                 final String BuyKey = edit_input_buyCode.getText().toString();
 
 
-                            new AlertDialog.Builder(BuylistActivity.this)
-                                    .setMessage("구매 Key를 등록하겠습니까?")
-                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(BuylistActivity.this)
+                            .setMessage("구매 Key를 등록하겠습니까?")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    databaseReference2.orderByChild("unique").equalTo(BuyKey).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            databaseReference2.orderByChild("unique").equalTo(BuyKey).addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull final DataSnapshot snapshot) {
-                                                    for (DataSnapshot child : snapshot.getChildren()) {
-                                                        key = child.getKey();
-                                                    }
+                                        public void onDataChange(@NonNull final DataSnapshot snapshot) {
+                                            for (DataSnapshot child : snapshot.getChildren()) {
+                                                key = child.getKey();
+                                            }
                                             snapshot.getRef().child(key).child("buyer").setValue(currentUid);
                                             snapshot.getRef().child(key).child("status").setValue("complete");
                                             Toast.makeText(BuylistActivity.this, "구매 등록 완료", Toast.LENGTH_SHORT).show();
                                         }
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-                                                    Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
-                                                }
-                                    });
-                                        }
 
-
-                                    })
-
-                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                        public void onCancelled(@NonNull DatabaseError error) {
                                             Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
                                         }
-                                    }).show();
+                                    });
+                                }
+
+
+                            })
+
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                }
+                            }).show();
+
+
+//                    Toast.makeText(BuylistActivity.this, "고유키 틀림 ", Toast.LENGTH_SHORT).show(); // 실행할 코드
+
 
 
                 }
