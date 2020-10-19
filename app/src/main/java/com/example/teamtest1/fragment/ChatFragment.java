@@ -27,6 +27,7 @@ import com.example.teamtest1.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -41,6 +42,12 @@ import java.util.SimpleTimeZone;
 import java.util.TreeMap;
 
 public class ChatFragment extends Fragment{
+
+    //다혜
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+
+
     @SuppressLint("SimpleDateFormat")
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm");
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -99,17 +106,17 @@ public class ChatFragment extends Fragment{
             }
             assert destinationUID != null;
             FirebaseDatabase.getInstance().getReference().child("User").child(destinationUID).addListenerForSingleValueEvent(new ValueEventListener(){
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User User = snapshot.getValue(User.class);
-                    assert User != null;
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User User = snapshot.getValue(User.class);
+                        assert User != null;
                     /*Glide.with(customViewHolder.itemView.getContext())
                             .load(User.getPhotoUrl())
                             .apply(new RequestOptions().circleCrop())
                             .into(customViewHolder.imageView);이미지 생기면 이미지 받아 올 수 있게 준비*/
-                    customViewHolder.textView_title.setText(User.getId());
+                        customViewHolder.textView_title.setText(User.getId());
 
-                }
+                    }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
