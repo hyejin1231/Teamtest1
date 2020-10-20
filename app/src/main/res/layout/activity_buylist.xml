@@ -28,7 +28,7 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/registerbuy" />
+        app:srcCompat="@drawable/buy" />
 
     <ImageView
         android:id="@+id/img_btn_buyBack"

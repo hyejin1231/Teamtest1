@@ -31,6 +31,8 @@ public class BuylistActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter2;
     private RecyclerView.LayoutManager layoutManager2;
     private ArrayList<Product> arrayList2;
+    private ArrayList<Product> arrayList1;
+    private  ArrayList<String> arrayList3;
     private FirebaseDatabase database2;
     private DatabaseReference databaseReference2;
 
@@ -53,6 +55,8 @@ public class BuylistActivity extends AppCompatActivity {
         layoutManager2 = new LinearLayoutManager(this);
         recyclerView2.setLayoutManager(layoutManager2);
         arrayList2 = new ArrayList<>(); //product 객체를 담을 어레이 리스트 (어댑터 쪽으로)
+        arrayList1 = new ArrayList<>();
+        arrayList3 = new ArrayList<>();
 
         database2 = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
         databaseReference2 = database2.getReference("Product");
@@ -80,27 +84,29 @@ public class BuylistActivity extends AppCompatActivity {
         adapter2 = new BuyListAdapter(arrayList2, this);
         recyclerView2.setAdapter(adapter2); //리사이클러뷰에 어댑터 연결
 
-//        final String compare1 = edit_input_buyCode.getText().toString();
+//        final String [] uniqueList = new String[100];
 //
-//        databaseReference2.orderByChild("unique").equalTo(compare1).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot child: snapshot.getChildren()) {
-//                    key1 = child.getKey();
+        databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arrayList1.clear();
+                for (DataSnapshot child: snapshot.getChildren()) {
+                    Product pd = child.getValue(Product.class);
+//                    arrayList1.add(pd);
+                    arrayList3.add(pd.getUnique());
+                }
+
+//                for (int i = 0; i< arrayList1.size(); i++) {
+//                    uniqueList[i] = arrayList1.get(i).getUnique();
 //                }
-//
-////                if (key1 == null) {
-////                    compare = "";
-////                }else {
-//                    compare = snapshot.child(key1).child("unique").getValue().toString();
-////                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
 
         img_btn_RegCode.setOnClickListener(new View.OnClickListener() {
@@ -109,39 +115,83 @@ public class BuylistActivity extends AppCompatActivity {
 
                 final String BuyKey = edit_input_buyCode.getText().toString();
 
+//                for (int i = 0; i< uniqueList.length; i++) {
+//                    if (BuyKey.equals(uniqueList[i])){
 
-                    new AlertDialog.Builder(BuylistActivity.this)
-                            .setMessage("구매 Key를 등록하겠습니까?")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    databaseReference2.orderByChild("unique").equalTo(BuyKey).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull final DataSnapshot snapshot) {
-                                            for (DataSnapshot child : snapshot.getChildren()) {
-                                                key = child.getKey();
+                if (arrayList3.contains(BuyKey) == true) {
+
+                        new AlertDialog.Builder(BuylistActivity.this)
+                                .setMessage("구매 Key를 등록하겠습니까?")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        databaseReference2.orderByChild("unique").equalTo(BuyKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull final DataSnapshot snapshot) {
+                                                for (DataSnapshot child : snapshot.getChildren()) {
+                                                    key = child.getKey();
+                                                }
+                                                snapshot.getRef().child(key).child("buyer").setValue(currentUid);
+                                                snapshot.getRef().child(key).child("status").setValue("complete");
+                                                Toast.makeText(BuylistActivity.this, "구매 등록 완료", Toast.LENGTH_SHORT).show();
                                             }
-                                            snapshot.getRef().child(key).child("buyer").setValue(currentUid);
-                                            snapshot.getRef().child(key).child("status").setValue("complete");
-                                            Toast.makeText(BuylistActivity.this, "구매 등록 완료", Toast.LENGTH_SHORT).show();
-                                        }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
-                                        }
-                                    });
-                                }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                            }
+                                        });
+                                    }
 
 
-                            })
+                                })
 
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
-                                }
-                            }).show();
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                    }
+                                }).show();
+                    } // end if
+//                    else{
+//                        Toast.makeText(BuylistActivity.this, "등록키 틀림", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+
+                Toast.makeText(BuylistActivity.this, "등록키 틀림", Toast.LENGTH_SHORT).show();
+
+//                    new AlertDialog.Builder(BuylistActivity.this)
+//                            .setMessage("구매 Key를 등록하겠습니까?")
+//                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    databaseReference2.orderByChild("unique").equalTo(BuyKey).addListenerForSingleValueEvent(new ValueEventListener() {
+//                                        @Override
+//                                        public void onDataChange(@NonNull final DataSnapshot snapshot) {
+//                                            for (DataSnapshot child : snapshot.getChildren()) {
+//                                                key = child.getKey();
+//                                            }
+//                                            snapshot.getRef().child(key).child("buyer").setValue(currentUid);
+//                                            snapshot.getRef().child(key).child("status").setValue("complete");
+//                                            Toast.makeText(BuylistActivity.this, "구매 등록 완료", Toast.LENGTH_SHORT).show();
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(@NonNull DatabaseError error) {
+//                                            Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+//                                        }
+//                                    });
+//                                }
+//
+//
+//                            })
+//
+//                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
+//                                }
+//                            }).show();
 
 
 //                    Toast.makeText(BuylistActivity.this, "고유키 틀림 ", Toast.LENGTH_SHORT).show(); // 실행할 코드
