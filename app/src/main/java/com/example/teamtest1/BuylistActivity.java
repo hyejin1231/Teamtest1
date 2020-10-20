@@ -153,12 +153,12 @@ public class BuylistActivity extends AppCompatActivity {
                                     }
                                 }).show();
                     } // end if
-//                    else{
-//                        Toast.makeText(BuylistActivity.this, "등록키 틀림", Toast.LENGTH_SHORT).show();
-//                    }
+                    else{
+                        Toast.makeText(BuylistActivity.this, "등록키 틀림", Toast.LENGTH_SHORT).show();
+                    }
 //                }
 
-                Toast.makeText(BuylistActivity.this, "등록키 틀림", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(BuylistActivity.this, "등록키 틀림", Toast.LENGTH_SHORT).show();
 
 //                    new AlertDialog.Builder(BuylistActivity.this)
 //                            .setMessage("구매 Key를 등록하겠습니까?")
