@@ -12,5 +12,6 @@ public class ChatModel{
         public String Uid;
         public String message;
         public Object timeStamp;
+        public Map<String,Object> readUsers = new HashMap<>();
     }
 }

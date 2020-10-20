@@ -125,6 +125,7 @@ public class ChatFragment extends Fragment{
             });
             Map<String,ChatModel.Comment> commentMap = new TreeMap<>(Collections.reverseOrder());
             commentMap.putAll(chatModels.get(position).comments);
+            if(commentMap.keySet().toArray().length> 0){
             String LastMessageKey = (String) commentMap.keySet().toArray()[0];
             customViewHolder.textView_Last_Message.setText(Objects.requireNonNull(chatModels.get(position).comments.get(LastMessageKey)).message);
 
@@ -143,7 +144,7 @@ public class ChatFragment extends Fragment{
             long unixTime = (long) Objects.requireNonNull(chatModels.get(position).comments.get(LastMessageKey)).timeStamp;
             Date date = new Date(unixTime);
             customViewHolder.textView_timestamp.setText(simpleDateFormat.format(date));
-        }
+        }}
 
         @Override
         public int getItemCount() {
