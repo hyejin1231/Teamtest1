@@ -33,6 +33,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 //코드 1차 정리 (다혜/1019)
 public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
@@ -52,7 +55,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 
     // 혜진 코드 삽입
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,databaseReference2;
     FirebaseUser Cuser = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -71,6 +74,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
         // 혜진 코드 삽입
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("User"); // DB 테이블 연동
+        databaseReference2 = database.getReference("Product");
 
         //로그인버튼을 눌렀을때
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +90,8 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                     startActivity(intent);
                 }
                 Login2();
+
+
 
             }
         });
@@ -144,6 +150,28 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.putExtra("uid", Cuser.getUid());
                         startActivity(intent);
+
+//                        //다혜추가(혹시 여기 오류뜨면 알려줘....ㅠㅠ)
+//                        //로그인하면 모든 디비에 있는 물품들의 date값이 오늘로 바뀐다...
+//                        databaseReference2.orderByChild("date").addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                for (DataSnapshot child : snapshot.getChildren()) {
+//                                    String key = child.getKey();
+//                                    //String key3 = snapshot.getRef().child(key).child("nickName").toString();
+//
+//                                    long now = System.currentTimeMillis();
+//                                    Date today = new Date(now);
+//                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                                    String date = simpleDateFormat.format(today);
+//                                    snapshot.getRef().child(key).child("date").setValue(date);
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//                            }
+//                        });
                     } else {
                     }
                 }
@@ -214,6 +242,28 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                             Intent intent1 = new Intent(getApplicationContext(), CustomAdapter.CustomViewHolder.class);
                             intent1.putExtra("uid", Cuser.getUid());
                             startActivity(intent);
+
+
+                            //로그인하면 모든 디비에 있는 물품들의 date값이 오늘로 바뀐다...
+                            databaseReference2.orderByChild("date").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot child : snapshot.getChildren()) {
+                                        String key = child.getKey();
+                                        //String key3 = snapshot.getRef().child(key).child("nickName").toString();
+
+                                        long now = System.currentTimeMillis();
+                                        Date today = new Date(now);
+                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                        String date = simpleDateFormat.format(today);
+                                        snapshot.getRef().child(key).child("date").setValue(date);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
 
                         }else{ //로그인이 실패했으면...
                             Toast.makeText(Login2.this, "로그인 실패", Toast.LENGTH_SHORT).show();

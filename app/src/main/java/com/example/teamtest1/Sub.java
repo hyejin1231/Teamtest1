@@ -225,9 +225,7 @@ public class Sub extends AppCompatActivity {
         });
 
 
-        //다혜가 추가한 부분 (10/12) 다혜야 밑에 두 주석 위로 올릴게
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        final String currentUid = user.getUid();
+
 
         //클릭 => 관심상품 등록
         img_btnLike.setOnClickListener(new View.OnClickListener() {

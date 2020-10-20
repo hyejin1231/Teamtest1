@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     String key;
     String uids;
     EditText edit_Search;
-    ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick,img_btnChat;
+    ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick,img_btnChat,img_btnduedate;
     String modify_name,modify_pw,modify_email;
 
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         img_btnWrite = findViewById(R.id.img_SC_btnWrite);
         img_btnMypage = findViewById(R.id.img_SC_btnMypage);
         img_btnChat = findViewById(R.id.img_SC_btnChat);
+        img_btnduedate = findViewById(R.id.img_btnduedate);
         recyclerView =  findViewById(R.id.SCrecyclerView);
         recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존 성능 강화
         layoutManager = new LinearLayoutManager(this);
@@ -130,6 +131,15 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("search", search);
 
                 startActivity(intent);
+            }
+        });
+
+        img_btnduedate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), DuedateActivity.class);
+                startActivity(intent);
+
             }
         });
 

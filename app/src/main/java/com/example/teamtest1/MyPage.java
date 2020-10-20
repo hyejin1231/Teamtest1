@@ -3,10 +3,21 @@ package com.example.teamtest1;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.icu.text.Edits;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -21,8 +34,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.lang.ref.Reference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 public class MyPage extends AppCompatActivity {
@@ -50,11 +70,13 @@ public class MyPage extends AppCompatActivity {
     private Button btn_logout;
     private Button btn_modify;
 
-//    private ImageView btn_main;
-     ImageView img_btnMyBack;
+
+    ImageView img_btnMyBack;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private ArrayList<User> arrayList;
+
+
 
     String uids;
     String key;
@@ -63,6 +85,7 @@ public class MyPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
+
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("User"); // DB 테이블 연동
@@ -107,7 +130,8 @@ public class MyPage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child : snapshot.getChildren()) {
-                    key = child.getKey();
+                    //key = child.getKey();
+                    key = uids; //다혜수정
                 }
                 tv_id.setText(snapshot.child(key).child("id").getValue().toString());
                 tv_result.setText(snapshot.child(key).child("nickName").getValue().toString());
@@ -260,5 +284,8 @@ public class MyPage extends AppCompatActivity {
             }
         });
 
-    }
+
+    }//oncreate
+
+
 }

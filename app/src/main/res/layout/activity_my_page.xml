@@ -18,9 +18,11 @@
 
     <ImageView
         android:id="@+id/iv_profile"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="279dp"
         android:layout_marginRight="279dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -243,6 +245,8 @@
         android:text="1:1 문의"
         app:layout_constraintBottom_toTopOf="@+id/btn_modify"
         app:layout_constraintEnd_toEndOf="parent" />
+
+
 
     <!--    <ImageView-->
 <!--        android:id="@+id/btn_main"-->

@@ -25,15 +25,23 @@
         android:id="@+id/img_SC_btnSearch"
         android:layout_width="40dp"
         android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_marginStart="323dp"
+        android:layout_marginLeft="323dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_SC_Search"
         app:layout_constraintStart_toEndOf="@+id/edit_SC_Search"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edit_SC_Search"
         app:srcCompat="@drawable/serach" />
+
+    <ImageButton
+    android:id="@+id/img_btnduedate"
+    android:layout_width="40dp"
+    android:layout_height="35dp"
+    app:layout_constraintBottom_toBottomOf="@+id/img_SC_btnSearch"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toEndOf="@+id/edit_SC_Search"
+    app:srcCompat="@drawable/duedate" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/SCrecyclerView"
@@ -104,6 +112,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img_SC_btnNotice"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/click" />
+
         <ImageView
             android:id="@+id/img_SC_btnChat"
             android:layout_width="50dp"
@@ -117,4 +126,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

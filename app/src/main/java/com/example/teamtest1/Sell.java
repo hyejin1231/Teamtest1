@@ -54,8 +54,8 @@ public class Sell extends AppCompatActivity {
     String filename;
     String category;
     private DatePickerDialog.OnDateSetListener callbackMethod;
-
     private Uri filePath;
+
     private static final String TAG = "SellPage";
 
     private FirebaseDatabase database;
