@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SubSellerInfo"></activity>
+        <activity android:name=".SelecCategory"></activity>
+        <activity android:name=".Category" />
+        <activity android:name=".SubSellerInfo" />
         <activity android:name=".DeadlineCompleteActivity" />
         <activity android:name=".ModifyMyInfo" />
         <activity android:name=".Estimate" />

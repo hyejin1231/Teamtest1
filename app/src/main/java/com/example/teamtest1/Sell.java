@@ -15,10 +15,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,10 +47,12 @@ public class Sell extends AppCompatActivity {
     Button btn_register,btn_gallery,btn_SelectDate;
     EditText edit_bid, edit_price, edit_title, edit_detail;
     ImageView img_writeImage;
+    Spinner spinner;
     Uri uri;
     Bitmap img;
     String uids;
     String filename;
+    String category;
     private DatePickerDialog.OnDateSetListener callbackMethod;
 
     private Uri filePath;
@@ -55,6 +60,7 @@ public class Sell extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+
 
     Random random = new Random();
     long now = System.currentTimeMillis();
@@ -84,6 +90,7 @@ public class Sell extends AppCompatActivity {
         img_writeImage = findViewById(R.id.img_writeImage);
         edit_price = findViewById(R.id.edit_price);
         btn_SelectDate=findViewById(R.id.btn_SelectDate);
+        spinner = findViewById(R.id.spinner);
 
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
@@ -104,6 +111,26 @@ public class Sell extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent,1);
 //                startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 1);
+            }
+        });
+
+        final String[] ItemCategory = {"카테고리","디지털/가전", "가구/인테리어", "생활/가공식품", "여성의류","여성잡화","유아용/아동도서", "남성패선/잡화",
+                                        "게임/취미", "뷰티/미용","반려동물용품","도서/티켓/음반", "기타중고물품"};
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category = ItemCategory[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -185,7 +212,7 @@ public class Sell extends AppCompatActivity {
                 String image =  filename;
                 String estiStatus = "yet";
                 String bidder = "";
-                Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline,uids,status,estiStatus,bidder );
+                Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline,uids,status,estiStatus,bidder,category );
 //                databaseReference.child("Pd_04").push().setValue(product);
                 databaseReference.push().setValue(product);
 

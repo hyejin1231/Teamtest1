@@ -2,15 +2,9 @@ package com.example.teamtest1;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,10 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.example.teamtest1.fragment.ChatFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,19 +40,20 @@ public class MainActivity extends AppCompatActivity {
     ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick,img_btnChat;
     String modify_name,modify_pw,modify_email;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        img_btnNotice = findViewById(R.id.img_btnNotice);
-        img_btnSearch = findViewById(R.id.img_btnSearch);
-        edit_Search = findViewById(R.id.edit_Search);
-        img_btnHotClick = findViewById(R.id.img_btnHotClick);
-        img_btnWrite = findViewById(R.id.img_btnWrite);
-        img_btnMypage = findViewById(R.id.img_btnMypage);
-        img_btnChat = findViewById(R.id.img_btnChat);
-        recyclerView =  findViewById(R.id.recyclerView);
+        img_btnNotice = findViewById(R.id.img_SC_btnNotice);
+        img_btnSearch = findViewById(R.id.img_SC_btnSearch);
+        edit_Search = findViewById(R.id.edit_SC_Search);
+        img_btnHotClick = findViewById(R.id.img_SC_btnHotClick);
+        img_btnWrite = findViewById(R.id.img_SC_btnWrite);
+        img_btnMypage = findViewById(R.id.img_SC_btnMypage);
+        img_btnChat = findViewById(R.id.img_SC_btnChat);
+        recyclerView =  findViewById(R.id.SCrecyclerView);
         recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존 성능 강화
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -163,6 +155,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu,menu);
+
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menu1:
+                Intent intent = new Intent(getApplicationContext(), Category.class);
+                startActivity(intent);
+//                finish();
+                break;
+        }
 
 
+        return super.onOptionsItemSelected(item);
+    }
 }

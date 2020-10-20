@@ -32,7 +32,7 @@ public class Product {
 
 
     public Product(String title, String detail, String price, int bid, String image,
-                   int count,String unique,String date,String deadline,String seller,String status,String estiStatus,String bidder) {
+                   int count,String unique,String date,String deadline,String seller,String status,String estiStatus,String bidder,String category) {
         this.title = title;
         this.detail = detail;
         this.price = price;
@@ -46,6 +46,7 @@ public class Product {
         this.status = status;
         this.estiStatus = estiStatus;
         this.bidder = bidder;
+        this.category = category;
     }
 
     public String getBidder() {
