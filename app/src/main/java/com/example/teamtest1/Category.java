@@ -12,7 +12,7 @@ public class Category extends AppCompatActivity {
     ImageView img_btn_digital,img_btn_furni,img_btn_food
             ,img_btn_wcloth,img_btn_wgoods,img_btn_kids,
             img_btn_mcloths,img_btn_game,img_btn_beauty,
-            img_btn_pet,img_btn_ticket,img_btn_etc;
+            img_btn_pet,img_btn_ticket,img_btn_etc,img_btn_cateBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class Category extends AppCompatActivity {
         img_btn_pet  = findViewById(R.id.img_btn_pet); //반려동물용품
         img_btn_ticket = findViewById(R.id.img_btn_ticket); //도서/티켓/음반
         img_btn_etc = findViewById(R.id.img_btn_etc); //기타중고물품
+        img_btn_cateBack = findViewById(R.id.img_btn_cateBack);
 
 
         img_btn_digital.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +93,7 @@ public class Category extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SelecCategory.class);
-                intent.putExtra("category" ,"남성패선/잡화" );
+                intent.putExtra("category" ,"남성패션/잡화" );
                 startActivity(intent);
             }
         });
@@ -139,6 +140,13 @@ public class Category extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), SelecCategory.class);
                 intent.putExtra("category" ,"기타중고물품" );
                 startActivity(intent);
+            }
+        });
+
+        img_btn_cateBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

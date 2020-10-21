@@ -43,6 +43,7 @@ public class Sub extends AppCompatActivity {
     TextView tv_price;
     TextView edit_detail;
     TextView tv_count;
+    TextView tv_category;
     ImageView img_btnBackMain,img_btnLike;
     Button btn_SubBtn,btn_price;
     TextView tv_subDate,tv_subDeadline,tv_subAlarm;
@@ -63,7 +64,7 @@ public class Sub extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-
+        tv_category = findViewById(R.id.tv_category);
         tv_image = findViewById(R.id.tv_image);
         tv_title = findViewById(R.id.tv_title);
         tv_bid = findViewById(R.id.tv_bid);
@@ -113,6 +114,7 @@ public class Sub extends AppCompatActivity {
 
                 tv_subDate.setText(snapshot.child(key).child("date").getValue().toString());
                 tv_subDeadline.setText(snapshot.child(key).child("deadline").getValue().toString());
+                tv_category.setText(snapshot.child(key).child("category").getValue().toString());
 
                 long now = System.currentTimeMillis();
                 Date today = new Date(now);

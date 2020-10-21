@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".Sell">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
@@ -17,15 +24,16 @@
         app:layout_constraintStart_toEndOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/edit_ntTtile" />
 
-    <ImageView
-        android:id="@+id/img_writeImage"
-        android:layout_width="210dp"
-        android:layout_height="210dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/img_writeImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="30dp"
+                android:background="#FFFFFF"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edit_ntTtile"
@@ -39,7 +47,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_writeImage" />
 
-    <TextView
+
+            <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,6 +56,7 @@
         android:layout_marginLeft="101dp"
         android:layout_marginTop="16dp"
         android:text="즉시구매가"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
@@ -58,32 +68,35 @@
         android:layout_marginLeft="99dp"
         android:layout_marginTop="8dp"
         android:text="입찰가"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <EditText
-        android:id="@+id/edit_price"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/textView" />
+            <EditText
+                android:id="@+id/edit_price"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:ems="10"
+                android:hint="예) 5000"
+                android:inputType="number"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@+id/textView" />
 
-    <EditText
-        android:id="@+id/edit_bid"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
-        app:layout_constraintStart_toEndOf="@+id/textView3" />
+            <EditText
+                android:id="@+id/edit_bid"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:layout_marginLeft="44dp"
+                android:ems="10"
+                android:hint="예) 5000"
+                android:inputType="number"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
+                app:layout_constraintStart_toEndOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/textView24"
@@ -96,19 +109,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_ntTtile" />
 
-    <EditText
-        android:id="@+id/edit_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="상세설명을 입력하세요"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_writeDeadline" />
+            <EditText
+                android:id="@+id/edit_detail"
+                android:layout_width="210dp"
+                android:layout_height="135dp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="상세설명을 입력하세요."
+                android:inputType="textMultiLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.507"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_writeDeadline" />
 
     <Button
         android:id="@+id/btn_register"
@@ -121,18 +134,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_detail" />
 
-    <Button
-        android:id="@+id/btn_gallery"
-        android:layout_width="77dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginLeft="11dp"
-        android:text="사진등록"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/img_writeImage"
-        app:layout_constraintTop_toBottomOf="@+id/img_writeImage" />
+            <Button
+                android:id="@+id/btn_gallery"
+                android:layout_width="77dp"
+                android:layout_height="37dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="사진등록"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/edit_ntTtile"
+                app:layout_constraintStart_toEndOf="@+id/img_writeImage" />
 
-    <TextView
+            <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -185,5 +199,10 @@
         android:textSize="10sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_writeDeadline"
         app:layout_constraintStart_toEndOf="@+id/tv_writeDeadline" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

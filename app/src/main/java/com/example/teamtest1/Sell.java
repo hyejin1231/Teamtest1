@@ -114,7 +114,7 @@ public class Sell extends AppCompatActivity {
             }
         });
 
-        final String[] ItemCategory = {"카테고리","디지털/가전", "가구/인테리어", "생활/가공식품", "여성의류","여성잡화","유아용/아동도서", "남성패선/잡화",
+        final String[] ItemCategory = {"카테고리","디지털/가전", "가구/인테리어", "생활/가공식품", "여성의류","여성잡화","유아용/아동도서", "남성패션/잡화",
                                         "게임/취미", "뷰티/미용","반려동물용품","도서/티켓/음반", "기타중고물품"};
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory);
@@ -136,6 +136,7 @@ public class Sell extends AppCompatActivity {
 
 
 
+
         // register 버튼을 누르면 파이어베이스에 데이터 저장 가능??!!ㅠㅠ 제발..
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,54 +146,73 @@ public class Sell extends AppCompatActivity {
 //                String image = "images/" + filename;
                 String title = edit_title.getText().toString();
                 String detail = edit_detail.getText().toString();
-//                String bid = edit_bid.getText().toString();
+                String bid2 = edit_bid.getText().toString();
                 String price = edit_price.getText().toString();
                 String deadline = tv_writeDeadline.getText().toString();
                 int bid = Integer.parseInt(edit_bid.getText().toString());
                 int count = 0;
                 String status = "selling";
 
+
                 String unique = "";
 
-                for(int i = 0; i< 10; i++) {
-                    unique += String.valueOf((char) ((int) (random.nextInt(26)) + 97));
+                if (title.equals("")) {
+                    Toast.makeText(getApplicationContext(), "제목을 꼭 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else if (detail.equals("")){
+                    Toast.makeText(getApplicationContext(), "상세설명을 꼭 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else if(price.equals("")) {
+                    Toast.makeText(getApplicationContext(), "가격을 꼭 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else if(deadline.equals("")) {
+                    Toast.makeText(getApplicationContext(), "마감기한을 꼭 선택해주세요.", Toast.LENGTH_SHORT).show();
+                }else if(category.equals("카테고리")) {
+                    Toast.makeText(getApplicationContext(), "카테고리를 꼭 선택해주세요.", Toast.LENGTH_SHORT).show();
+                }else if(bid2.equals("")) {
+                    Toast.makeText(getApplicationContext(), "입찰가를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else if(filePath == null) {
+                    Toast.makeText(getApplicationContext(), "이미지를 꼭 선택해주세요.", Toast.LENGTH_SHORT).show();
                 }
+                else {
+
+                    for (int i = 0; i < 10; i++) {
+                        unique += String.valueOf((char) ((int) (random.nextInt(26)) + 97));
+                    }
+
 
 //                uploadFile();
-                if (filePath != null) {
-                    //업로드 진행 Dialog 보이기
+                    if (filePath != null) {
+                        //업로드 진행 Dialog 보이기
 //            final ProgressDialog progressDialog = new ProgressDialog(this);
 //            progressDialog.setTitle("업로드중...");
 //            progressDialog.show();
 
-                    //storage
-                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                        //storage
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
 
-                    //Unique한 파일명을 만들자.
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
-                    Date now = new Date();
-                    filename = formatter.format(now) + ".png";
-                    //storage 주소와 폴더 파일명을 지정해 준다.
+                        //Unique한 파일명을 만들자.
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+                        Date now = new Date();
+                        filename = formatter.format(now) + ".png";
+                        //storage 주소와 폴더 파일명을 지정해 준다.
 //                    StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child("images/" + filename);
-                    StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child( filename);
-                    //올라가거라...
-                    storageRef.putFile(filePath)
-                            //성공시
-                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child(filename);
+                        //올라가거라...
+                        storageRef.putFile(filePath)
+                                //성공시
+                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 //                            progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
-                                    Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            //실패시
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                //실패시
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
 //                            progressDialog.dismiss();
-                                    Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                        Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 //            진행중
 //                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
 //                        @Override
@@ -203,25 +223,27 @@ public class Sell extends AppCompatActivity {
 //                            progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
 //                        }
 //                    });
-                } else {
-                    Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT).show();
-                }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT).show();
+                    }
 
-                //String title, String detail, String price, String bid, String image
+                    //String title, String detail, String price, String bid, String image
 //                String image =  "images/" + filename;
-                String image =  filename;
-                String estiStatus = "yet";
-                String bidder = "";
-                Product product = new Product(title, detail, price, bid, image,count,unique,date,deadline,uids,status,estiStatus,bidder,category );
+                    String image = filename;
+                    String estiStatus = "yet";
+                    String bidder = "";
+
+                        Product product = new Product(title, detail, price, bid, image, count, unique, date, deadline, uids, status, estiStatus, bidder, category);
 //                databaseReference.child("Pd_04").push().setValue(product);
-                databaseReference.push().setValue(product);
+                        databaseReference.push().setValue(product);
 
-                Toast.makeText(getApplicationContext(),"등록 완료", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "등록 완료", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
 
+                }
             }
         });
     }

@@ -84,10 +84,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 ////                    }
 ////                });
 
-        holder.tv_productBid.setText(String.valueOf(arrayList.get(position).getBid()));
+        holder.tv_productBid.setText(String.valueOf(arrayList.get(position).getBid()) + "원");
 //        holder.tv_productBid.setText(arrayList.get(position).getBid());
         holder.tv_productTitle.setText(arrayList.get(position).getTitle());
-        holder.tv_productPrice.setText(arrayList.get(position).getPrice());
+        holder.tv_productPrice.setText(arrayList.get(position).getPrice() + "원");
         holder.tv_viewCnt.setText(String.valueOf(arrayList.get(position).getCount()));
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
@@ -330,7 +330,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 //                                    itemView.getContext().startActivity(intent);
                                     Toast.makeText(itemView.getContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
 
-                                    tv_productBid.setText(String.valueOf(attendBid));
+                                    tv_productBid.setText(String.valueOf(attendBid) + "원");
                                 }
                             });
                     builder.setNegativeButton("Cancel",

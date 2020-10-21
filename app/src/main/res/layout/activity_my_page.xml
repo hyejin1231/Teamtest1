@@ -106,21 +106,21 @@
         android:layout_marginTop="32dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
+        app:layout_constraintTop_toBottomOf="@+id/img_UserFace_soso"
         app:srcCompat="@drawable/warn" />
 
     <TextView
         android:id="@+id/tv_MyWarn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
         android:hint="경고"
         android:textSize="18sp"
         android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/img_MyWarn"
-        app:layout_constraintTop_toBottomOf="@+id/btn_buylist" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_UserEstimateCount" />
 
     <TextView
         android:id="@+id/tv_Message"
@@ -140,10 +140,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
         app:srcCompat="@drawable/netural" />
 
     <TextView
@@ -164,10 +164,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
         app:srcCompat="@drawable/good" />
 
     <ImageView
@@ -176,10 +176,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
         app:srcCompat="@drawable/angry" />
 
     <ImageView
@@ -188,10 +188,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
         app:srcCompat="@drawable/disappoint" />
 
     <ImageView
@@ -200,10 +200,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_Message"
+        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
         app:srcCompat="@drawable/smile" />
 
     <TextView
@@ -212,10 +212,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="32dp"
         android:text="판매자 점수"
         app:layout_constraintStart_toEndOf="@+id/img_UserFace_soso"
-        app:layout_constraintTop_toBottomOf="@+id/btn_selllist" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_buylist" />
 
     <TextView
         android:id="@+id/tv_participate"

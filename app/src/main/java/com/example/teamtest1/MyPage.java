@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -76,9 +77,13 @@ public class MyPage extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ArrayList<User> arrayList;
 
+    // 혜진 1021 수정 intent 받는거 수정함
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String currentUid = user.getUid();
 
 
-    String uids;
+
+//    String uids;
     String key;
 
     @Override
@@ -95,7 +100,7 @@ public class MyPage extends AppCompatActivity {
 //        String myId = intent.getStringExtra("myId");
 //        String myToken = intent.getStringExtra("myToken");
 
-        uids = intent.getStringExtra("uid");
+//        uids = intent.getStringExtra("uid");
 //        Toast.makeText(getApplicationContext(),uid,Toast.LENGTH_SHORT).show();
 //
         tv_result = findViewById(R.id.tv_result);
@@ -126,12 +131,12 @@ public class MyPage extends AppCompatActivity {
 
 
         // 코드가 지저분해도 참아줘 ..^_^ _혜진
-        databaseReference.orderByChild("uid").equalTo(uids).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child : snapshot.getChildren()) {
-                    //key = child.getKey();
-                    key = uids; //다혜수정
+                    key = child.getKey();
+//                    key = uids; //다혜수정
                 }
                 tv_id.setText(snapshot.child(key).child("id").getValue().toString());
                 tv_result.setText(snapshot.child(key).child("nickName").getValue().toString());
@@ -271,7 +276,9 @@ public class MyPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ModifyMyInfo.class);
-                intent.putExtra("uid" , uids);
+                // auth 쓰면 intent로 굳이 주고받을 필요가 없는거 같아서 이거 주석 처리할게!!
+//                intent.putExtra("uid" , uids);
+//                intent.putExtra("uid",currentUid);
                 startActivity(intent);
             }
         }); // 관리자와의 1:1 채팅 구현

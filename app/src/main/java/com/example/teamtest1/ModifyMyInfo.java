@@ -55,6 +55,11 @@ public class ModifyMyInfo extends AppCompatActivity {
     Bitmap img;
     String filename2;
 
+
+    // 혜진 코드 수정 1021
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String currentUid = user.getUid();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +74,8 @@ public class ModifyMyInfo extends AppCompatActivity {
         btn_profilepic = findViewById(R.id.btn_profilepic);
         iv_modify_profile = findViewById(R.id.iv_modify_profile);
 
-        Intent intent = getIntent();
-        uids = intent.getStringExtra("uid");
+//        Intent intent = getIntent();
+//        uids = intent.getStringExtra("uid");
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("User"); // DB 테이블 연동
@@ -80,7 +85,7 @@ public class ModifyMyInfo extends AppCompatActivity {
 //        et_modify_nickname.setText(intent.getExtras().getString("tv_sd_seller"));
 //        //tv_modify_showemail.setText();
 
-        databaseReference.orderByChild("uid").equalTo(uids).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child : snapshot.getChildren()) {
