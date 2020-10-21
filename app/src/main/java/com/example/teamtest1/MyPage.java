@@ -49,7 +49,7 @@ import java.util.Iterator;
 public class MyPage extends AppCompatActivity {
 
     private FirebaseAuth auth; //파이어 베이스 인증 객체
-
+    Uri uri;
 
     private TextView tv_result; // 닉네임 text
     private ImageView iv_profile; // 이미지 뷰
@@ -94,7 +94,7 @@ public class MyPage extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("User"); // DB 테이블 연동
-        Intent intent = getIntent();
+        //Intent intent = getIntent();
 //        String nickName = intent.getStringExtra("nickName"); //MainActivity로 부터 닉네임 전달받음.
 //        String photoUrl = intent.getStringExtra("photoUrl"); //MainActivity로 부터 프로필사진 url 전달받음.
 //        String myId = intent.getStringExtra("myId");
@@ -138,6 +138,45 @@ public class MyPage extends AppCompatActivity {
                     key = child.getKey();
 //                    key = uids; //다혜수정
                 }
+
+                //다혜다혜
+                //이미지뷰에 선택된 이미지 로딩시키는 코드임
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                StorageReference storageReference = storage.getReference();
+                String path = snapshot.child(key).child("photoUrl").getValue().toString();
+
+                if(path.equals("default")){
+                    Glide.with(MyPage.this)
+                            .load(R.drawable.logo_main)
+                            .into(iv_profile);
+
+                }else{
+                    storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(MyPage.this)
+                                    .load(uri)
+                                    .into(iv_profile);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MyPage.this, "실패", Toast.LENGTH_SHORT).show();
+                            Glide.with(MyPage.this)
+                                    .load(uri)
+                                    .into(iv_profile);
+                        }
+                    });
+
+                }
+
+
+
+
+
+
+
+
                 tv_id.setText(snapshot.child(key).child("id").getValue().toString());
                 tv_result.setText(snapshot.child(key).child("nickName").getValue().toString());
 

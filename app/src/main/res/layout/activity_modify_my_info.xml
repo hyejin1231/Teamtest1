@@ -20,12 +20,11 @@
 
     <Button
         android:id="@+id/btn_profilepic"
-        android:layout_width="55dp"
+        android:layout_width="60dp"
         android:layout_height="35dp"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
-        android:freezesText="false"
-        android:text="프사설정"
+        android:text="setting"
         android:textSize="8sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_modify_profile"
         app:layout_constraintStart_toEndOf="@+id/iv_modify_profile" />
@@ -127,5 +126,14 @@
         android:text="여기에 이메일이 불러와질겨..."
         app:layout_constraintStart_toEndOf="@+id/tv_modify_email"
         app:layout_constraintTop_toBottomOf="@+id/iv_modify_profile" />
+
+    <Button
+        android:id="@+id/btn_modify_default"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:text="DEFAULT"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_profilepic"
+        app:layout_constraintStart_toStartOf="@+id/btn_profilepic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

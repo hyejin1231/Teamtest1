@@ -137,7 +137,7 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
 
                                 final FirebaseUser user = Auth.getCurrentUser();
-                                final String PhotoUrl = String.valueOf(user.getPhotoUrl());
+                                final String PhotoUrl = "default";
                                 final String my_uid = user.getUid(); // uid 가져와서 user db에 저장
                                 User user11 = new User(PhotoUrl, email, nickName,my_uid,warn,estimate,estimateUser,password);
                                 databaseReference.child(my_uid).setValue(user11);

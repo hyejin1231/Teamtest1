@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,8 +45,9 @@ public class ModifyMyInfo extends AppCompatActivity {
 
     TextView tv_modify_showemail;
     EditText et_modify_pw,et_modify_nickname,et_modify_pw_check;
-    String uids,key,key1,key2;
-    Button btn_modify;
+    String key1,key2,key3,key4,key5,key6;
+    //String uids;
+    Button btn_modify,btn_modify_default;
     ImageView iv_modify_profile;
     private Button btn_profilepic;
     private FirebaseDatabase database;
@@ -54,6 +56,7 @@ public class ModifyMyInfo extends AppCompatActivity {
     Uri uri;
     Bitmap img;
     String filename2;
+    String key;
 
 
     // 혜진 코드 수정 1021
@@ -66,6 +69,7 @@ public class ModifyMyInfo extends AppCompatActivity {
         setContentView(R.layout.activity_modify_my_info);
         Auth = FirebaseAuth.getInstance();
 
+
         tv_modify_showemail = findViewById(R.id.tv_modify_showemail);
         et_modify_pw = findViewById(R.id.et_modify_pw);
         et_modify_nickname = findViewById(R.id.et_modify_nickname);
@@ -73,6 +77,7 @@ public class ModifyMyInfo extends AppCompatActivity {
         et_modify_pw_check = findViewById(R.id.et_modify_pw_check);
         btn_profilepic = findViewById(R.id.btn_profilepic);
         iv_modify_profile = findViewById(R.id.iv_modify_profile);
+        btn_modify_default = findViewById(R.id.btn_modify_default);
 
 //        Intent intent = getIntent();
 //        uids = intent.getStringExtra("uid");
@@ -85,15 +90,86 @@ public class ModifyMyInfo extends AppCompatActivity {
 //        et_modify_nickname.setText(intent.getExtras().getString("tv_sd_seller"));
 //        //tv_modify_showemail.setText();
 
+
+        //기본이미지로 변경
+        btn_modify_default.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iv_modify_profile.setImageResource(R.drawable.logo_main);
+
+                databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot child : snapshot.getChildren()) {
+                            key6 = child.getKey();
+                        }
+                        snapshot.getRef().child(key6).child("photoUrl").setValue("default");
+                        filePath2=null;
+                        Toast.makeText(getApplicationContext(), "기본이미지 등록", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
+
+
+
+        //다혜다혜
+        //이미지뷰에 선택된 이미지 로딩시키는 코드임
+        databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        key = child.getKey();
+
+                    }
+
+                    FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                    StorageReference storageReference = storage.getReference();
+                    String path = snapshot.child(key).child("photoUrl").getValue().toString();
+
+                    if (path.equals("default")) {
+                        filePath2=null;
+                        Glide.with(ModifyMyInfo.this)
+                                .load(R.drawable.logo_main)
+                                .into(iv_modify_profile);
+                    } else {
+                        storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(ModifyMyInfo.this)
+                                        .load(uri)
+                                        .into(iv_modify_profile);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(ModifyMyInfo.this, "이미지 로딩실패", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
         databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child : snapshot.getChildren()) {
-                    key = child.getKey();
+                    key1 = child.getKey();
                 }
-                tv_modify_showemail.setText(snapshot.child(key).child("id").getValue().toString());
-                et_modify_pw.setText(snapshot.child(key).child("pw").getValue().toString());
-                et_modify_nickname.setText(snapshot.child(key).child("nickName").getValue().toString());
+                tv_modify_showemail.setText(snapshot.child(key1).child("id").getValue().toString());
+                et_modify_pw.setText(snapshot.child(key1).child("pw").getValue().toString());
+                et_modify_nickname.setText(snapshot.child(key1).child("nickName").getValue().toString());
 
             }
             @Override
@@ -112,85 +188,104 @@ public class ModifyMyInfo extends AppCompatActivity {
                 final String nickName = et_modify_nickname.getText().toString();
                 final FirebaseUser user = Auth.getCurrentUser();
 
-                //아 이건 pid만드는거구나 멍청쓰...
-//                String pic_num="";
-//                for(int i = 0; i< 10; i++) {
-//                    pic_num += String.valueOf((char)((int) (random.nextInt(26)) + 97));
-//                }
-
-                if (filePath2 != null) {
-                    FirebaseStorage storage = FirebaseStorage.getInstance();
-
-                    //Unique한 파일명을 만들자.
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
-                    Date now = new Date();
-                    filename2 = uids + formatter.format(now) + ".png";
-                    //storage 주소와 폴더 파일명을 지정해 준다.
-//                    StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child("images/" + filename);
-                    StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child(filename2);
-                    //올라가거라...
-                    storageRef.putFile(filePath2)
-                            //성공시
-                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
-                                    Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            //실패시
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-//                            progressDialog.dismiss();
-                                    Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-//            진행중
-//                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                            @SuppressWarnings("VisibleForTests") //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
-//                                    double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
-//                            //dialog에 진행률을 퍼센트로 출력해 준다
-//                            progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
-//                        }
-//                    });
-                } else {
-                    Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
                 /////////////////////////////////////////////////////////
                 /////////////////////////////////////////////////////////
                 /////////////////////////////////////////////////////////
-                databaseReference.orderByChild("uid").equalTo(uids).addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot child : snapshot.getChildren()) {
-                            key1 = child.getKey();
+                            key2 = child.getKey();
                         }
 
                         //abcd = et_sd_name.getText().toString();
-                        key2 = et_modify_nickname.getText().toString();
+                        //key2 = et_modify_nickname.getText().toString();
 
                         if (password.equals(passwordCheck)) { //auth쪽
-                            snapshot.getRef().child(key1).child("pw").setValue(password); //디비안의 비번 바꿔줌
+                            snapshot.getRef().child(key2).child("pw").setValue(password); //디비안의 비번 바꿔줌
                             user.updatePassword(password); //파베권한의 비번 바꿔줌
 
-                            databaseReference.orderByChild("nickName").equalTo(nickName).addListenerForSingleValueEvent(new ValueEventListener() {
+                            databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     for (DataSnapshot child : snapshot.getChildren()) {
-                                        String key = child.getKey();
-                                        String key3 = snapshot.getRef().child(key).child("nickName").toString();
-                                        if(nickName.equals(key3)){
+                                        key3 = child.getKey();
+                                        key4 = snapshot.getRef().child(key3).child("nickName").toString();
+                                        if(nickName.equals(key4)){
                                             Toast.makeText(ModifyMyInfo.this, "중복된 닉네임입니다.", Toast.LENGTH_SHORT).show();
                                         }else{ //모든게 적절하게 입력됐을 경우..
-                                            snapshot.getRef().child(key1).child("nickName").setValue(key2);
-                                            snapshot.getRef().child(key1).child("photoUrl").setValue(filename2);
+
+                                            if (filePath2 != null) { //filepath가 null이라는건 파일 선택을 안했다는거임...
+                                                final FirebaseStorage storage = FirebaseStorage.getInstance();
+                                                StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child("myprofile").child(filename2);
+                                                storageRef.putFile(filePath2)
+                                                        //성공시
+                                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                                Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        })
+                                                        //실패시
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                            }else {//프사를 안바꾸고 싶을 때
+
+                                                databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        for (DataSnapshot child : snapshot.getChildren()) {
+                                                            key5 = child.getKey();
+
+                                                        }
+
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                                                        StorageReference storageReference = storage.getReference();
+                                                        String path = snapshot.getRef().child(key5).child("photoUrl").toString();
+                                                        /////
+
+                                                        if (path.equals("default")) {
+
+                                                            Glide.with(ModifyMyInfo.this)
+                                                                    .load(R.drawable.logo_main)
+                                                                    .into(iv_modify_profile);
+
+                                                        } else {
+                                                            storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                                @Override
+                                                                public void onSuccess(Uri uri) {
+                                                                    Glide.with(ModifyMyInfo.this)
+                                                                            .load(uri)
+                                                                            .into(iv_modify_profile);
+                                                                }
+                                                            }).addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Toast.makeText(ModifyMyInfo.this, "실패", Toast.LENGTH_SHORT).show();
+                                                                    Glide.with(ModifyMyInfo.this)
+                                                                            .load(uri)
+                                                                            .into(iv_modify_profile);
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+
+
+                                            }
+
+
+
+                                            snapshot.getRef().child(key3).child("nickName").setValue(nickName);
+                                            snapshot.getRef().child(key3).child("photoUrl").setValue(filename2);
                                             Toast.makeText(getApplicationContext(), "회원정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(getApplicationContext(), MyPage.class);
                                             startActivity(intent);
@@ -223,7 +318,7 @@ public class ModifyMyInfo extends AppCompatActivity {
 
 
             }
-        });
+        });//정보수정 버튼
 
         //여기부터 다혜
         //권한체크 후 권한요청
@@ -234,6 +329,12 @@ public class ModifyMyInfo extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent,1);
+
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+                    Date now = new Date();
+                    filename2 = currentUid + formatter.format(now) + ".png";
+
+
             }
         });
 
@@ -244,6 +345,7 @@ public class ModifyMyInfo extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        filePath2 = null;
         if(requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 try {
@@ -255,7 +357,6 @@ public class ModifyMyInfo extends AppCompatActivity {
 //                    Bitmap img = BitmapFactory.decodeStream(in);
                     in2.close();
                     iv_modify_profile.setImageBitmap(img);
-
                     uri = data.getData();
 
 
@@ -263,7 +364,30 @@ public class ModifyMyInfo extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }
+        }//1
+
+
+//            else if(requestCode==0){
+//                if(resultCode == RESULT_OK) {
+//                    try {
+//    //                    filePath2 = data.getData();
+//    //                    // 선택한 이미지에서 비트맵 생성
+//    //                    InputStream in2 = getContentResolver().openInputStream(filePath2);
+//    //
+//    //                    img = BitmapFactory.decodeStream(in2);
+//    ////                    Bitmap img = BitmapFactory.decodeStream(in);
+//    //                    in2.close();
+//    //                    iv_modify_profile.setImageBitmap(img);
+//    //                    uri = data.getData();
+//
+//
+//                    }catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }//0
+
+
     }
 
     // 이미지 경로 알아오는 함수..?
@@ -274,4 +398,75 @@ public class ModifyMyInfo extends AppCompatActivity {
 //        String path = MediaStore.Images.Media.in
         return Uri.parse(path);
     }
+
+
+
+
+    //여기 무시해줘
+    //랜덤값을 계속해줘서 안되는거인건 알겠는데 어떻게 고치는겨;
+//        if (filePath2 != null) { //filepath가 null이라는건 파일 선택을 안했다는거임...
+//            final FirebaseStorage storage = FirebaseStorage.getInstance();
+//            StorageReference storageRef = storage.getReferenceFromUrl("gs://teamtest1-6b76d.appspot.com").child("myprofile").child(filename2);
+//            storageRef.putFile(filePath2)
+//                    //성공시
+//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+//                        }
+//                    })
+//                    //실패시
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//        }else {//프사를 안바꾸고 싶을 때
+//
+//            databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    for (DataSnapshot child : snapshot.getChildren()) {
+//                        key5 = child.getKey();
+//
+//                    }
+//
+//                    FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+//                    StorageReference storageReference = storage.getReference();
+//                    String path = snapshot.child(key5).child("photoUrl").getValue().toString();
+//
+//                    if (path.equals("default")) {
+//
+//                        Glide.with(ModifyMyInfo.this)
+//                                .load(R.drawable.logo_main)
+//                                .into(iv_modify_profile);
+//
+//                    } else {
+//                        storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                            @Override
+//                            public void onSuccess(Uri uri) {
+//                                Glide.with(ModifyMyInfo.this)
+//                                        .load(uri)
+//                                        .into(iv_modify_profile);
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(ModifyMyInfo.this, "실패", Toast.LENGTH_SHORT).show();
+//                                Glide.with(ModifyMyInfo.this)
+//                                        .load(uri)
+//                                        .into(iv_modify_profile);
+//                            }
+//                        });
+//                    }
+//                }
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+//
+//
+//        }
 }

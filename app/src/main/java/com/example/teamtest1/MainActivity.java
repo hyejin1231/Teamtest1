@@ -49,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
         img_btnNotice = findViewById(R.id.img_SC_btnNotice);
         img_btnSearch = findViewById(R.id.img_SC_btnSearch);
         edit_Search = findViewById(R.id.edit_SC_Search);
-        img_btnHotClick = findViewById(R.id.img_SC_btnHotClick);
+        //img_btnHotClick = findViewById(R.id.img_SC_btnHotClick);
         img_btnWrite = findViewById(R.id.img_SC_btnWrite);
         img_btnMypage = findViewById(R.id.img_SC_btnMypage);
         img_btnChat = findViewById(R.id.img_SC_btnChat);
-        img_btnduedate = findViewById(R.id.img_btnduedate);
+        //img_btnduedate = findViewById(R.id.img_btnduedate);
         recyclerView =  findViewById(R.id.SCrecyclerView);
         recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존 성능 강화
         layoutManager = new LinearLayoutManager(this);
@@ -134,23 +134,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        img_btnduedate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), DuedateActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-        img_btnHotClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), HotClickView.class);
-                startActivity(intent);
-            }
-        });
-
         img_btnChat.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -158,6 +141,28 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+//            img_btnduedate.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(getApplicationContext(), DuedateActivity.class);
+//                    startActivity(intent);
+//
+//                }
+//            });
+//
+
+                //혹시 핫클릭 그냥 밑에 두고 싶을수도 있을 것 같아서 주석처리만 했어!! -다혜
+//            img_btnHotClick.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(getApplicationContext(), HotClickView.class);
+//                    startActivity(intent);
+//                }
+//            });
+
+
 
 
 
@@ -170,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu,menu);
-
         return true;
 
     }
@@ -179,10 +183,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.menu1:
+            case R.id.menu1: //카테고리
                 Intent intent = new Intent(getApplicationContext(), Category.class);
                 startActivity(intent);
-//                finish();
+                break;
+
+            case R.id.menu2: //핫클릭
+                Intent intent2 = new Intent(getApplicationContext(), HotClickView.class);
+                startActivity(intent2);
+                break;
+
+            case R.id.menu3: //마감임박
+                Intent intent3 = new Intent(getApplicationContext(), DuedateActivity.class);
+                startActivity(intent3);
                 break;
         }
 
