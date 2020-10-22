@@ -14,6 +14,7 @@ public class Product {
     private String buyer;
     private String pid;
     private String bidder;
+    private int bidCount;
 
 
 
@@ -32,7 +33,8 @@ public class Product {
 
 
     public Product(String title, String detail, String price, int bid, String image,
-                   int count,String unique,String date,String deadline,String seller,String status,String estiStatus,String bidder,String category) {
+                   int count,String unique,String date,String deadline,String seller,
+                   String status,String estiStatus,String bidder,String category,int bidCount) {
         this.title = title;
         this.detail = detail;
         this.price = price;
@@ -47,8 +49,16 @@ public class Product {
         this.estiStatus = estiStatus;
         this.bidder = bidder;
         this.category = category;
+        this.bidCount = bidCount;
     }
 
+    public int getBidCount() {
+        return bidCount;
+    }
+
+    public void setBidCount(int bidCount) {
+        this.bidCount = bidCount;
+    }
     public String getBidder() {
         return bidder;
     }

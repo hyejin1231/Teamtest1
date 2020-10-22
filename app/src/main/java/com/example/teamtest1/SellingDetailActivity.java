@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,17 +28,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SellingDetailActivity extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private ArrayList<Product> arrayList;
+    private DatePickerDialog.OnDateSetListener callbackMethod;
 
     ImageView iv_sd_profile;
     TextView tv_sd_name;
-    TextView tv_sd_price;
+    TextView tv_sd_bid;
     TextView tv_sd_buyer;
     TextView tv_sd_seller;
     Button btn_sdel_detail, btn_update_detail;
@@ -44,10 +49,23 @@ public class SellingDetailActivity extends AppCompatActivity {
     EditText et_sd_name;
     String abcd,unique;
     TextView tv_sd_deadline;
-    Button btn_sd_complete;
+    Button btn_sd_complete,btn_sd_date;
     TextView tv_sd_uniqueKey;
+    EditText et_sd_content,tv_sd_price;
 
     String key,test,key2;
+
+    long now = System.currentTimeMillis();
+    Date today = new Date(now);
+
+    SimpleDateFormat format = new SimpleDateFormat("yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+    SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd");
+
+    int year = Integer.parseInt(format.format(today));
+    int month  = Integer.parseInt(dateFormat.format(today));
+    int day = Integer.parseInt(dateFormat2.format(today));
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +78,11 @@ public class SellingDetailActivity extends AppCompatActivity {
 
         Intent intent_selling = getIntent();
 
+        this.InitializeListener();
+
+        tv_sd_bid = findViewById(R.id.tv_sd_bid);
+        btn_sd_date = findViewById(R.id.btn_sd_date);
+        et_sd_content = findViewById(R.id.et_sd_content);
         tv_sd_uniqueKey = findViewById(R.id.tv_sd_uniqueKey);
         iv_sd_profile = findViewById(R.id.iv_sd_profile);
         //tv_sd_name = findViewById(R.id.tv_sd_name);
@@ -81,6 +104,9 @@ public class SellingDetailActivity extends AppCompatActivity {
                     key = child.getKey();
                 }
 
+                et_sd_content.setText(snapshot.child(key).child("detail").getValue().toString());
+                tv_sd_bid.setText(snapshot.child(key).child("bid").getValue().toString() + "원");
+                tv_sd_price.setText(snapshot.child(key).child("price").getValue().toString());
                 FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
                 StorageReference storageReference = storage.getReference();
                 String path = snapshot.child(key).child("image").getValue().toString();
@@ -109,7 +135,7 @@ public class SellingDetailActivity extends AppCompatActivity {
         });
 
         //Glide.with(this).load(intent_selling.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_sd_profile);
-        tv_sd_price.setText(intent_selling.getExtras().getString("tv_sd_price"));
+//        tv_sd_price.setText(intent_selling.getExtras().getString("tv_sd_price"));
         tv_sd_buyer.setText(intent_selling.getExtras().getString("tv_sd_buyer"));
         tv_sd_seller.setText(intent_selling.getExtras().getString("tv_sd_seller"));
         unique = intent_selling.getExtras().getString("unique");
@@ -153,8 +179,14 @@ public class SellingDetailActivity extends AppCompatActivity {
                         }
 
                         abcd = et_sd_name.getText().toString();
+                        String updateContent = et_sd_content.getText().toString();
+                        String updateDeadline = tv_sd_deadline.getText().toString();
+                        String updatePrice = tv_sd_price.getText().toString();
 
-                        snapshot.getRef().child(p_id_key).child("p_name").setValue(abcd);
+                        snapshot.getRef().child(p_id_key).child("price").setValue(updatePrice);
+                        snapshot.getRef().child(p_id_key).child("title").setValue(abcd);
+                        snapshot.getRef().child(p_id_key).child("detail").setValue(updateContent);
+                        snapshot.getRef().child(p_id_key).child("deadline").setValue(updateDeadline);
                         Toast.makeText(getApplicationContext(), "상품정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), SellistActivity.class);
                         startActivity(intent);
@@ -213,5 +245,24 @@ public class SellingDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void OnClickHandler(View view)
+    {
+        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod, year , month, day);
+
+        dialog.show();
+    }
+
+
+    public void InitializeListener() {
+        callbackMethod = new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+            {
+                tv_sd_deadline.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+            }
+        };
     }
 }

@@ -89,6 +89,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         holder.tv_productTitle.setText(arrayList.get(position).getTitle());
         holder.tv_productPrice.setText(arrayList.get(position).getPrice() + "원");
         holder.tv_viewCnt.setText(String.valueOf(arrayList.get(position).getCount()));
+        holder.tv_productBidCount.setText(arrayList.get(position).getBidCount() +"명 참여");
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Product"); // DB 테이블 연동
@@ -186,7 +187,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         TextView tv_productPrice;
         TextView tv_viewCnt;
         Button btn_bid,btn_Buynow;
-        TextView tv_alaram;
+        TextView tv_alaram,tv_productBidCount;
 //        TextView tv_productSeller;
 //        TextView tv_productDate;
 //        TextView tv_productDeadline;
@@ -199,6 +200,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         public CustomViewHolder(@NonNull final View itemView) {
             super(itemView);
+            this.tv_productBidCount = itemView.findViewById(R.id.tv_productBidCount);
             this.tv_productTitle = itemView.findViewById(R.id.tv_productTitle);
             this.tv_productPrice = itemView.findViewById(R.id.tv_productPrice);
             this.tv_productBid = itemView.findViewById(R.id.tv_productBid);
@@ -315,10 +317,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                             for(DataSnapshot child : snapshot.getChildren()) {
                                                 key1 = child.getKey();
                                             }
+                                            String bidCountString = snapshot.child(key1).child("bidCount").getValue().toString();
+                                            int bidCount = Integer.parseInt(bidCountString);
+
+                                            bidCount++;
 
                                             // 입찰가격bid이랑 입찰자 (bidder) uid 담기
                                             snapshot.getRef().child(key1).child("bid").setValue(attendBid);
                                             snapshot.getRef().child(key1).child("bidder").setValue(buyer);
+                                            snapshot.getRef().child(key1).child("bidCount").setValue(bidCount);
                                         }
 
                                         @Override
