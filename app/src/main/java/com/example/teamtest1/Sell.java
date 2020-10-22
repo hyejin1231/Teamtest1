@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -61,6 +63,8 @@ public class Sell extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    final String currentUid = user.getUid();
 
     Random random = new Random();
     long now = System.currentTimeMillis();
@@ -234,7 +238,7 @@ public class Sell extends AppCompatActivity {
                     String bidder = "";
                     int bidCount = 0;
 
-                        Product product = new Product(title, detail, price, bid, image, count, unique, date, deadline, uids, status, estiStatus, bidder, category,bidCount);
+                        Product product = new Product(title, detail, price, bid, image, count, unique, date, deadline, currentUid, status, estiStatus, bidder, category,bidCount);
 //                databaseReference.child("Pd_04").push().setValue(product);
                         databaseReference.push().setValue(product);
 
