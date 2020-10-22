@@ -94,8 +94,8 @@ public class SubSellerInfo extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tv_info_estimate.setText((String)snapshot.child(seller).child("estimate").getValue());
-                tv_info_sellerId.setText((String)snapshot.child(seller).child("id").getValue());
+                tv_info_estimate.setText(snapshot.child(seller).child("estimate").getValue().toString());
+                tv_info_sellerId.setText(snapshot.child(seller).child("id").getValue().toString());
 
                 int estimate = Integer.parseInt(snapshot.child(seller).child("estimate").getValue().toString());
 
