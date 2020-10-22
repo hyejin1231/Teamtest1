@@ -73,13 +73,28 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/user" />
 
+        <!--
         <ImageView
-            android:id="@+id/img_SC_btnNotice"
+            android:id="@+id/img_SC_btnHotClick"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/img_SC_btnNotice"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/click" />
+
+            !-->
+
+        <ImageView
+            android:id="@+id/img_SC_btnNotice"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="56dp"
+            android:layout_marginRight="56dp"
             android:layout_marginBottom="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/img_SC_btnWrite"
@@ -88,23 +103,12 @@
             app:srcCompat="@drawable/noticeboard" />
 
         <ImageView
-            android:id="@+id/img_SC_btnHotClick"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            app:layout_constraintEnd_toStartOf="@+id/img_SC_btnNotice"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/click" />
-
-        <ImageView
             android:id="@+id/img_SC_btnChat"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/img_SC_btnMypage"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/chat"></ImageView>

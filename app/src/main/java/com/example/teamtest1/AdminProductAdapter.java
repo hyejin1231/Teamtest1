@@ -99,9 +99,17 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
                 String date = simpleDateFormat.format(today);
                 String deadline = snapshot.child(key).child("deadline").getValue().toString();
 
+                String status = snapshot.child(key).child("status").getValue().toString();
+
+                int Caldate = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(deadline.replace("-", ""));
+
 
                 if (deadline.equals(date)) {
                     holder.tv_adAlarmDead.setVisibility(View.VISIBLE);
+                }
+
+                if (status.equals("complete") || status.equals("due")) {
+                    holder.tv_adAlarmEnd.setVisibility(View.VISIBLE);
                 }
 
                 FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
@@ -138,7 +146,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_adProductTitle,tv_adProductBid,tv_adProductPrice,tv_adAlarmDead;
+        TextView tv_adProductTitle,tv_adProductBid,tv_adProductPrice,tv_adAlarmDead,tv_adAlarmEnd;
         Button btn_adPdwarn,btn_adProductDel;
         ImageView iv_adProductImage;
 
@@ -158,6 +166,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
             this.btn_adPdwarn = itemView.findViewById(R.id.btn_adPdwarn);
             this.btn_adProductDel = itemView.findViewById(R.id.btn_adProductDel);
             this.tv_adAlarmDead = itemView.findViewById(R.id.tv_adAlarmDead);
+            this.tv_adAlarmEnd = itemView.findViewById(R.id.tv_adAlarmEnd);
 
             btn_adProductDel.setOnClickListener(new View.OnClickListener() {
                 @Override

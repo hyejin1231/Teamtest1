@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DuedateActivity"></activity>
+        <activity android:name=".AdminMemberSub"></activity>
+        <activity android:name=".DuedateActivity" />
         <activity android:name=".SelecCategory" />
         <activity android:name=".Category" />
         <activity android:name=".SubSellerInfo" />

@@ -64,12 +64,18 @@ public class DuedateActivity extends AppCompatActivity {
                     String date = simpleDateFormat.format(today);
                     String deadline = snapshot.child(uniqueTest).child("deadline").getValue().toString();
 
+                    Product pd = child.getValue(Product.class);
 
                     int Caldate = Integer.parseInt(deadline.replace("-", ""))- Integer.parseInt(date.replace("-", ""));
-                    if(Caldate ==1 || Caldate ==2 ) {
-                        Product pd = child.getValue(Product.class);
-                        arrayList.add(0,pd);
-                    }
+//                    if(Caldate ==1 || Caldate ==2 ) {
+//                        Product pd = child.getValue(Product.class);
+//                        arrayList.add(0,pd);
+//                    }
+
+                   if (deadline.equals(date)) {
+                       arrayList.add(0,pd);
+                   }
+
 
 
                 }

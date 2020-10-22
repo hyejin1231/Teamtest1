@@ -272,11 +272,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 @Override
                 public void onClick(View view) {
                     final List<String> ListItems = new ArrayList<>();
-                    ListItems.add("500");
-                    ListItems.add("1000");
-                    ListItems.add("5000");
-                    ListItems.add("10000");
-                    ListItems.add("50000");
+                    ListItems.add("500원");
+                    ListItems.add("1000원");
+                    ListItems.add("5000원");
+                    ListItems.add("10000원");
+                    ListItems.add("50000원");
                     final CharSequence[] items =  ListItems.toArray(new String[ ListItems.size()]);
 
                     final List SelectedItems  = new ArrayList();
@@ -303,7 +303,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                         int index = (int) SelectedItems.get(0);
                                         selectBid = ListItems.get(index);
                                     }
-                                    int intBid = Integer.parseInt(selectBid);
+                                    int intBid = Integer.parseInt(selectBid.replace("원",""));
 
                                     final int attendBid = arrayList.get(position).getBid()+ intBid;
                                     Intent intent = ((Activity)context).getIntent();
