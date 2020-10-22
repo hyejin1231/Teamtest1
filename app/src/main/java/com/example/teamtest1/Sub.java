@@ -45,13 +45,15 @@ public class Sub extends AppCompatActivity {
     TextView tv_count;
     TextView tv_category;
     ImageView img_btnBackMain,img_btnLike;
-    Button btn_SubBtn,btn_price;
+    Button btn_SubBtn,btn_price,btn_sub;
+    Button btn_sub_infoGo;
     TextView tv_subDate,tv_subDeadline,tv_subAlarm;
     String key,key1,key2,unique,unique1;
     String key3;
     String Message;
     String destinationUID;
     String nowBid;
+
     int nowBidInt;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     final String currentUid = user.getUid();
@@ -78,7 +80,7 @@ public class Sub extends AppCompatActivity {
         tv_subDate = findViewById(R.id.tv_subDate);
         tv_subAlarm=findViewById(R.id.tv_subAlarm);
         img_btnLike = findViewById(R.id.img_btnLike);
-
+        btn_sub_infoGo = findViewById(R.id.btn_sub_infoGo);
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Product");
         databaseReference_like = database.getReference("Like");
@@ -104,6 +106,17 @@ public class Sub extends AppCompatActivity {
         tv_bid.setText(intent.getExtras().getString("bid"));
         tv_price.setText(intent.getExtras().getString("price"));
         edit_detail.setText(intent.getExtras().getString("detail"));
+
+        btn_sub_infoGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(), SubSellerInfo.class);
+                intent.putExtra("unique" , unique);
+                startActivity(intent);
+            }
+        });
+
 
         databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

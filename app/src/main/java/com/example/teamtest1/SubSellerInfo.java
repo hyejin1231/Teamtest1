@@ -9,14 +9,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 
@@ -24,7 +31,8 @@ public class SubSellerInfo extends AppCompatActivity {
 
     TextView tv_info_sellerId,tv_info_estimate;
     ImageView img_info_smile,img_info_good,img_info_angry,img_info_diss,img_info_soso,img_btn_infoBack;
-    String seller;
+    String seller,unique,key;
+
 
     private RecyclerView SubSellerInfoCycler;
     private RecyclerView.Adapter adapter;
@@ -49,6 +57,7 @@ public class SubSellerInfo extends AppCompatActivity {
         img_info_smile = findViewById(R.id.img_info_smile);
         img_info_soso = findViewById(R.id.img_info_soso);
 
+
         SubSellerInfoCycler = findViewById(R.id.SubSellerInfoCycler);
         SubSellerInfoCycler.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -62,12 +71,31 @@ public class SubSellerInfo extends AppCompatActivity {
 
         Intent intent = getIntent();
         seller = intent.getStringExtra("seller");
+        unique = intent.getExtras().getString("unique");
+
+
+//        databaseReference_product.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot child : snapshot.getChildren()) {
+//                    key = child.getKey();
+//                }
+//
+//                seller =(String) snapshot.getRef().child(key).child(seller).toString();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tv_info_estimate.setText(snapshot.child(seller).child("estimate").getValue().toString());
-                tv_info_sellerId.setText(snapshot.child(seller).child("id").getValue().toString());
+                tv_info_estimate.setText((String)snapshot.child(seller).child("estimate").getValue());
+                tv_info_sellerId.setText((String)snapshot.child(seller).child("id").getValue());
 
                 int estimate = Integer.parseInt(snapshot.child(seller).child("estimate").getValue().toString());
 
