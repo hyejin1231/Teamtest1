@@ -49,7 +49,7 @@ import java.util.Iterator;
 public class MyPage extends AppCompatActivity {
 
     private FirebaseAuth auth; //파이어 베이스 인증 객체
-    Uri uri;
+    //Uri uri;
 
     private TextView tv_result; // 닉네임 text
     private ImageView iv_profile; // 이미지 뷰
@@ -145,32 +145,41 @@ public class MyPage extends AppCompatActivity {
                 //이미지뷰에 선택된 이미지 로딩시키는 코드임
                 FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
                 StorageReference storageReference = storage.getReference();
-                String path = snapshot.child(key).child("photoUrl").getValue().toString();
 
-                if(path.equals("default")){
-                    Glide.with(MyPage.this)
-                            .load(R.drawable.logo_main)
-                            .into(iv_profile);
+                //이미지지파일이름 가져오는거...
+               String path = (String) snapshot.child(key).child("photoUrl").getValue();
 
-                }else{
-                    storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Glide.with(MyPage.this)
-                                    .load(uri)
-                                    .into(iv_profile);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MyPage.this, "실패", Toast.LENGTH_SHORT).show();
-                            Glide.with(MyPage.this)
-                                    .load(uri)
-                                    .into(iv_profile);
-                        }
-                    });
 
-                }
+//                if(snapshot.child(key).child("photoUrl").getValue().equals(null)){
+//                    databaseReference.child(key).child("photoUrl").push().setValue("default");
+//                }
+//                else {
+                    if (path.equals("default")) {
+                        Glide.with(MyPage.this)
+                                .load(R.drawable.logo_main)
+                                .into(iv_profile);
+
+                    }
+                    else {
+                        storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(MyPage.this)
+                                        .load(uri)
+                                        .into(iv_profile);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(MyPage.this, "실패", Toast.LENGTH_SHORT).show();
+//                                    Glide.with(MyPage.this)
+//                                            .load(e)
+//                                            .into(iv_profile);
+                            }
+                        });
+
+                    }
+
 
 
 
@@ -271,7 +280,9 @@ public class MyPage extends AppCompatActivity {
         img_btnMyBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                //finish();
             }
         });
 

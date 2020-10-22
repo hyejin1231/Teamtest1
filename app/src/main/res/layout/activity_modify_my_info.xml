@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ModifyMyInfo">
 
+
+
     <ImageView
         android:id="@+id/iv_modify_profile"
         android:layout_width="120dp"
@@ -135,5 +137,18 @@
         android:textSize="8sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_profilepic"
         app:layout_constraintStart_toStartOf="@+id/btn_profilepic" />
+
+    <ImageView
+        android:id="@+id/iv_btn_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:scaleType="fitEnd"
+        app:layout_constraintEnd_toStartOf="@+id/btn_modify"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_modify"
+        app:srcCompat="@drawable/back" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

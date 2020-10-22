@@ -173,6 +173,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 //                            }
 //                        });
                     } else {
+                        Toast.makeText(Login2.this, "올바른 회원정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

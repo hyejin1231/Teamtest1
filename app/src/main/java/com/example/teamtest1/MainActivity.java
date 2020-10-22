@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,12 +15,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -32,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Product> arrayList;
 
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,databaseReference2;
 
     String key;
     String uids;
     EditText edit_Search;
     ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick,img_btnChat,img_btnduedate;
     String modify_name,modify_pw,modify_email;
-
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String currentUid = user.getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Product"); // DB 테이블 연동
+        databaseReference2 = database.getReference("User"); // DB 테이블 연동
 
         Intent intent = getIntent();
          uids = intent.getStringExtra("uid");
@@ -87,6 +98,61 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
             }
         });
+
+        databaseReference2.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+//                    key = uids; //다혜수정
+                }
+
+                //다혜다혜
+                //이미지뷰에 선택된 이미지 로딩시키는 코드임
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                StorageReference storageReference = storage.getReference();
+
+                //이미지지파일이름 가져오는거...
+                String path = (String) snapshot.child(key).child("photoUrl").getValue();
+
+
+//                if(snapshot.child(key).child("photoUrl").getValue().equals(null)){
+//                    databaseReference.child(key).child("photoUrl").push().setValue("default");
+//                }
+//                else {
+                if (path.equals("default")) {
+                    Glide.with(MainActivity.this)
+                            .load(R.drawable.logo_main)
+                            .into(img_btnMypage);
+
+                }
+                else {
+                    storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(MainActivity.this)
+                                    .load(uri)
+                                    .into(img_btnMypage);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this, "실패", Toast.LENGTH_SHORT).show();
+//                                    Glide.with(MyPage.this)
+//                                            .load(e)
+//                                            .into(iv_profile);
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         adapter = new CustomAdapter(arrayList,this);
         recyclerView.setAdapter(adapter); //리사이클러뷰에 어뎁터 연결
@@ -142,25 +208,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-//            img_btnduedate.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(getApplicationContext(), DuedateActivity.class);
-//                    startActivity(intent);
-//
-//                }
-//            });
-//
-
-                //혹시 핫클릭 그냥 밑에 두고 싶을수도 있을 것 같아서 주석처리만 했어!! -다혜
-//            img_btnHotClick.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(getApplicationContext(), HotClickView.class);
-//                    startActivity(intent);
-//                }
-//            });
 
 
 
