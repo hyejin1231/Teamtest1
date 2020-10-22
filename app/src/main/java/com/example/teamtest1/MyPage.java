@@ -70,6 +70,7 @@ public class MyPage extends AppCompatActivity {
     private Button btn_likelist;
     private Button btn_logout;
     private Button btn_modify;
+    Button btn_bidlist;
 
 
     ImageView img_btnMyBack;
@@ -119,6 +120,7 @@ public class MyPage extends AppCompatActivity {
         tv_MyWarn = findViewById(R.id.tv_MyWarn);
         tv_Message = findViewById(R.id.tv_Message);
 
+        btn_bidlist = findViewById(R.id.btn_bidlist);
         tv_participate = findViewById(R.id.tv_participate);
         tv_UserEstimateCount = findViewById(R.id.tv_UserEstimateCount);
         img_UserFace_smile = findViewById(R.id.img_UserFace_smile);
@@ -326,6 +328,14 @@ public class MyPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),MessageActivity.class);
                 intent.putExtra("destinationUID","lj2EwOLJVNTCCkmQrLF7dhuA3vF2");
+                startActivity(intent);
+            }
+        });
+
+        btn_bidlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), BidList.class);
                 startActivity(intent);
             }
         });

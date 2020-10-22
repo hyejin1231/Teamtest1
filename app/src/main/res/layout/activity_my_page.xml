@@ -43,37 +43,45 @@
         android:id="@+id/btn_buylist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="37dp"
         android:text="구매내역"
-        app:layout_constraintEnd_toStartOf="@+id/btn_selllist"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_selllist" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
 
     <Button
         android:id="@+id/btn_selllist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="81dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="판매내역"
-        app:layout_constraintEnd_toStartOf="@+id/btn_likelist"
-        app:layout_constraintStart_toEndOf="@+id/btn_buylist"
-        app:layout_constraintTop_toBottomOf="@+id/tv_email_login" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_buylist"
+        app:layout_constraintStart_toEndOf="@+id/btn_buylist" />
 
     <Button
         android:id="@+id/btn_likelist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:text="관심내역"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_selllist"
-        app:layout_constraintTop_toTopOf="@+id/btn_selllist" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_bidlist"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_bidlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:text="입찰내역"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_selllist"
+        app:layout_constraintEnd_toStartOf="@+id/btn_likelist"
+        app:layout_constraintStart_toEndOf="@+id/btn_selllist" />
 
     <Button
         android:id="@+id/btn_logout"

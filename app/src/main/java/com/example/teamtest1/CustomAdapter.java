@@ -309,7 +309,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                                     final int attendBid = arrayList.get(position).getBid()+ intBid;
                                     Intent intent = ((Activity)context).getIntent();
-                                    final String buyer = intent.getStringExtra("uid");
+                                    final String bidder = intent.getStringExtra("uid");
 //                                    final String buyer = arrayList.get(position).getBuyer();
                                     databaseReference.orderByChild("unique").equalTo(abcde).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -319,12 +319,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                             }
                                             String bidCountString = snapshot.child(key1).child("bidCount").getValue().toString();
                                             int bidCount = Integer.parseInt(bidCountString);
+                                            int position = getAdapterPosition();
+                                            String presentBidder = arrayList.get(position).getBidder();
+                                            int bidCountUpdate = arrayList.get(position).getBidCount();
+                                            if (presentBidder.equals(bidder)) {
 
-                                            bidCount++;
-
+                                            }else {
+                                                bidCount++;
+                                            }
                                             // 입찰가격bid이랑 입찰자 (bidder) uid 담기
                                             snapshot.getRef().child(key1).child("bid").setValue(attendBid);
-                                            snapshot.getRef().child(key1).child("bidder").setValue(buyer);
+                                            snapshot.getRef().child(key1).child("bidder").setValue(bidder);
                                             snapshot.getRef().child(key1).child("bidCount").setValue(bidCount);
                                         }
 
@@ -338,6 +343,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                     Toast.makeText(itemView.getContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
 
                                     tv_productBid.setText(String.valueOf(attendBid) + "원");
+
+                                    String presentBidder = arrayList.get(position).getBidder();
+                                    int bidCountUpdate = arrayList.get(position).getBidCount();
+                                    if (presentBidder.equals(bidder)) {
+                                        tv_productBidCount.setText(bidCountUpdate+"명 참여");
+                                    }else {
+                                        bidCountUpdate++;
+                                        tv_productBidCount.setText(bidCountUpdate + "명 참여");
+                                    }
                                 }
                             });
                     builder.setNegativeButton("Cancel",
