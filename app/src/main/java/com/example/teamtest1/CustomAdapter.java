@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     private Context context;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+    ArrayAdapter<String> spinner_arrayAdapter;
 
 
     int count;
@@ -95,69 +97,71 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         databaseReference = database.getReference("Product"); // DB 테이블 연동
 
         test = arrayList.get(position).getUnique();
-
+        final FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+        final StorageReference storageReference = storage.getReference();
 
 
 
         databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot child : snapshot.getChildren()) {
+                for (DataSnapshot child : snapshot.getChildren()) {
                     uniqueTest = child.getKey();
-                }
-                long now = System.currentTimeMillis();
-                Date today = new Date(now);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String date = simpleDateFormat.format(today);
-                String deadline = snapshot.child(uniqueTest).child("deadline").getValue().toString();
 
-                String image = arrayList.get(position).getImage();
-                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
-                StorageReference storageReference = storage.getReference();
+                    long now = System.currentTimeMillis();
+                    Date today = new Date(now);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String date = simpleDateFormat.format(today);
+                    String deadline = (String) snapshot.child(uniqueTest).child("deadline").getValue();
 
-                String path = snapshot.child(uniqueTest).child("image").getValue().toString();
+                    String image = arrayList.get(position).getImage();
+
+
+                    //String path = (String)snapshot.child(uniqueTest).child("image").getValue();
+                    String path = (String) snapshot.child(uniqueTest).child("image").getValue();
 
 //                Toast.makeText(context, path, Toast.LENGTH_SHORT).show(); // 실행할 코드
-                storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
+                    storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
 //                        Toast.makeText(context, "성공", Toast.LENGTH_SHORT).show();
 
-                        Glide.with(holder.itemView)
-                                .load(uri)
-                                .into(holder.iv_productImage);
+                            Glide.with(holder.itemView)
+                                    .load(uri)
+                                    .into(holder.iv_productImage);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    int Caldate = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(deadline.replace("-", ""));
+
+
+                    if (deadline.equals(date)) {
+                        holder.tv_alaram.setVisibility(View.VISIBLE);
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
+
+                    if (Caldate > 0) {
+                        snapshot.getRef().child(uniqueTest).child("status").setValue("due");
+                        holder.btn_bid.setVisibility(View.INVISIBLE);
+                        holder.btn_Buynow.setVisibility(View.INVISIBLE);
+                        holder.tv_alaram.setVisibility(View.VISIBLE);
+                        holder.tv_alaram.setText("판매 종료!!!");
+                        holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
                     }
-                });
 
-                int Caldate = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(deadline.replace("-", ""));
+                    if (snapshot.child(uniqueTest).child("status").getValue().equals("complete")) {
+                        holder.btn_bid.setVisibility(View.INVISIBLE);
+                        holder.btn_Buynow.setVisibility(View.INVISIBLE);
+                        holder.tv_alaram.setVisibility(View.VISIBLE);
+                        holder.tv_alaram.setText("판매 종료!!!");
+                        holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
+                    }
 
-
-                if (deadline.equals(date)) {
-                    holder.tv_alaram.setVisibility(View.VISIBLE);
                 }
-
-                if(Caldate > 0 ) {
-                    snapshot.getRef().child(uniqueTest).child("status").setValue("due");
-                    holder.btn_bid.setVisibility(View.INVISIBLE);
-                    holder.btn_Buynow.setVisibility(View.INVISIBLE);
-                    holder.tv_alaram.setVisibility(View.VISIBLE);
-                    holder.tv_alaram.setText("판매 종료!!!");
-                    holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
-                }
-
-                if (snapshot.child(uniqueTest).child("status").getValue().equals("complete")) {
-                    holder.btn_bid.setVisibility(View.INVISIBLE);
-                    holder.btn_Buynow.setVisibility(View.INVISIBLE);
-                    holder.tv_alaram.setVisibility(View.VISIBLE);
-                    holder.tv_alaram.setText("판매 종료!!!");
-                    holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
-                }
-
             }
 
             @Override

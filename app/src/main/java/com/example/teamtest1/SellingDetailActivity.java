@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +37,7 @@ import java.util.Date;
 public class SellingDetailActivity extends AppCompatActivity {
 
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,databaseReferenceU;
     private ArrayList<Product> arrayList;
     private DatePickerDialog.OnDateSetListener callbackMethod;
 
@@ -75,6 +77,9 @@ public class SellingDetailActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Product");
+        databaseReferenceU = database.getReference("User");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String currentUid = user.getUid();
 
         Intent intent_selling = getIntent();
 
@@ -87,7 +92,6 @@ public class SellingDetailActivity extends AppCompatActivity {
         iv_sd_profile = findViewById(R.id.iv_sd_profile);
         //tv_sd_name = findViewById(R.id.tv_sd_name);
         tv_sd_price = findViewById(R.id.tv_sd_price);
-        tv_sd_buyer = findViewById(R.id.tv_sd_buyer);
         tv_sd_seller = findViewById(R.id.tv_sd_seller);
         btn_sdel_detail = findViewById(R.id.btn_sdel_detail);
         btn_update_detail = findViewById(R.id.btn_update_detail);
@@ -134,13 +138,26 @@ public class SellingDetailActivity extends AppCompatActivity {
             }
         });
 
-        //Glide.with(this).load(intent_selling.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_sd_profile);
-//        tv_sd_price.setText(intent_selling.getExtras().getString("tv_sd_price"));
-        tv_sd_buyer.setText(intent_selling.getExtras().getString("tv_sd_buyer"));
-        tv_sd_seller.setText(intent_selling.getExtras().getString("tv_sd_seller"));
         unique = intent_selling.getExtras().getString("unique");
         et_sd_name.setText(intent_selling.getExtras().getString("tv_sd_name"));
         tv_sd_deadline.setText(intent_selling.getExtras().getString("deadline"));
+
+        //판매자의 uid말고 id를 띄우기 위한 코드
+        String getselleruid = intent_selling.getExtras().getString("tv_sd_seller");
+        databaseReferenceU.orderByChild("uid").equalTo(getselleruid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+                tv_sd_seller.setText(snapshot.child(key).child("id").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
 
         btn_sdel_detail.setOnClickListener(new View.OnClickListener() {
             @Override

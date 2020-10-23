@@ -13,8 +13,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Product> arrayList;
+    private ArrayList<String> spinner_arrayList;
+   ArrayAdapter<String> spinner_arrayAdapter;
+
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference,databaseReference2;
@@ -50,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     String modify_name,modify_pw,modify_email;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String currentUid = user.getUid();
+    Spinner spinner1;
+    int getoption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         arrayList = new ArrayList<>(); // Product 객체를 담을 어레이 리스트
+        spinner1 = findViewById(R.id.spinner1);
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Product"); // DB 테이블 연동
@@ -76,8 +85,18 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
          uids = intent.getStringExtra("uid");
-        // modify_name = intent.getStringExtra(g
 
+        spinner_arrayList = new ArrayList<>();
+        spinner_arrayList.add("전체");
+        spinner_arrayList.add("판매중인 상품");
+        spinner_arrayList.add("판매종료 상품");
+
+
+        spinner_arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, spinner_arrayList);
+        spinner1 = (Spinner)findViewById(R.id.spinner1);
+        spinner1.setAdapter(spinner_arrayAdapter);
+
+        getoption =0;
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -99,12 +118,122 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(),spinner_arrayList.get(i)+" 내역", Toast.LENGTH_SHORT).show();
+                getoption = i;
+//                arrayList.clear();
+                if(getoption==0) { //전체 (디폴트)
+                    //리사이클러뷰 띄워주는 코드
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            // 파이어베이스 데이터베이스 데이터 받아오는 곳
+                            arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
+                                Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
+                                arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+
+                            }
+                            adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // DB 가져오던 중 에러 발생시
+                            Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
+                        }
+                    });
+
+                }else if(getoption==1){ //판매중
+                    //리사이클러뷰 띄워주는 코드
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // 파이어베이스 데이터베이스 데이터 받아오는 곳
+                            arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
+                            for(DataSnapshot child : snapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
+                                key = child.getKey();
+                                if(((String)snapshot.child(key).child("status").getValue()).equals("selling")){
+                                    Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
+                                    arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+                                }
+                            }
+                            adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // DB 가져오던 중 에러 발생시
+                            Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
+                        }
+                    });
+
+                }else if(getoption==2){ //판매종료
+                    //리사이클러뷰 띄워주는 코드
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // 파이어베이스 데이터베이스 데이터 받아오는 곳
+                            arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
+                            for(DataSnapshot child : snapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
+                                key = child.getKey();
+                               if(((String)snapshot.child(key).child("status").getValue()).equals("due")||
+                                        ((String)snapshot.child(key).child("status").getValue()).equals("complete")){
+                                    Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
+                                    arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+                                }
+                            }
+                            adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // DB 가져오던 중 에러 발생시
+                            Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
+                        }
+                    });
+
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+
+
+//        //리사이클러뷰 띄워주는 코드
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                // 파이어베이스 데이터베이스 데이터 받아오는 곳
+//                arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
+//                for(DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
+//                    Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
+//                    arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+//
+//                }
+//                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                // DB 가져오던 중 에러 발생시
+//                Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
+//            }
+//        });
+
+
+        //프사 띄워주는 코드
         databaseReference2.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child : snapshot.getChildren()) {
                     key = child.getKey();
-//                    key = uids; //다혜수정
                 }
 
                 //다혜다혜
@@ -116,10 +245,6 @@ public class MainActivity extends AppCompatActivity {
                 String path = (String) snapshot.child(key).child("photoUrl").getValue();
 
 
-//                if(snapshot.child(key).child("photoUrl").getValue().equals(null)){
-//                    databaseReference.child(key).child("photoUrl").push().setValue("default");
-//                }
-//                else {
                 if (path.equals("default")) {
                     Glide.with(MainActivity.this)
                             .load(R.drawable.logo_main)

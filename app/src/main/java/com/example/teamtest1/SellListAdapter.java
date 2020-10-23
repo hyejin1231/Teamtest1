@@ -165,6 +165,7 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
 
                         intent_selling.putExtra("iv_sd_profile",arrayList.get(position).getImage());//
                         intent_selling.putExtra("tv_sd_price", String.valueOf(arrayList.get(position).getPrice()));
+                        //uid말고 이메일을 받아보게 해야하는데,,
                         intent_selling.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
                         intent_selling.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
                         intent_selling.putExtra("tv_sd_name", arrayList.get(position).getTitle());

@@ -217,9 +217,6 @@ public class ModifyMyInfo extends AppCompatActivity {
                         }
 
                         if (password.equals(passwordCheck)) { //auth쪽
-                            snapshot.getRef().child(key2).child("pw").setValue(password); //디비안의 비번 바꿔줌
-                            user.updatePassword(password); //파베권한의 비번 바꿔줌
-
 
                             //2.닉네임체크
                             databaseReference.orderByChild("uid").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -231,14 +228,14 @@ public class ModifyMyInfo extends AppCompatActivity {
                                         key4 = snapshot.child(key3).child("nickName").getValue().toString();
 
                                         //초기 checknum은 1이고 하나라도 중복이면 0을 곱해서 결과가 0이 나오게....
-                                        if (nickName.equals(key4)) {
+                                        if (nickName.equals(key4) && !(snapshot.child(key3).child("uid").getValue().toString()).equals(currentUid)) {
                                             checknum *= 0;
                                         } else {
                                             checknum *= 1;
 
                                         }
                                     }
-                                        if (checknum==0) {
+                                        if (checknum==0 ) {
                                             Toast.makeText(ModifyMyInfo.this, "중복된 닉네임입니다.", Toast.LENGTH_SHORT).show();
 
                                         } else if(checknum==1) { //모든게 적절하게 입력됐을 경우..
@@ -261,12 +258,20 @@ public class ModifyMyInfo extends AppCompatActivity {
                                                                             databaseReference.child(key7).child("photoUrl").setValue("default");
                                                                             Toast.makeText(getApplicationContext(), "회원정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
                                                                             databaseReference.child(key7).child("nickName").setValue(nickName);
+
+                                                                            databaseReference.child(key2).child("pw").setValue(password); //디비안의 비번 바꿔줌
+                                                                            user.updatePassword(password); //파베권한의 비번 바꿔줌
+
                                                                             Intent intent = new Intent(getApplicationContext(), MyPage.class);
                                                                             startActivity(intent);
                                                                         } else {
                                                                             databaseReference.child(key7).child("photoUrl").setValue(filename2);
                                                                             Toast.makeText(getApplicationContext(), "회원정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
                                                                             databaseReference.child(key7).child("nickName").setValue(nickName);
+
+                                                                            databaseReference.child(key2).child("pw").setValue(password); //디비안의 비번 바꿔줌
+                                                                            user.updatePassword(password); //파베권한의 비번 바꿔줌
+
                                                                             Intent intent = new Intent(getApplicationContext(), MyPage.class);
                                                                             startActivity(intent);
                                                                         }
@@ -287,11 +292,19 @@ public class ModifyMyInfo extends AppCompatActivity {
                                                             Toast.makeText(getApplicationContext(), "회원정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
                                                             databaseReference.child(key7).child("photoUrl").setValue("default");
                                                             databaseReference.child(key7).child("nickName").setValue(nickName);
+
+                                                            databaseReference.child(key2).child("pw").setValue(password); //디비안의 비번 바꿔줌
+                                                            user.updatePassword(password); //파베권한의 비번 바꿔줌
+
                                                             Intent intent = new Intent(getApplicationContext(), MyPage.class);
                                                             startActivity(intent);
                                                         } else {
                                                             Toast.makeText(getApplicationContext(), "회원정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
                                                             databaseReference.child(key7).child("nickName").setValue(nickName);
+
+                                                            databaseReference.child(key2).child("pw").setValue(password); //디비안의 비번 바꿔줌
+                                                            user.updatePassword(password); //파베권한의 비번 바꿔줌
+
                                                             Intent intent = new Intent(getApplicationContext(), MyPage.class);
                                                             startActivity(intent);
                                                         }

@@ -24,17 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/sym_def_app_icon" />
 
-    <TextView
-        android:id="@+id/tv_sd_buyer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:text="구매자"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
-        app:layout_constraintStart_toEndOf="@+id/textView2" />
-
-    <TextView
+            <TextView
         android:id="@+id/tv_sd_seller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,18 +91,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_sd_deadline"
         app:layout_constraintStart_toEndOf="@+id/tv_sd_deadline" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
-        android:layout_marginLeft="90dp"
-        android:layout_marginTop="56dp"
-        android:text="구매자"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <EditText
+            <EditText
         android:id="@+id/et_sd_content"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
@@ -166,16 +145,16 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/textView32"
         app:layout_constraintStart_toEndOf="@+id/textView32" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
-        android:layout_marginLeft="90dp"
-        android:layout_marginTop="16dp"
-        android:text="판매자"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="50dp"
+                android:text="판매자"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/textView4"

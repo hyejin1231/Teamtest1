@@ -41,7 +41,7 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     String destinationUID;
     String seller;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,databaseReferenceU;
 
     private DatePickerDialog.OnDateSetListener callbackMethod;
 
@@ -76,7 +76,7 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Product");
-
+        databaseReferenceU = database.getReference("User");
         Intent intent_deadline = getIntent();
 
         this.InitializeListener();
@@ -122,7 +122,40 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
         tv_dead_bidder.setText(intent_deadline.getExtras().getString("tv_sd_bidder"));
         tv_dead_bid.setText(intent_deadline.getExtras().getString("bid"));
 
+        //입찰자의 uid말고 id를 띄우기 위한 코드
         String bidder = intent_deadline.getExtras().getString("tv_sd_bidder");
+        databaseReferenceU.orderByChild("uid").equalTo(bidder).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+                tv_dead_bidder.setText(snapshot.child(key).child("id").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
+        //판매자의 uid말고 id를 띄우기 위한 코드
+        String getselleruid = intent_deadline.getExtras().getString("tv_sd_seller");
+        databaseReferenceU.orderByChild("uid").equalTo(getselleruid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+                tv_dead_seller.setText(snapshot.child(key).child("id").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
 
         if (bidder.equals("")) {
             tv_dead_bidder.setText("입찰자가 없습니다.");
