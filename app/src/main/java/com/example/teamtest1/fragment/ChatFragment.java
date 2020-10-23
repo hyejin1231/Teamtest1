@@ -128,6 +128,12 @@ public class ChatFragment extends Fragment{
             if(commentMap.keySet().toArray().length> 0){
             String LastMessageKey = (String) commentMap.keySet().toArray()[0];
             customViewHolder.textView_Last_Message.setText(Objects.requireNonNull(chatModels.get(position).comments.get(LastMessageKey)).message);
+            customViewHolder.noticeimageView.setVisibility(View.INVISIBLE);
+
+            simpleDateFormat.setTimeZone(SimpleTimeZone.getTimeZone("Asia/Seoul"));
+            long unixTime = (long) Objects.requireNonNull(chatModels.get(position).comments.get(LastMessageKey)).timeStamp;
+            Date date = new Date(unixTime);
+            customViewHolder.textView_timestamp.setText(simpleDateFormat.format(date));
 
             customViewHolder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -140,10 +146,7 @@ public class ChatFragment extends Fragment{
                 }
             });
 
-            simpleDateFormat.setTimeZone(SimpleTimeZone.getTimeZone("Asia/Seoul"));
-            long unixTime = (long) Objects.requireNonNull(chatModels.get(position).comments.get(LastMessageKey)).timeStamp;
-            Date date = new Date(unixTime);
-            customViewHolder.textView_timestamp.setText(simpleDateFormat.format(date));
+
         }}
 
         @Override
@@ -155,6 +158,7 @@ public class ChatFragment extends Fragment{
             public TextView textView_title;
             public TextView textView_Last_Message;
             public TextView textView_timestamp;
+            public ImageView noticeimageView;
             public CustomViewHolder(@NonNull View view) {
                 super(view);
 
@@ -162,9 +166,12 @@ public class ChatFragment extends Fragment{
                 textView_title=view.findViewById(R.id.chatItem_textView_title);
                 textView_Last_Message = view.findViewById(R.id.chatItem_textView_LastMessage);
                 textView_timestamp = view.findViewById(R.id.chatItem_textView_timestamp);
+                noticeimageView = view.findViewById(R.id.chatItem_notice_imageview);
+
 
 
             }
         }
     }
+
 }

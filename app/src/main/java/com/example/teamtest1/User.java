@@ -1,6 +1,7 @@
 package com.example.teamtest1;
 
 public class User {
+    public  String comment;
     private String photoUrl;
     private String id;
     private String pw;

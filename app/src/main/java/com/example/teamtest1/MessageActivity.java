@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MessageActivity extends AppCompatActivity{
@@ -52,6 +53,7 @@ public class MessageActivity extends AppCompatActivity{
     private DatabaseReference databaseReference;
     private ValueEventListener valueEventListener;
     int peopleCount = 0;
+    private User user;
     @SuppressLint("SimpleDateFormat")
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm");
@@ -74,24 +76,23 @@ public class MessageActivity extends AppCompatActivity{
                 ChatModel chatModel = new ChatModel();
                 chatModel.User.put(Uid, true);
                 chatModel.User.put(destinationUID, true);
-                String nullTextMeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"부릉부릉?";
-//                Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
+                //                Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
                 if (ChatRoomUid == null) {
-                    String nullTextMeeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"살짝 되나?";
-//                    Toast.makeText(MessageActivity.this,nullTextMeeee,Toast.LENGTH_LONG).show();
+                    //                    Toast.makeText(MessageActivity.this,nullTextMeeee,Toast.LENGTH_LONG).show();
                     FirebaseDatabase.getInstance().getReference().child("ChatRooms").push().setValue(chatModel).addOnSuccessListener(new OnSuccessListener<Void>(){
                         @Override
                         public void onSuccess(Void aVoid) {
                             CheckChatRoom();
+
+
                         }
                     });
 
                 } else {
                     ChatModel.Comment comment = new ChatModel.Comment();
-                    comment.Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    comment.Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                     comment.message = editText.getText().toString();
                     comment.timeStamp = ServerValue.TIMESTAMP;
-                    String notnullTextMessage = "DestinationUid"+destinationUID+"Uid"+ Uid +"RoomNum"+ChatRoomUid+"정상 전송 완료";
                     FirebaseDatabase.getInstance().getReference().child("ChatRooms").child(ChatRoomUid).child("comments").push().setValue(comment)
                     .addOnCompleteListener(new OnCompleteListener<Void>(){
                         @Override
@@ -114,16 +115,13 @@ public class MessageActivity extends AppCompatActivity{
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot item : dataSnapshot.getChildren()){
                     ChatModel chatModel = item.getValue(ChatModel.class);
-                    assert chatModel != null;
                     if(chatModel.User.containsKey(destinationUID)){
                         ChatRoomUid = item.getKey();
                         recyclerView.setLayoutManager(new LinearLayoutManager((MessageActivity.this)));
                         recyclerView.setAdapter(new RecyclerViewAdapter());
-                        String nullTextMeee = "DestinationUid"+destinationUID+"Uid"+ Uid+"살짝 되나?";
-//                        Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
-                    }else{
-//                        Toast.makeText(MessageActivity.this,"실패"+destinationUID,Toast.LENGTH_SHORT).show();
-                    }
+                        //                        Toast.makeText(MessageActivity.this,nullTextMeee,Toast.LENGTH_LONG).show();
+                    }//                        Toast.makeText(MessageActivity.this,"실패"+destinationUID,Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -168,18 +166,21 @@ public class MessageActivity extends AppCompatActivity{
                         String key = item.getKey();
                         ChatModel.Comment comment_origin = item.getValue(ChatModel.Comment.class);
                         ChatModel.Comment comment_motify = item.getValue(ChatModel.Comment.class);
+                        assert comment_motify != null;
                         comment_motify.readUsers.put(Uid ,true);
                         readUsersMap.put(key,comment_motify);
                         comments.add(comment_origin);
                     }
-                    if(comments.size() == 0 ){finish();}
+                    if(comments.size() == 0){
+                       return;
+                    }
                     if(!comments.get(comments.size()-1).readUsers.containsKey(Uid)) {
 
                         FirebaseDatabase.getInstance().getReference().child("ChatRooms").child(ChatRoomUid).child("comments").updateChildren(readUsersMap).addOnCompleteListener(new OnCompleteListener<Void>(){
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 notifyDataSetChanged();
-                                recyclerView.scrollToPosition(comments.size() - 1);
+                                recyclerView.scrollToPosition(comments.size()-1);
                             }
                         });
                     }else {
@@ -204,11 +205,12 @@ public class MessageActivity extends AppCompatActivity{
             return new MessageViewHolder(view);
         }
 
+        @SuppressLint("RtlHardcoded")
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             MessageViewHolder messageViewHolder = ((MessageViewHolder)holder);
             if(comments.get(position).Uid.equals(destinationUID)){
-                messageViewHolder.textView_message.setText(destinationUID);
+                messageViewHolder.textView_name.setText(User.getNickName());
                 messageViewHolder.textView_message.setText(comments.get(position).message);
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.out_message_bg);
                 messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
@@ -244,6 +246,7 @@ public class MessageActivity extends AppCompatActivity{
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Map<String, Boolean> users = (Map<String, Boolean>) snapshot.getValue();
+                        assert users != null;
                         peopleCount = users.size();
                         int count = peopleCount - comments.get(position).readUsers.size();
                         if (count > 0) {
