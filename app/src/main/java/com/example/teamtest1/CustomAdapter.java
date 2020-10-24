@@ -26,6 +26,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -313,7 +314,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                                     final int attendBid = arrayList.get(position).getBid()+ intBid;
                                     Intent intent = ((Activity)context).getIntent();
-                                    final String bidder = intent.getStringExtra("uid");
+                                    final String bidder = FirebaseAuth.getInstance().getUid();
+                                    //final String bidder = intent.getStringExtra("uid");
 //                                    final String buyer = arrayList.get(position).getBuyer();
                                     databaseReference.orderByChild("unique").equalTo(abcde).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -354,6 +356,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                         tv_productBidCount.setText(bidCountUpdate+"명 참여");
                                     }else {
                                         bidCountUpdate++;
+                                        Toast.makeText(itemView.getContext(), bidder, Toast.LENGTH_SHORT).show(); // 실행할 코드
                                         tv_productBidCount.setText(bidCountUpdate + "명 참여");
                                     }
                                 }

@@ -25,6 +25,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +53,7 @@ import java.util.Iterator;
 public class MyPage extends AppCompatActivity {
 
     private FirebaseAuth auth; //파이어 베이스 인증 객체
+    private GoogleApiClient mGoogleApiClient;
     //Uri uri;
 
     private TextView tv_result; // 닉네임 text
@@ -81,8 +86,6 @@ public class MyPage extends AppCompatActivity {
     // 혜진 1021 수정 intent 받는거 수정함
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String currentUid = user.getUid();
-
-
 
 //    String uids;
     String key;
@@ -130,6 +133,11 @@ public class MyPage extends AppCompatActivity {
         img_UserFace_soso = findViewById(R.id.img_UserFace_soso);
         btn_modify = findViewById(R.id.btn_modify);
         btn_customerChat = findViewById(R.id.btn_customer_chat);
+
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .enableAutoManage(this /* FragmentActivity */,MyPage /* OnConnectionFailedListener */)
+//                .addApi(Auth.GOOGLE_SIGN_IN_API)
+//                .build();
 
 
         // 코드가 지저분해도 참아줘 ..^_^ _혜진
@@ -316,12 +324,23 @@ public class MyPage extends AppCompatActivity {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+//                        new ResultCallback<Status>() {
+//                            @Override
+//                            public void onResult(Status status) {
+//                                FirebaseAuth.getInstance().signOut();
+//                                Intent i1 = new Intent(getApplicationContext(), Login2.class);
+//                                startActivity(i1);
+//                                Toast.makeText(getApplicationContext(), "Logout Successfully!", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                FirebaseAuth.getInstance().signOut();
 
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login2.class);
-                startActivity(intent);
-                Toast.makeText(MyPage.this, "로그아웃",Toast.LENGTH_SHORT).show();
-                finish();
+
+//                Intent intent = new Intent(getApplicationContext(), Login2.class);
+//                startActivity(intent);
+//                finish();
+//                Toast.makeText(MyPage.this, "로그아웃",Toast.LENGTH_SHORT).show();
             }
         });
 

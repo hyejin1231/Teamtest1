@@ -122,7 +122,7 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
         tv_dead_bidder.setText(intent_deadline.getExtras().getString("tv_sd_bidder"));
         tv_dead_bid.setText(intent_deadline.getExtras().getString("bid"));
 
-        //입찰자의 uid말고 id를 띄우기 위한 코드
+        //입찰자의 uid말고 id를 띄우기 위한 코드 아이디 바뀌면 널로 떠서 주석 처리 - 10.24
         String bidder = intent_deadline.getExtras().getString("tv_sd_bidder");
 //        databaseReferenceU.orderByChild("uid").equalTo(bidder).addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
