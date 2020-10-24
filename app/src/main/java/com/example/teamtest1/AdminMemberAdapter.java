@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +19,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -60,7 +65,11 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
     public void onBindViewHolder(@NonNull final AdminMemberAdapter.CustomViewHolder holder, int position) {
 
         String abcd = arrayList.get(position).getId();
-        Glide.with(holder.itemView).load(arrayList.get(position).getPhotoUrl()).into(holder.img_admemImg); //프로필 uri를 이미지 뷰에 세팅
+
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+        final StorageReference storageReference = storage.getReference();
+
+//        Glide.with(holder.itemView).load(arrayList.get(position).getPhotoUrl()).into(holder.img_admemImg); //프로필 uri를 이미지 뷰에 세팅
         holder.tv_admemuid.setText(arrayList.get(position).getUid());
         holder.tv_admemid.setText(arrayList.get(position).getId());
 //        Toast.makeText(context, arrayList.get(position).getUid(),Toast.LENGTH_SHORT).show();
@@ -73,6 +82,34 @@ public class AdminMemberAdapter extends RecyclerView.Adapter<AdminMemberAdapter.
                     key1 = child.getKey();
                 }
                 String AdWarnContent = snapshot.child(key1).child("warn").getValue().toString();
+
+                String path = (String) snapshot.child(key1).child("photoUrl").getValue();
+
+                if (path.equals("default")) {
+                    Glide.with(holder.itemView)
+                            .load(R.drawable.logo_main)
+                            .into(holder.img_admemImg);
+
+                }
+                else {
+                    storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(holder.itemView)
+                                    .load(uri)
+                                    .into(holder.img_admemImg);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
+//                                    Glide.with(MyPage.this)
+//                                            .load(e)
+//                                            .into(iv_profile);
+                        }
+                    });
+
+                }
 
                 if(snapshot.child(key1).child("warn").getValue().toString().isEmpty()) {
                     holder.tv_AdMessage.setVisibility(View.INVISIBLE);

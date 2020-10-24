@@ -162,7 +162,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:text="마감임박!!!"
+                android:text="마감임박"
                 android:textColor="#EC1313"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"

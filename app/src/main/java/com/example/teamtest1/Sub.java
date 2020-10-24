@@ -50,6 +50,7 @@ public class Sub extends AppCompatActivity {
     TextView edit_detail;
     TextView tv_count;
     TextView tv_category;
+    TextView tv_bidCount;
     ImageView img_btnBackMain,img_btnLike;
 
 
@@ -73,6 +74,7 @@ public class Sub extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
+        tv_bidCount = findViewById(R.id.tv_bidCount);
         tv_sub_sellerInfo = findViewById(R.id.tv_sub_sellerInfo);
         tv_category = findViewById(R.id.tv_category);
         tv_image = findViewById(R.id.tv_image);
@@ -104,7 +106,7 @@ public class Sub extends AppCompatActivity {
 
         Intent intent = getIntent();
         unique = intent.getExtras().getString("unique");
-        nowBid = intent.getExtras().getString("bid");
+//        nowBid = intent.getExtras().getString("bid");
 
         Glide.with(this).asBitmap()
                 .load(intent.getExtras().getString("image"))
@@ -117,12 +119,12 @@ public class Sub extends AppCompatActivity {
 
 
 //        Glide.with(this).load(intent.getExtras().getString("image")).into(tv_image);
+//        tv_bid.setText(intent.getExtras().getString("bid"));
 
-        tv_count.setText(intent.getExtras().getString("count"));
-        tv_title.setText(intent.getExtras().getString("title"));
-        tv_bid.setText(intent.getExtras().getString("bid"));
+//        tv_count.setText(intent.getExtras().getString("count"));
+//        tv_title.setText(intent.getExtras().getString("title"));
         tv_price.setText(intent.getExtras().getString("price"));
-        edit_detail.setText(intent.getExtras().getString("detail"));
+//        edit_detail.setText(intent.getExtras().getString("detail"));
 
 
 
@@ -132,11 +134,18 @@ public class Sub extends AppCompatActivity {
                 for (DataSnapshot child : snapshot.getChildren()) {
                     key = child.getKey();
                 }
-
+                tv_price.setText(snapshot.child(key).child("price").getValue().toString());
+                tv_count.setText(snapshot.child(key).child("count").getValue().toString());
+                tv_title.setText(snapshot.child(key).child("title").getValue().toString());
+                edit_detail.setText(snapshot.child(key).child("detail").getValue().toString());
+                tv_bid.setText(snapshot.child(key).child("bid").getValue().toString());
+                tv_bidCount.setText(snapshot.child(key).child("bidCount").getValue().toString()+"명 참여");
                 tv_subDate.setText(snapshot.child(key).child("date").getValue().toString());
                 tv_subDeadline.setText(snapshot.child(key).child("deadline").getValue().toString());
                 tv_category.setText(snapshot.child(key).child("category").getValue().toString());
                 seller = snapshot.child(key).child("seller").getValue().toString();
+
+                nowBid = snapshot.child(key).child("bid").getValue().toString();
 
                 FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
                 StorageReference storageReference = storage.getReference();
@@ -249,11 +258,11 @@ public class Sub extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final List<String> ListItems = new ArrayList<>();
-                ListItems.add("500");
-                ListItems.add("1000");
-                ListItems.add("5000");
-                ListItems.add("10000");
-                ListItems.add("50000");
+                ListItems.add("500원");
+                ListItems.add("1000원");
+                ListItems.add("5000원");
+                ListItems.add("10000원");
+                ListItems.add("50000원");
                 final CharSequence[] items =  ListItems.toArray(new String[ ListItems.size()]);
 
                 final List SelectedItems  = new ArrayList();
@@ -279,7 +288,7 @@ public class Sub extends AppCompatActivity {
                                     int index = (int) SelectedItems.get(0);
                                     selectBid = ListItems.get(index);
                                 }
-                                int intBid = Integer.parseInt(selectBid); // 선택한 값 숫자로 변환
+                                int intBid = Integer.parseInt(selectBid.replace("원","")); // 선택한 값 숫자로 변환
                                 nowBidInt = Integer.parseInt(nowBid);
                                final int attendBid = intBid + nowBidInt;
 //                                currentUid
@@ -290,10 +299,21 @@ public class Sub extends AppCompatActivity {
                                         for (DataSnapshot child: snapshot.getChildren()) {
                                             key3 = child.getKey();
                                         }
+                                        String bidCountString = snapshot.child(key3).child("bidCount").getValue().toString();
+                                        int bidCount = Integer.parseInt(bidCountString);
+
+                                         String presentBidder = snapshot.child(key3).child("bidder").getValue().toString();
+
+                                        if(presentBidder.equals(currentUid)) {
+
+                                        }else{
+                                            bidCount++;
+                                        }
 
 //                                        Toast.makeText(Sub.this,  key3, Toast.LENGTH_SHORT).show(); // 실행할 코드
                                         snapshot.getRef().child(key3).child("bid").setValue(attendBid);
                                         snapshot.getRef().child(key3).child("bidder").setValue(currentUid);
+                                        snapshot.getRef().child(key3).child("bidCount").setValue(bidCount);
 
 
                                     }
@@ -307,7 +327,39 @@ public class Sub extends AppCompatActivity {
 //                                    itemView.getContext().startActivity(intent);
 //                                Toast.makeText(Sub.this, attendBid, Toast.LENGTH_SHORT).show(); // 실행할 코드
 
-                                tv_bid.setText(String.valueOf(attendBid));
+                                Toast.makeText(getApplicationContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+
+
+                                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot child: snapshot.getChildren()) {
+                                            key3 = child.getKey();
+                                        }
+
+
+                                        String presentBidder = snapshot.child(key3).child("bidder").getValue().toString();
+
+                                        tv_bid.setText(String.valueOf(attendBid) + "원");
+
+                                        int bidCountUpdate = Integer.parseInt(tv_bidCount.getText().toString().replace("명 참여",""));
+
+                                        if (presentBidder.equals(currentUid)) {
+                                            tv_bidCount.setText(bidCountUpdate+"명 참여");
+                                        }else {
+                                            bidCountUpdate++;
+                                            tv_bidCount.setText(bidCountUpdate+"명 참여");
+                                        }
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
                             }
                         });
 

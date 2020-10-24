@@ -150,7 +150,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                         holder.btn_bid.setVisibility(View.INVISIBLE);
                         holder.btn_Buynow.setVisibility(View.INVISIBLE);
                         holder.tv_alaram.setVisibility(View.VISIBLE);
-                        holder.tv_alaram.setText("판매 종료!!!");
+                        holder.tv_alaram.setText("판매 종료");
                         holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
                     }
 
@@ -158,7 +158,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                         holder.btn_bid.setVisibility(View.INVISIBLE);
                         holder.btn_Buynow.setVisibility(View.INVISIBLE);
                         holder.tv_alaram.setVisibility(View.VISIBLE);
-                        holder.tv_alaram.setText("판매 종료!!!");
+                        holder.tv_alaram.setText("판매 종료");
                         holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
                     }
 
@@ -267,11 +267,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     intent.putExtra("image", arrayList.get(position).getImage());
                     intent.putExtra("title", arrayList.get(position).getTitle());
                     intent.putExtra("price", arrayList.get(position).getPrice());
-//                    intent.putExtra("bid", arrayList.get(position).getBid());
                     intent.putExtra("bid", String.valueOf(arrayList.get(position).getBid()));
                     intent.putExtra("detail", arrayList.get(position).getDetail());
 
-                    v.getContext().startActivity(intent);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    itemView.getContext().startActivity(intent);
+
 
                 }
             });
@@ -326,8 +330,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                             String bidCountString = snapshot.child(key1).child("bidCount").getValue().toString();
                                             int bidCount = Integer.parseInt(bidCountString);
                                             int position = getAdapterPosition();
-                                            String presentBidder = arrayList.get(position).getBidder();
-                                            int bidCountUpdate = arrayList.get(position).getBidCount();
+//                                            String presentBidder = arrayList.get(position).getBidder();
+                                            String presentBidder = snapshot.child(key1).child("bidder").getValue().toString();
+//                                            int bidCountUpdate = arrayList.get(position).getBidCount();
+
                                             if (presentBidder.equals(bidder)) {
 
                                             }else {
@@ -344,8 +350,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                                         }
                                     });
-//                                    Intent intent = new Intent(itemView.getContext(), MainActivity.class);
-//                                    itemView.getContext().startActivity(intent);
+
+
                                     Toast.makeText(itemView.getContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
 
                                     tv_productBid.setText(String.valueOf(attendBid) + "원");
@@ -359,6 +365,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                         Toast.makeText(itemView.getContext(), bidder, Toast.LENGTH_SHORT).show(); // 실행할 코드
                                         tv_productBidCount.setText(bidCountUpdate + "명 참여");
                                     }
+
                                 }
                             });
                     builder.setNegativeButton("Cancel",

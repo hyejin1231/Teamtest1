@@ -153,7 +153,7 @@ public class Sell extends AppCompatActivity {
                 String bid2 = edit_bid.getText().toString();
                 String price = edit_price.getText().toString();
                 String deadline = tv_writeDeadline.getText().toString();
-                int bid = Integer.parseInt(edit_bid.getText().toString());
+//                int bid = Integer.parseInt(edit_bid.getText().toString());
                 int count = 0;
                 String status = "selling";
 
@@ -179,6 +179,7 @@ public class Sell extends AppCompatActivity {
                 }
                 else {
 
+                    int bid = Integer.parseInt(edit_bid.getText().toString());
                     for (int i = 0; i < 10; i++) {
                         unique += String.valueOf((char) ((int) (random.nextInt(26)) + 97));
                     }

@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> spinner_arrayList;
    ArrayAdapter<String> spinner_arrayAdapter;
 
+   ImageView img_btn_category,img_btn_dueDate,img_btn_hotclick;
+
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference,databaseReference2;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     String key;
     String uids;
     EditText edit_Search;
-    ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnHotClick,img_btnChat,img_btnduedate;
+    ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnChat;
     String modify_name,modify_pw,modify_email;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String currentUid = user.getUid();
@@ -63,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        img_btn_category = findViewById(R.id.img_btn_category);
+        img_btn_dueDate = findViewById(R.id.img_btn_dueDate);
+        img_btn_hotclick = findViewById(R.id.img_btn_hotclick);
+
 
         img_btnNotice = findViewById(R.id.img_SC_btnNotice);
         img_btnSearch = findViewById(R.id.img_SC_btnSearch);
@@ -333,6 +340,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        img_btn_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Category.class);
+                startActivity(intent);
+            }
+        });
+
+
+        img_btn_hotclick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(getApplicationContext(), HotClickView.class);
+                startActivity(intent2);
+            }
+        });
+
+        img_btn_dueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent3 = new Intent(getApplicationContext(), DuedateActivity.class);
+                startActivity(intent3);
+            }
+        });
 
 
 

@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 
 public class LikelistActivity extends AppCompatActivity {
 
+    ImageView img_btn_likeListBack;
     private FirebaseAuth Auth;
     private RecyclerView recyclerView3;
     private RecyclerView.Adapter adapter3;
@@ -34,6 +37,7 @@ public class LikelistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_likelist);
 
+        img_btn_likeListBack = findViewById(R.id.img_btn_likeListBack);
         recyclerView3 = findViewById(R.id.Like_recyclerView); //아이디 연결
         recyclerView3.setHasFixedSize(true); //리사이클러뷰 기존성능 강화
         layoutManager3 = new LinearLayoutManager(this);
@@ -77,6 +81,12 @@ public class LikelistActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        img_btn_likeListBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

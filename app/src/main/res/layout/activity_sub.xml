@@ -202,7 +202,17 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/tv_title"
                 app:layout_constraintStart_toEndOf="@+id/tv_title" />
 
-            <EditText
+            <TextView
+                android:id="@+id/tv_bidCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:hint="경매참여자"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tv_bid"
+                app:layout_constraintStart_toEndOf="@+id/tv_bid" />
+
+            <TextView
                 android:id="@+id/edit_detail"
                 android:layout_width="245dp"
                 android:layout_height="wrap_content"
