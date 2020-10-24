@@ -18,7 +18,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UserModel"></activity>
         <activity android:name=".BidList" />
         <activity android:name=".AdminMemberSub" />
         <activity android:name=".DuedateActivity" />
