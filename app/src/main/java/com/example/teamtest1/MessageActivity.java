@@ -217,6 +217,7 @@ public class MessageActivity extends AppCompatActivity{
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.out_message_bg);
                 messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
                 messageViewHolder.textView_message.setTextSize(25);
+                messageViewHolder.textView_message.setGravity(Gravity.RIGHT);
                 messageViewHolder.linearLayout_main.setGravity(Gravity.RIGHT);
                 setReadCounter(position,messageViewHolder.textView_readCounter_left);
 
@@ -230,6 +231,7 @@ public class MessageActivity extends AppCompatActivity{
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.in_message_bg);
                 messageViewHolder.textView_message.setText(comments.get(position).message);
                 messageViewHolder.textView_message.setTextSize(25);
+                messageViewHolder.textView_message.setGravity(Gravity.LEFT);
                 messageViewHolder.linearLayout_main.setGravity(Gravity.LEFT);
                 setReadCounter(position,messageViewHolder.textView_readCounter_Right);
 

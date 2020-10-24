@@ -318,9 +318,10 @@ public class MyPage extends AppCompatActivity {
             public void onClick(View v) {
 
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Login2.class);
                 startActivity(intent);
                 Toast.makeText(MyPage.this, "로그아웃",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
