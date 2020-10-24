@@ -29,7 +29,7 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toStartOf="@+id/img_btn_category"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/duedate2" />
+        app:srcCompat="@drawable/time" />
 
     <ImageView
         android:id="@+id/imageView6"
@@ -50,7 +50,7 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toStartOf="@+id/img_btn_dueDate"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/click" />
+        app:srcCompat="@drawable/rank" />
 
     <ImageView
         android:id="@+id/img_btn_category"
@@ -61,7 +61,7 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/categorymenu" />
+        app:srcCompat="@drawable/menu" />
 
     <ImageView
         android:id="@+id/img_SC_btnSearch"
@@ -70,7 +70,7 @@
 
         app:layout_constraintBottom_toBottomOf="@+id/edit_SC_Search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/serach" />
+        app:srcCompat="@drawable/searchhh" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/SCrecyclerView"
@@ -103,7 +103,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/pencil" />
+            app:srcCompat="@drawable/sellwrite" />
 
         <ImageView
             android:id="@+id/img_SC_btnMypage"
@@ -143,7 +143,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img_SC_btnWrite"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/noticeboard" />
+            app:srcCompat="@drawable/board" />
 
         <ImageView
             android:id="@+id/img_SC_btnChat"
@@ -154,7 +154,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/img_SC_btnMypage"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/chat"></ImageView>
+            app:srcCompat="@drawable/conservation"></ImageView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
