@@ -223,7 +223,7 @@ public class MessageActivity extends AppCompatActivity{
 
             }
             else{
-                /*Glide.with(holder.itemView.getContext())
+               /* Glide.with(holder.itemView.getContext())
                         .load(User.getPhotoUrl())
                         .apply(new RequestOptions().circleCrop())
                         .into(messageViewHolder.imageView_profile); 이미지 생기면 받아올 수 있음*/
