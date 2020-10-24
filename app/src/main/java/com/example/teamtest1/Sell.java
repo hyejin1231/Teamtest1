@@ -158,6 +158,8 @@ public class Sell extends AppCompatActivity {
                 String status = "selling";
 
 
+
+
                 String unique = "";
 
                 if (title.equals("")) {
