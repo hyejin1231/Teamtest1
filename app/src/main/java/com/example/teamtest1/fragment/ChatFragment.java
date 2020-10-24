@@ -5,11 +5,13 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -46,6 +49,7 @@ public class ChatFragment extends Fragment{
     //다혜
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+
 
 
     @SuppressLint("SimpleDateFormat")
@@ -127,14 +131,19 @@ public class ChatFragment extends Fragment{
             commentMap.putAll(chatModels.get(position).comments);
             if(commentMap.keySet().toArray().length> 0){
             String LastMessageKey = (String) commentMap.keySet().toArray()[0];
+            String UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            System.out.println(chatModels.get(position).comments.get(LastMessageKey).readUsers.containsKey(UID));
+            if((chatModels.get(position).comments.get(LastMessageKey).readUsers.containsKey(UID)) == false){
+                customViewHolder.noticeimageView.setVisibility(View.VISIBLE);
+                }else{
+                customViewHolder.noticeimageView.setVisibility(View.INVISIBLE);
+            }
             customViewHolder.textView_Last_Message.setText(Objects.requireNonNull(chatModels.get(position).comments.get(LastMessageKey)).message);
-            customViewHolder.noticeimageView.setVisibility(View.INVISIBLE);
 
             simpleDateFormat.setTimeZone(SimpleTimeZone.getTimeZone("Asia/Seoul"));
             long unixTime = (long) Objects.requireNonNull(chatModels.get(position).comments.get(LastMessageKey)).timeStamp;
             Date date = new Date(unixTime);
             customViewHolder.textView_timestamp.setText(simpleDateFormat.format(date));
-
             customViewHolder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
@@ -167,6 +176,7 @@ public class ChatFragment extends Fragment{
                 textView_Last_Message = view.findViewById(R.id.chatItem_textView_LastMessage);
                 textView_timestamp = view.findViewById(R.id.chatItem_textView_timestamp);
                 noticeimageView = view.findViewById(R.id.chatItem_notice_imageview);
+                noticeimageView.setVisibility(View.INVISIBLE);
 
 
 

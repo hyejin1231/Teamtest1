@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.teamtest1.fragment.ChatFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -54,6 +55,7 @@ public class MessageActivity extends AppCompatActivity{
     private ValueEventListener valueEventListener;
     int peopleCount = 0;
     private User user;
+    ChatFragment chatFragment;
     @SuppressLint("SimpleDateFormat")
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm");
@@ -231,6 +233,7 @@ public class MessageActivity extends AppCompatActivity{
                 messageViewHolder.linearLayout_main.setGravity(Gravity.LEFT);
                 setReadCounter(position,messageViewHolder.textView_readCounter_Right);
 
+
             }
             messageViewHolder.textView_message.setTextSize(25);
             long unixTime = (long) comments.get(position).timeStamp;
@@ -253,8 +256,11 @@ public class MessageActivity extends AppCompatActivity{
                             textView.setVisibility(View.VISIBLE);
                             textView.setText(String.valueOf(count));
 
+
                         } else {
                             textView.setVisibility(View.INVISIBLE);
+                            Bundle bundle = new Bundle();
+
                         }
                     }
 
