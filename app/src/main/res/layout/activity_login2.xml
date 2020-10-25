@@ -11,7 +11,7 @@
         android:id="@+id/btn_google"
         android:layout_width="160dp"
         android:layout_height="51dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="@+id/btn_go_signup"
         app:layout_constraintStart_toStartOf="@+id/btn_login"
         app:layout_constraintTop_toBottomOf="@+id/btn_login" />
@@ -20,10 +20,12 @@
         android:id="@+id/tv_email_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginLeft="80dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginLeft="75dp"
         android:layout_marginTop="32dp"
-        android:text="ID"
+        android:text="아이디"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -31,16 +33,17 @@
         android:id="@+id/tv_pw_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginLeft="80dp"
         android:layout_marginTop="32dp"
-        android:text="PW"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="비밀번호"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tv_email_login"
+        app:layout_constraintStart_toStartOf="@+id/tv_email_login"
         app:layout_constraintTop_toBottomOf="@+id/tv_email_login" />
 
     <EditText
         android:id="@+id/et_pw_login"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
@@ -80,13 +83,14 @@
 
     <EditText
         android:id="@+id/et_email_login"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_email_login"
+        app:layout_constraintEnd_toEndOf="@+id/et_pw_login"
         app:layout_constraintStart_toEndOf="@+id/tv_email_login" />
 
     <ImageView

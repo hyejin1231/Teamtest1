@@ -32,10 +32,11 @@ public class BuyListAdapter extends RecyclerView.Adapter<BuyListAdapter.CustomVi
     private Context context;
 
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,databaseReference_u;
 
     String test;
     String key;
+    String bringselleremail,bringbuyeremail;
 //    public interface RecyclerViewClickListener {
 //        void onClick(View v, int position);
 //    }
@@ -101,11 +102,39 @@ public class BuyListAdapter extends RecyclerView.Adapter<BuyListAdapter.CustomVi
 
             }
         });
+        database = FirebaseDatabase.getInstance();
+        databaseReference_u = database.getReference("User"); // DB 테이블 연동
+        holder.tv_buy_title.setText(arrayList.get(position).getTitle());
+        holder.tv_buy_price.setText(String.valueOf(arrayList.get(position).getPrice()));
+        final String getsellerget = arrayList.get(position).getSeller();
+        final String getbuyerget = arrayList.get(position).getBuyer();
 
-        holder.tv_buy_title.setText("제품명 " + arrayList.get(position).getTitle());
-        holder.tv_buy_price.setText("가격 " + String.valueOf(arrayList.get(position).getPrice()) + "원");
-        holder.tv_buy_seller.setText("판매자 " + arrayList.get(position).getSeller());
-        holder.tv_buy_buyer.setText("구매자 " + arrayList.get(position).getBuyer());
+//        //다혜수정...
+
+            databaseReference_u.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    holder.tv_buy_seller.setText(snapshot.child(getsellerget).child("id").getValue().toString());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            databaseReference_u.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    holder.tv_buy_buyer.setText(snapshot.child(getbuyerget).child("id").getValue().toString());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
 
     }
 

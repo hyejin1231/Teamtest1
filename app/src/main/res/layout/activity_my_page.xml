@@ -6,26 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".MyPage">
 
+    <ImageView
+        android:id="@+id/btn_buylist"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_profile"
+        app:srcCompat="@drawable/buynn" />
+
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="61dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="닉네임"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_profile"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView51"
+        app:layout_constraintStart_toEndOf="@+id/textView51"
+        app:layout_constraintTop_toTopOf="@+id/textView51" />
 
     <ImageView
         android:id="@+id/iv_profile"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="279dp"
-        android:layout_marginRight="279dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher_round" />
@@ -34,63 +44,24 @@
         android:id="@+id/tv_email_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="아이디"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_profile"
-        app:layout_constraintTop_toBottomOf="@+id/tv_result" />
-
-    <Button
-        android:id="@+id/btn_buylist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="37dp"
-        android:text="구매내역"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
-
-    <Button
-        android:id="@+id/btn_selllist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="판매내역"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_buylist"
-        app:layout_constraintStart_toEndOf="@+id/btn_buylist" />
-
-    <Button
-        android:id="@+id/btn_likelist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="관심내역"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_bidlist"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btn_bidlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:text="입찰내역"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_selllist"
-        app:layout_constraintEnd_toStartOf="@+id/btn_likelist"
-        app:layout_constraintStart_toEndOf="@+id/btn_selllist" />
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView52"
+        app:layout_constraintStart_toEndOf="@+id/textView52"
+        app:layout_constraintTop_toTopOf="@+id/textView52" />
 
     <Button
         android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="40dp"
+        android:background="#FF2B2B"
         android:text="로그아웃"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -109,11 +80,9 @@
         android:id="@+id/img_MyWarn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/img_UserFace_soso"
         app:layout_constraintTop_toBottomOf="@+id/img_UserFace_soso"
         app:srcCompat="@drawable/warn" />
 
@@ -134,24 +103,20 @@
         android:id="@+id/tv_Message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
         android:text="경고5회가 되면 강제 탈퇴됩니다."
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/img_MyWarn"
         app:layout_constraintTop_toBottomOf="@+id/img_MyWarn" />
 
     <ImageView
         android:id="@+id/img_UserFace_soso"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
+        app:layout_constraintStart_toStartOf="@+id/btn_buylist"
+        app:layout_constraintTop_toBottomOf="@+id/textView53"
         app:srcCompat="@drawable/netural" />
 
     <TextView
@@ -170,48 +135,40 @@
         android:id="@+id/img_UserFace_good"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
+        app:layout_constraintStart_toStartOf="@+id/btn_buylist"
+        app:layout_constraintTop_toBottomOf="@+id/textView53"
         app:srcCompat="@drawable/good" />
 
     <ImageView
         android:id="@+id/img_UserFace_angry"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
+        app:layout_constraintStart_toStartOf="@+id/btn_buylist"
+        app:layout_constraintTop_toBottomOf="@+id/textView53"
         app:srcCompat="@drawable/angry" />
 
     <ImageView
         android:id="@+id/img_UserFace_dis"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
+        app:layout_constraintStart_toStartOf="@+id/btn_buylist"
+        app:layout_constraintTop_toBottomOf="@+id/textView53"
         app:srcCompat="@drawable/disappoint" />
 
     <ImageView
         android:id="@+id/img_UserFace_smile"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_buylist"
+        app:layout_constraintStart_toStartOf="@+id/btn_buylist"
+        app:layout_constraintTop_toBottomOf="@+id/textView53"
         app:srcCompat="@drawable/smile" />
 
     <TextView
@@ -220,10 +177,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
         android:text="판매자 점수"
         app:layout_constraintStart_toEndOf="@+id/img_UserFace_soso"
-        app:layout_constraintTop_toBottomOf="@+id/btn_buylist" />
+        app:layout_constraintTop_toTopOf="@+id/img_UserFace_soso" />
 
     <TextView
         android:id="@+id/tv_participate"
@@ -237,34 +193,145 @@
 
     <Button
         android:id="@+id/btn_modify"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="6dp"
+        android:background="#FF2B2B"
         android:text="정보수정"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/btn_logout"
         app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/btn_customer_chat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="6dp"
+        android:background="#FF2B2B"
         android:text="1:1 문의"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/btn_modify"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/btn_likelist"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_bidlist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_bidlist"
+        app:srcCompat="@drawable/likenn" />
+
+    <ImageView
+        android:id="@+id/btn_bidlist"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_selllist"
+        app:layout_constraintStart_toEndOf="@+id/btn_selllist"
+        app:srcCompat="@drawable/bidnn" />
+
+    <ImageView
+        android:id="@+id/btn_selllist"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_buylist"
+        app:layout_constraintStart_toEndOf="@+id/btn_buylist"
+        app:srcCompat="@drawable/sellnn" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="-32dp" />
+
+    <TextView
+        android:id="@+id/textView51"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="32dp"
+        android:text="닉네임"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile"
+        app:layout_constraintTop_toTopOf="@+id/iv_profile" />
+
+    <TextView
+        android:id="@+id/textView52"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="아이디"
+        app:layout_constraintStart_toStartOf="@+id/textView51"
+        app:layout_constraintTop_toBottomOf="@+id/textView51" />
+
+    <TextView
+        android:id="@+id/textView53"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="구매내역"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_buylist"
+        app:layout_constraintStart_toStartOf="@+id/btn_buylist"
+        app:layout_constraintTop_toBottomOf="@+id/btn_buylist" />
+
+    <TextView
+        android:id="@+id/textView54"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="판매내역"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_selllist"
+        app:layout_constraintStart_toStartOf="@+id/btn_selllist"
+        app:layout_constraintTop_toBottomOf="@+id/btn_selllist" />
+
+    <TextView
+        android:id="@+id/textView55"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="입찰내역"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_bidlist"
+        app:layout_constraintStart_toStartOf="@+id/btn_bidlist"
+        app:layout_constraintTop_toBottomOf="@+id/btn_bidlist" />
+
+    <TextView
+        android:id="@+id/textView56"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="관심내역"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_likelist"
+        app:layout_constraintStart_toStartOf="@+id/btn_likelist"
+        app:layout_constraintTop_toBottomOf="@+id/btn_likelist" />
 
 
     <!--    <ImageView-->
-<!--        android:id="@+id/btn_main"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="100dp"-->
-<!--        android:layout_marginStart="32dp"-->
-<!--        android:layout_marginLeft="32dp"-->
-<!--        android:layout_marginBottom="32dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:srcCompat="@drawable/page" />-->
+    <!--        android:id="@+id/btn_main"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:layout_marginStart="32dp"-->
+    <!--        android:layout_marginLeft="32dp"-->
+    <!--        android:layout_marginBottom="32dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:srcCompat="@drawable/page" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

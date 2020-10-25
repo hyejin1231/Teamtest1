@@ -1,23 +1,11 @@
 package com.example.teamtest1;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.icu.text.Edits;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,15 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,13 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.lang.ref.Reference;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 
 public class MyPage extends AppCompatActivity {
 
@@ -70,22 +48,18 @@ public class MyPage extends AppCompatActivity {
     private  TextView tv_UserEstimateCount;
     private  ImageView img_UserFace_smile,img_UserFace_dis,img_UserFace_angry,img_UserFace_good,img_UserFace_soso;
 
-    private Button btn_buylist;
-    private Button btn_selllist;
-    private Button btn_likelist;
+    private ImageView btn_buylist;
+    private ImageView btn_selllist;
+    private ImageView btn_likelist;
     private Button btn_logout;
     private Button btn_modify;
-    Button btn_bidlist;
+    ImageView btn_bidlist;
 
 
     ImageView img_btnMyBack;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private ArrayList<User> arrayList;
-
-    // 혜진 1021 수정 intent 받는거 수정함
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String currentUid = user.getUid();
 
 //    String uids;
     String key;
@@ -141,6 +115,10 @@ public class MyPage extends AppCompatActivity {
 
 
         // 코드가 지저분해도 참아줘 ..^_^ _혜진
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String currentUid = user.getUid();
+
         databaseReference.orderByChild("uid").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -334,13 +312,13 @@ public class MyPage extends AppCompatActivity {
 //                                Toast.makeText(getApplicationContext(), "Logout Successfully!", Toast.LENGTH_SHORT).show();
 //                            }
 //                        });
-//                FirebaseAuth.getInstance().signOut();
+                FirebaseAuth.getInstance().signOut();
 
 
-//                Intent intent = new Intent(getApplicationContext(), Login2.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), Login2.class);
+                startActivity(intent);
 //                finish();
-//                Toast.makeText(MyPage.this, "로그아웃",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyPage.this, "로그아웃",Toast.LENGTH_SHORT).show();
             }
         });
 

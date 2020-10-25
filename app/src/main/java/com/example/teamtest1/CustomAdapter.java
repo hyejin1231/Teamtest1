@@ -27,6 +27,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,11 +51,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     ArrayAdapter<String> spinner_arrayAdapter;
 
 
+
     int count;
     String abcd,abcde;
     String key,key1,key2,test;;
     String destinationUID;
     String uniqueTest;
+    String btnLike;
     public CustomAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
@@ -71,21 +74,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     @Override
     public void onBindViewHolder(@NonNull final CustomViewHolder holder, final int position) {
-        // 각 아이템들에 대한 매칭
-//        Glide.with(holder.itemView)
-//                .load(arrayList.get(position).getImage())
-//                .into(holder.iv_productImage);
-
-//        Uri uri = Uri.parse(arrayList.get(position).getImage());
-////
-////        Glide.with(holder.itemView).asBitmap()
-////                .load(uri)
-////                .into(new SimpleTarget<Bitmap>() {
-////                    @Override
-////                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-////                        holder.iv_productImage.setImageBitmap(resource);
-////                    }
-////                });
 
         holder.tv_productBid.setText(String.valueOf(arrayList.get(position).getBid()) + "원");
 //        holder.tv_productBid.setText(arrayList.get(position).getBid());
@@ -96,6 +84,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Product"); // DB 테이블 연동
+
 
         test = arrayList.get(position).getUnique();
         final FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
@@ -162,6 +151,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                         holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
                     }
 
+                    if (snapshot.child(uniqueTest).child("status").getValue().equals("selling")) {
+                        holder.btn_bid.setVisibility(View.VISIBLE);
+                        holder.btn_Buynow.setVisibility(View.VISIBLE);
+                        holder.tv_alaram.setVisibility(View.VISIBLE);
+                        holder.tv_alaram.setText("판매 중");
+                        holder.tv_alaram.setTextColor(Color.parseColor("#FF0000"));
+                    }
+
                 }
             }
 
@@ -200,7 +197,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 //        TextView tv_productCategory;
 //        TextView tv_productStatus;
         private FirebaseDatabase database;
-        private DatabaseReference databaseReference;
+        private DatabaseReference databaseReference,databaseReference_like;
+
+
 
 
         public CustomViewHolder(@NonNull final View itemView) {
@@ -223,10 +222,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
             database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
             databaseReference = database.getReference("Product"); // DB 테이블 연동
+            databaseReference_like = database.getReference("Like");
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
 
 //                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
 //                    Bitmap bitmap = ((BitmapDrawable)iv_productImage.getDrawable()).getBitmap();
@@ -240,8 +242,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                     int position = getAdapterPosition();
                     abcd = arrayList.get(position).getUnique();
-
                     count = arrayList.get(position).getCount() + 1;
+
+
+
+
 
                     databaseReference.orderByChild("unique").equalTo(abcd).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -269,6 +274,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     intent.putExtra("price", arrayList.get(position).getPrice());
                     intent.putExtra("bid", String.valueOf(arrayList.get(position).getBid()));
                     intent.putExtra("detail", arrayList.get(position).getDetail());
+                    intent.putExtra("btnLike",btnLike);
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

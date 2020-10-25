@@ -56,7 +56,8 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
     // 혜진 코드 삽입
     private FirebaseDatabase database;
     private DatabaseReference databaseReference,databaseReference2;
-    FirebaseUser Cuser = FirebaseAuth.getInstance().getCurrentUser();
+    final FirebaseUser Cuser = FirebaseAuth.getInstance().getCurrentUser();
+
 
 
     @Override
@@ -133,7 +134,6 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
 
 
     private void Login2() {
-
         final String email = et_email_login.getText().toString();
         final String password = et_pw_login.getText().toString();
 
@@ -151,27 +151,6 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                         intent.putExtra("uid", Cuser.getUid());
                         startActivity(intent);
 
-//                        //다혜추가(혹시 여기 오류뜨면 알려줘....ㅠㅠ)
-//                        //로그인하면 모든 디비에 있는 물품들의 date값이 오늘로 바뀐다...
-//                        databaseReference2.orderByChild("date").addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                for (DataSnapshot child : snapshot.getChildren()) {
-//                                    String key = child.getKey();
-//                                    //String key3 = snapshot.getRef().child(key).child("nickName").toString();
-//
-//                                    long now = System.currentTimeMillis();
-//                                    Date today = new Date(now);
-//                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                                    String date = simpleDateFormat.format(today);
-//                                    snapshot.getRef().child(key).child("date").setValue(date);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError error) {
-//                            }
-//                        });
                     } else {
                         Toast.makeText(Login2.this, "올바른 회원정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }
@@ -197,6 +176,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
     }
 
     private void resultLogin(final GoogleSignInAccount account) {
+//        final FirebaseUser Cuser = FirebaseAuth.getInstance().getCurrentUser();
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

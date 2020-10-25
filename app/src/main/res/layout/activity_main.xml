@@ -6,6 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FF2B2B"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_main" />
+
+        <ImageView
+            android:id="@+id/img_btn_hotclick"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/img_btn_dueDate"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/hotclicknn" />
+
+        <ImageView
+            android:id="@+id/img_btn_dueDate"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/img_btn_category"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/duedaten" />
+
+        <ImageView
+            android:id="@+id/img_btn_category"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/categorynn" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <EditText
         android:id="@+id/edit_SC_Search"
         android:layout_width="0dp"
@@ -21,56 +75,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/img_btn_dueDate"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/img_btn_category"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/duedate2" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_main" />
-
-    <ImageView
-        android:id="@+id/img_btn_hotclick"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/img_btn_dueDate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/click" />
-
-    <ImageView
-        android:id="@+id/img_btn_category"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/categorymenu" />
-
-    <ImageView
         android:id="@+id/img_SC_btnSearch"
         android:layout_width="40dp"
         android:layout_height="35dp"
 
         app:layout_constraintBottom_toBottomOf="@+id/edit_SC_Search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/search" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:srcCompat="@drawable/new_search" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/SCrecyclerView"
@@ -86,31 +98,45 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:background="#FF2B2B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SCrecyclerView">
 
         <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/img_SC_btnChat"
+            app:layout_constraintEnd_toStartOf="@+id/img_SC_btnNotice"
+            app:layout_constraintHorizontal_bias="0.416"
+            app:layout_constraintStart_toEndOf="@+id/img_SC_btnChat"
+            app:layout_constraintTop_toTopOf="@+id/img_SC_btnChat"
+            app:srcCompat="@drawable/homenn" />
+
+        <ImageView
             android:id="@+id/img_SC_btnWrite"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/img_SC_btnNotice"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_SC_btnNotice"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/pencil" />
+            app:srcCompat="@drawable/writenn" />
 
         <ImageView
             android:id="@+id/img_SC_btnMypage"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="6dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -135,26 +161,24 @@
             android:id="@+id/img_SC_btnNotice"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="56dp"
-            android:layout_marginRight="56dp"
-            android:layout_marginBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            app:layout_constraintBottom_toBottomOf="@+id/img_SC_btnChat"
             app:layout_constraintEnd_toStartOf="@+id/img_SC_btnWrite"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_SC_btnChat"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/noticeboard" />
+            app:srcCompat="@drawable/noticenn" />
 
         <ImageView
             android:id="@+id/img_SC_btnChat"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            app:layout_constraintBottom_toBottomOf="@+id/img_SC_btnMypage"
             app:layout_constraintStart_toEndOf="@+id/img_SC_btnMypage"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/chat"></ImageView>
+            app:layout_constraintTop_toTopOf="@+id/img_SC_btnMypage"
+            app:srcCompat="@drawable/chatnn"></ImageView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -156,47 +156,6 @@ public class BuylistActivity extends AppCompatActivity {
                     else{
                         Toast.makeText(BuylistActivity.this, "등록키 틀림", Toast.LENGTH_SHORT).show();
                     }
-//                }
-
-//                Toast.makeText(BuylistActivity.this, "등록키 틀림", Toast.LENGTH_SHORT).show();
-
-//                    new AlertDialog.Builder(BuylistActivity.this)
-//                            .setMessage("구매 Key를 등록하겠습니까?")
-//                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    databaseReference2.orderByChild("unique").equalTo(BuyKey).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                        @Override
-//                                        public void onDataChange(@NonNull final DataSnapshot snapshot) {
-//                                            for (DataSnapshot child : snapshot.getChildren()) {
-//                                                key = child.getKey();
-//                                            }
-//                                            snapshot.getRef().child(key).child("buyer").setValue(currentUid);
-//                                            snapshot.getRef().child(key).child("status").setValue("complete");
-//                                            Toast.makeText(BuylistActivity.this, "구매 등록 완료", Toast.LENGTH_SHORT).show();
-//                                        }
-//
-//                                        @Override
-//                                        public void onCancelled(@NonNull DatabaseError error) {
-//                                            Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
-//                                        }
-//                                    });
-//                                }
-//
-//
-//                            })
-//
-//                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    Toast.makeText(BuylistActivity.this, "취소", Toast.LENGTH_SHORT).show(); // 실행할 코드
-//                                }
-//                            }).show();
-
-
-//                    Toast.makeText(BuylistActivity.this, "고유키 틀림 ", Toast.LENGTH_SHORT).show(); // 실행할 코드
-
-
 
                 }
 

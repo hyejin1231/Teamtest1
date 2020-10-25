@@ -97,47 +97,45 @@ public class MainActivity extends AppCompatActivity {
         spinner_arrayList.add("전체");
         spinner_arrayList.add("판매중인 상품");
         spinner_arrayList.add("판매종료 상품");
+        spinner_arrayList.add("기간만료 상품");
 
 
         spinner_arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, spinner_arrayList);
         spinner1 = (Spinner)findViewById(R.id.spinner1);
         spinner1.setAdapter(spinner_arrayAdapter);
 
+
+        //스피너 선택안하면 기본..
         getoption =0;
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // 파이어베이스 데이터베이스 데이터 받아오는 곳
-                arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
-                    Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
-                    arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
-
-                }
-                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // DB 가져오던 중 에러 발생시
-                Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
-            }
-        });
-
-
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getApplicationContext(),spinner_arrayList.get(i)+" 내역", Toast.LENGTH_SHORT).show();
                 getoption = i;
-//                arrayList.clear();
                 if(getoption==0) { //전체 (디폴트)
-                    //리사이클러뷰 띄워주는 코드
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            // 파이어베이스 데이터베이스 데이터 받아오는 곳
+                            arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
+                                Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
+                                arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+                            }
+                            adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // DB 가져오던 중 에러 발생시
+                            Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
+                        }
+                    });
+
+                }else if(getoption==1){ //판매중
+                    //리사이클러뷰 띄워주는 코드
+                    databaseReference.orderByChild("status").equalTo("selling").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
                                 Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
@@ -154,85 +152,70 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                }else if(getoption==1){ //판매중
-                    //리사이클러뷰 띄워주는 코드
-                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                }else if(getoption==2) { //판매종료
+                    databaseReference.orderByChild("status").equalTo("complete").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            // 파이어베이스 데이터베이스 데이터 받아오는 곳
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
-                            for(DataSnapshot child : snapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
-                                key = child.getKey();
-                                if(((String)snapshot.child(key).child("status").getValue()).equals("selling")){
-                                    Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
-                                    arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
-                                }
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
+                                Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
+                                arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+
                             }
                             adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // DB 가져오던 중 에러 발생시
                             Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
                         }
                     });
-
-                }else if(getoption==2){ //판매종료
-                    //리사이클러뷰 띄워주는 코드
-                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                }else if(getoption==3){ //기간만료
+                    databaseReference.orderByChild("status").equalTo("due").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            // 파이어베이스 데이터베이스 데이터 받아오는 곳
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
-                            for(DataSnapshot child : snapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
-                                key = child.getKey();
-                               if(((String)snapshot.child(key).child("status").getValue()).equals("due")||
-                                        ((String)snapshot.child(key).child("status").getValue()).equals("complete")){
-                                    Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
-                                    arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
-                                }
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
+                                Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
+                                arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+
                             }
                             adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // DB 가져오던 중 에러 발생시
                             Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
                         }
                     });
 
                 }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // 파이어베이스 데이터베이스 데이터 받아오는 곳
+                        arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
+                            Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
+                            arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+
+                        }
+                        adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // DB 가져오던 중 에러 발생시
+                        Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
+                    }
+                });
             }
         });
 
-
-
-//        //리사이클러뷰 띄워주는 코드
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                // 파이어베이스 데이터베이스 데이터 받아오는 곳
-//                arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
-//                for(DataSnapshot snapshot : dataSnapshot.getChildren()) { // 반복문으로 데이터리스트를 추출해내는것
-//                    Product product = snapshot.getValue(Product.class); // 만들어뒀던 product 객체에 데이터를 담는다.
-//                    arrayList.add(product); // 담은 데이터를 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
-//
-//                }
-//                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                // DB 가져오던 중 에러 발생시
-//                Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
-//            }
-//        });
 
 
         //프사 띄워주는 코드
