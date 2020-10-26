@@ -114,10 +114,10 @@ public class ChatFragment extends Fragment{
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         User User = snapshot.getValue(User.class);
                         assert User != null;
-                    /*Glide.with(customViewHolder.itemView.getContext())
+                    Glide.with(customViewHolder.itemView.getContext())
                             .load(User.getPhotoUrl())
                             .apply(new RequestOptions().circleCrop())
-                            .into(customViewHolder.imageView);이미지 생기면 이미지 받아 올 수 있게 준비*/
+                            .into(customViewHolder.imageView);
                         customViewHolder.textView_title.setText(User.getId());
 
                     }

@@ -212,33 +212,31 @@ public class MessageActivity extends AppCompatActivity{
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             MessageViewHolder messageViewHolder = ((MessageViewHolder)holder);
-            if(comments.get(position).Uid.equals(destinationUID)){
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-                messageViewHolder.textView_name.setText(User.getNickName());
-                messageViewHolder.textView_message.setText(comments.get(position).message);
-                messageViewHolder.textView_message.setBackgroundResource(R.drawable.in_message_bg);
-                messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
-                messageViewHolder.textView_message.setTextSize(25);
-                messageViewHolder.textView_message.setGravity(Gravity.RIGHT);
-                params.gravity = Gravity.RIGHT;
-                messageViewHolder.textView_message.setLayoutParams(params);
-                setReadCounter(position,messageViewHolder.textView_readCounter_left);
-
-            }
-            else{
-               /* Glide.with(holder.itemView.getContext())
+            if(comments.get(position).Uid.equals(Uid)){
+                               /* Glide.with(holder.itemView.getContext())
                         .load(User.getPhotoUrl())
                         .apply(new RequestOptions().circleCrop())
                         .into(messageViewHolder.imageView_profile); 이미지 생기면 받아올 수 있음*/
-                messageViewHolder.linearLayout_destination.setVisibility(View.VISIBLE);
+                messageViewHolder.textView_message.setText(comments.get(position).message);
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.out_message_bg);
+                messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
+                messageViewHolder.textView_message.setTextSize(25);
+                messageViewHolder.linearLayout_main.setGravity(Gravity.RIGHT);
+
+//나
+            }
+            else{
+                //상대방
+                Glide.with(holder.itemView.getContext())
+                        .load(User.getPhotoUrl())
+                        .apply(new RequestOptions().circleCrop())
+                        .into(messageViewHolder.imageView_profile);
+                messageViewHolder.textView_name.setText(User.getNickName());
+                messageViewHolder.linearLayout_destination.setVisibility(View.VISIBLE);
+                messageViewHolder.textView_message.setBackgroundResource(R.drawable.in_message_bg);
                 messageViewHolder.textView_message.setText(comments.get(position).message);
                 messageViewHolder.textView_message.setTextSize(25);
-                messageViewHolder.textView_message.setGravity(Gravity.LEFT);
                 messageViewHolder.linearLayout_main.setGravity(Gravity.LEFT);
-                setReadCounter(position,messageViewHolder.textView_readCounter_Right);
 
 
             }
@@ -308,6 +306,7 @@ public class MessageActivity extends AppCompatActivity{
             public MessageViewHolder(View view) {
                 super(view);
                 textView_message = view.findViewById(R.id.messageItem_textView_message);
+
                 textView_name = view.findViewById(R.id.messageItem_textView_name);
                 imageView_profile = view.findViewById(R.id.messageItem_imageView_profile);
                 linearLayout_destination = view.findViewById(R.id.messageItem_linear_Layout_destination);
