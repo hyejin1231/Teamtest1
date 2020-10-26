@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     String key;
     String uids;
     EditText edit_Search;
-    ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnChat;
+    ImageView img_btnWrite, img_btnMypage,img_btnNotice, img_btnSearch,img_btnChat,img_btnHome;
     String modify_name,modify_pw,modify_email;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String currentUid = user.getUid();
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         img_btnNotice = findViewById(R.id.img_SC_btnNotice);
         img_btnSearch = findViewById(R.id.img_SC_btnSearch);
+        img_btnHome = findViewById(R.id.img_SC_home);
         edit_Search = findViewById(R.id.edit_SC_Search);
         //img_btnHotClick = findViewById(R.id.img_SC_btnHotClick);
         img_btnWrite = findViewById(R.id.img_SC_btnWrite);
@@ -272,6 +273,14 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CustomAdapter(arrayList,this);
         recyclerView.setAdapter(adapter); //리사이클러뷰에 어뎁터 연결
 
+        img_btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("uid" , uids);
+                startActivity(intent);
+            }
+        });
 
         img_btnWrite.setOnClickListener(new View.OnClickListener() {
             @Override
