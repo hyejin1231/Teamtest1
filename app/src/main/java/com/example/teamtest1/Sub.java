@@ -259,119 +259,124 @@ public class Sub extends AppCompatActivity {
         btn_SubBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final List<String> ListItems = new ArrayList<>();
-                ListItems.add("500원");
-                ListItems.add("1000원");
-                ListItems.add("5000원");
-                ListItems.add("10000원");
-                ListItems.add("50000원");
-                final CharSequence[] items =  ListItems.toArray(new String[ ListItems.size()]);
 
-                final List SelectedItems  = new ArrayList();
-                int defaultItem = 0;
-                SelectedItems.add(defaultItem);
+                if (seller.equals(currentUid)) {
+                    Toast.makeText(getApplicationContext(), "본인 상품 입찰 불가", Toast.LENGTH_SHORT).show();
+                } else {
+                    final List<String> ListItems = new ArrayList<>();
+                    ListItems.add("500원");
+                    ListItems.add("1000원");
+                    ListItems.add("5000원");
+                    ListItems.add("10000원");
+                    ListItems.add("50000원");
+                    final CharSequence[] items = ListItems.toArray(new String[ListItems.size()]);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Sub.this);
-                builder.setTitle("입찰가격을 선택해주세요!!");
-                builder.setSingleChoiceItems(items, defaultItem,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                SelectedItems.clear();
-                                SelectedItems.add(which);
-                            }
-                        });
+                    final List SelectedItems = new ArrayList();
+                    int defaultItem = 0;
+                    SelectedItems.add(defaultItem);
 
-                builder.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                String selectBid ="";
-                                if (!SelectedItems.isEmpty()) {
-                                    int index = (int) SelectedItems.get(0);
-                                    selectBid = ListItems.get(index);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Sub.this);
+                    builder.setTitle("입찰가격을 선택해주세요!!");
+                    builder.setSingleChoiceItems(items, defaultItem,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SelectedItems.clear();
+                                    SelectedItems.add(which);
                                 }
-                                int intBid = Integer.parseInt(selectBid.replace("원","")); // 선택한 값 숫자로 변환
-                                nowBidInt = Integer.parseInt(nowBid);
-                               final int attendBid = intBid + nowBidInt;
+                            });
+
+                    builder.setPositiveButton("Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String selectBid = "";
+                                    if (!SelectedItems.isEmpty()) {
+                                        int index = (int) SelectedItems.get(0);
+                                        selectBid = ListItems.get(index);
+                                    }
+                                    int intBid = Integer.parseInt(selectBid.replace("원", "")); // 선택한 값 숫자로 변환
+                                    nowBidInt = Integer.parseInt(nowBid);
+                                    final int attendBid = intBid + nowBidInt;
 //                                currentUid
 
-                                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for (DataSnapshot child: snapshot.getChildren()) {
-                                            key3 = child.getKey();
-                                        }
-                                        String bidCountString = snapshot.child(key3).child("bidCount").getValue().toString();
-                                        int bidCount = Integer.parseInt(bidCountString);
+                                    databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot child : snapshot.getChildren()) {
+                                                key3 = child.getKey();
+                                            }
+                                            String bidCountString = snapshot.child(key3).child("bidCount").getValue().toString();
+                                            int bidCount = Integer.parseInt(bidCountString);
 
-                                         String presentBidder = snapshot.child(key3).child("bidder").getValue().toString();
+                                            String presentBidder = snapshot.child(key3).child("bidder").getValue().toString();
 
-                                        if(presentBidder.equals(currentUid)) {
+                                            if (presentBidder.equals(currentUid)) {
 
-                                        }else{
-                                            bidCount++;
-                                        }
+                                            } else {
+                                                bidCount++;
+                                            }
 
 //                                        Toast.makeText(Sub.this,  key3, Toast.LENGTH_SHORT).show(); // 실행할 코드
-                                        snapshot.getRef().child(key3).child("bid").setValue(attendBid);
-                                        snapshot.getRef().child(key3).child("bidder").setValue(currentUid);
-                                        snapshot.getRef().child(key3).child("bidCount").setValue(bidCount);
+                                            snapshot.getRef().child(key3).child("bid").setValue(attendBid);
+                                            snapshot.getRef().child(key3).child("bidder").setValue(currentUid);
+                                            snapshot.getRef().child(key3).child("bidCount").setValue(bidCount);
 
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
 
-                                    }
-                                });
+                                        }
+                                    });
 //                                    Intent intent = new Intent(itemView.getContext(), MainActivity.class);
 //                                    itemView.getContext().startActivity(intent);
 //                                Toast.makeText(Sub.this, attendBid, Toast.LENGTH_SHORT).show(); // 실행할 코드
 
-                                Toast.makeText(getApplicationContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                    Toast.makeText(getApplicationContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
 
 
-                                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for (DataSnapshot child: snapshot.getChildren()) {
-                                            key3 = child.getKey();
+                                    databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot child : snapshot.getChildren()) {
+                                                key3 = child.getKey();
+                                            }
+
+
+                                            String presentBidder = snapshot.child(key3).child("bidder").getValue().toString();
+
+                                            tv_bid.setText(String.valueOf(attendBid) + "원");
+
+                                            int bidCountUpdate = Integer.parseInt(tv_bidCount.getText().toString().replace("명 참여", ""));
+
+                                            if (presentBidder.equals(currentUid)) {
+                                                tv_bidCount.setText(bidCountUpdate + "명 참여");
+                                            } else {
+                                                bidCountUpdate++;
+                                                tv_bidCount.setText(bidCountUpdate + "명 참여");
+                                            }
+
+
                                         }
 
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
 
-                                        String presentBidder = snapshot.child(key3).child("bidder").getValue().toString();
-
-                                        tv_bid.setText(String.valueOf(attendBid) + "원");
-
-                                        int bidCountUpdate = Integer.parseInt(tv_bidCount.getText().toString().replace("명 참여",""));
-
-                                        if (presentBidder.equals(currentUid)) {
-                                            tv_bidCount.setText(bidCountUpdate+"명 참여");
-                                        }else {
-                                            bidCountUpdate++;
-                                            tv_bidCount.setText(bidCountUpdate+"명 참여");
                                         }
+                                    });
 
+                                }
+                            });
 
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-
-                            }
-                        });
-
-                builder.setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(Sub.this, "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
-                            }
-                        });
-                builder.show();
+                    builder.setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(Sub.this, "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                }
+                            });
+                    builder.show();
+                }
             }
         });
 
@@ -551,25 +556,30 @@ public class Sub extends AppCompatActivity {
         btn_price.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener(){
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot child : snapshot.getChildren()){
-                            Message = child.getKey();
-                            destinationUID = snapshot.child(Message).child("seller").getValue().toString();
+
+                if (seller.equals(currentUid)) {
+                    Toast.makeText(getApplicationContext(), "본인 물품 구매 불가 ", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                }else {
+                    databaseReference.orderByChild("unique").equalTo(unique).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot child : snapshot.getChildren()) {
+                                Message = child.getKey();
+                                destinationUID = snapshot.child(Message).child("seller").getValue().toString();
+                            }
+                            Toast.makeText(getApplicationContext(), destinationUID, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                            intent.putExtra("destinationUID", destinationUID);
+                            startActivity(intent);
+                            finish();
                         }
-                        Toast.makeText(getApplicationContext(), destinationUID, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
-                        intent.putExtra("destinationUID",destinationUID);
-                        startActivity(intent);
-                        finish();
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                        }
+                    });
+                }
             }
         });
 

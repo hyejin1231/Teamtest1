@@ -279,7 +279,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Sell.class);
                 intent.putExtra("uid" , uids);
                 startActivity(intent);
-                finish();
             }
         });
 
