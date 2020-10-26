@@ -61,6 +61,7 @@ public class MessageActivity extends AppCompatActivity{
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm");
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_message);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -212,13 +213,17 @@ public class MessageActivity extends AppCompatActivity{
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             MessageViewHolder messageViewHolder = ((MessageViewHolder)holder);
             if(comments.get(position).Uid.equals(destinationUID)){
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
                 messageViewHolder.textView_name.setText(User.getNickName());
                 messageViewHolder.textView_message.setText(comments.get(position).message);
-                messageViewHolder.textView_message.setBackgroundResource(R.drawable.out_message_bg);
+                messageViewHolder.textView_message.setBackgroundResource(R.drawable.in_message_bg);
                 messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
                 messageViewHolder.textView_message.setTextSize(25);
                 messageViewHolder.textView_message.setGravity(Gravity.RIGHT);
-                messageViewHolder.linearLayout_main.setGravity(Gravity.RIGHT);
+                params.gravity = Gravity.RIGHT;
+                messageViewHolder.textView_message.setLayoutParams(params);
                 setReadCounter(position,messageViewHolder.textView_readCounter_left);
 
             }
@@ -228,7 +233,7 @@ public class MessageActivity extends AppCompatActivity{
                         .apply(new RequestOptions().circleCrop())
                         .into(messageViewHolder.imageView_profile); 이미지 생기면 받아올 수 있음*/
                 messageViewHolder.linearLayout_destination.setVisibility(View.VISIBLE);
-                messageViewHolder.textView_message.setBackgroundResource(R.drawable.in_message_bg);
+                messageViewHolder.textView_message.setBackgroundResource(R.drawable.out_message_bg);
                 messageViewHolder.textView_message.setText(comments.get(position).message);
                 messageViewHolder.textView_message.setTextSize(25);
                 messageViewHolder.textView_message.setGravity(Gravity.LEFT);
