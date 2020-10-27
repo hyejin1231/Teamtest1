@@ -32,7 +32,7 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
     private ArrayList<Product> arrayList;
     private Context context;
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, databaseReference_User;
 
     String test;
     String key;
@@ -64,6 +64,7 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Product"); // DB 테이블 연동
+        databaseReference_User = database.getReference("User");
 
         test = arrayList.get(position).getUnique();
         databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -100,12 +101,13 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
         });
         holder.tv_sell_title.setText("제품명 " + arrayList.get(position).getTitle());
         holder.tv_sell_price.setText("가격 " + String.valueOf(arrayList.get(position).getPrice()) + "원");
-        holder.tv_sell_seller.setText("판매자 " + arrayList.get(position).getSeller());
+//        holder.tv_sell_seller.setText("판매자 " + arrayList.get(position).getSeller());
         holder.tv_sell_buyer.setText("구매자 " + arrayList.get(position).getBuyer());
         holder.tv_sell_deadline.setText("마감일 " + arrayList.get(position).getDeadline());
 
+        final String seller = arrayList.get(position).getSeller();
         String status = arrayList.get(position).getStatus();
-        String bidder = arrayList.get(position).getBidder();
+        final String bidder = arrayList.get(position).getBidder();
 
         if (status.equals("selling")){
             holder.tv_sell_status.setText("판매 중!!");
@@ -120,10 +122,34 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
                 holder.tv_sell_status.setTextColor(Color.parseColor("#BE151414"));
             }else {
                 holder.tv_sell_status.setText("낙찰자와 채팅필요!");
-                holder.tv_sell_buyer.setText("입찰자 " + arrayList.get(position).getBidder());
+//                holder.tv_sell_buyer.setText("입찰자 " + arrayList.get(position).getBidder());
+                databaseReference_User.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        holder.tv_sell_buyer.setText("입찰자 " + snapshot.child(bidder).child("id").getValue().toString());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
                 holder.tv_sell_status.setTextColor(Color.parseColor("#4CAF50"));
             }
         }
+
+        databaseReference_User.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                holder.tv_sell_seller.setText("판매자 " + snapshot.child(seller).child("id").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -131,6 +157,8 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
         //삼항 연사자
         return (arrayList != null ? arrayList.size() : 0);
     }
+
+
 
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {

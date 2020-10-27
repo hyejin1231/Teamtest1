@@ -35,12 +35,11 @@ public class BuyDetailActivity extends AppCompatActivity {
 
 
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, databaseReference_User;
     private ArrayList<Product> arrayList;
 
     ImageView iv_bd_profile;
     TextView tv_bd_name;
-    TextView tv_bd_price;
     TextView tv_bd_buyer;
     TextView tv_bd_seller;
     Button btn_del_detail;
@@ -48,6 +47,9 @@ public class BuyDetailActivity extends AppCompatActivity {
     String key,test;
     String seller22,buyer22;
     Button btn_estimate;
+    String keyUser;
+    ImageView img_btn_bd_back;
+    TextView tv_bd_detail,tv_bd_category;
 
 
 
@@ -58,13 +60,16 @@ public class BuyDetailActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance(); //파이어벵스 데이터베이스 연동
         databaseReference = database.getReference("Product");
+        databaseReference_User= database.getReference("User");
 
         Intent intent_buy = getIntent();
 
+        tv_bd_category = findViewById(R.id.tv_bd_category);
+        tv_bd_detail = findViewById(R.id.tv_bd_detail);
+        img_btn_bd_back = findViewById(R.id.img_btn_bd_back);
         btn_estimate = findViewById(R.id.btn_estimate);
         iv_bd_profile = findViewById(R.id.iv_bd_profile);
         tv_bd_name = findViewById(R.id.tv_bd_name);
-        tv_bd_price = findViewById(R.id.tv_bd_price);
         tv_bd_buyer = findViewById(R.id.tv_bd_buyer);
         tv_bd_seller = findViewById(R.id.tv_bd_seller);
         btn_del_detail = findViewById(R.id.btn_bdel_detail);
@@ -77,6 +82,9 @@ public class BuyDetailActivity extends AppCompatActivity {
                 for(DataSnapshot child : snapshot.getChildren()) {
                     key = child.getKey();
                 }
+
+                tv_bd_category.setText(snapshot.child(key).child("category").getValue().toString());
+                tv_bd_detail.setText(snapshot.child(key).child("detail").getValue().toString());
 
                 FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
                 StorageReference storageReference = storage.getReference();
@@ -112,13 +120,43 @@ public class BuyDetailActivity extends AppCompatActivity {
         });
        // Glide.with(this).load(intent_buy.getExtras().getString("iv_sd_profile")).override(300,300).into(iv_bd_profile);
         tv_bd_name.setText(intent_buy.getExtras().getString("tv_bd_name"));
-        tv_bd_price.setText(intent_buy.getExtras().getString("tv_bd_price"));
-        tv_bd_buyer.setText(intent_buy.getExtras().getString("tv_bd_buyer"));
-        tv_bd_seller.setText(intent_buy.getExtras().getString("tv_bd_seller"));
         unique = intent_buy.getExtras().getString("unique");
 
          seller22 = intent_buy.getExtras().getString("tv_bd_seller");
         buyer22 = intent_buy.getExtras().getString("tv_bd_buyer");
+
+        databaseReference_User.orderByChild("uid").equalTo(seller22).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child: snapshot.getChildren()){
+                    keyUser = child.getKey();
+                }
+                tv_bd_buyer.setText(snapshot.child(keyUser).child("id").getValue().toString());
+
+             }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        databaseReference_User.orderByChild("uid").equalTo(buyer22).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child: snapshot.getChildren()){
+                    keyUser = child.getKey();
+                }
+                tv_bd_seller.setText(snapshot.child(keyUser).child("id").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         btn_del_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +195,13 @@ public class BuyDetailActivity extends AppCompatActivity {
                 intent.putExtra("seller2", seller22);
 
                 startActivity(intent);
+                finish();
+            }
+        });
+
+        img_btn_bd_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });

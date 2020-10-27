@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BuyDetailActivity">
+
     <ImageView
         android:id="@+id/iv_bd_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,18 +21,19 @@
         android:id="@+id/tv_bd_buyer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
         android:text="구매자"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView20"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textView20" />
 
     <TextView
         android:id="@+id/tv_bd_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="제품명"
+        android:layout_marginTop="24dp"
+        android:text="상품이름 "
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_bd_profile" />
@@ -40,22 +42,62 @@
         android:id="@+id/tv_bd_seller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
         android:text="판매자"
+        android:textSize="14sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textView18" />
 
     <TextView
-        android:id="@+id/tv_bd_price"
+        android:id="@+id/textView67"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
-        android:text="가격"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:layout_marginStart="104dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginTop="16dp"
+        android:text="카테고리"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_bd_name" />
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <ImageView
+        android:id="@+id/img_btn_bd_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/back" />
+
+    <TextView
+        android:id="@+id/tv_bd_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:text="카테고리"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView67"
+        app:layout_constraintStart_toEndOf="@+id/textView67" />
+
+    <TextView
+        android:id="@+id/tv_bd_detail"
+        android:layout_width="228dp"
+        android:layout_height="103dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginLeft="83dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="83dp"
+        android:layout_marginRight="83dp"
+        android:background="@drawable/border"
+        android:padding="10dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
     <Button
         android:id="@+id/btn_bdel_detail"
@@ -63,43 +105,40 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginLeft="64dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
+        android:background="@drawable/buttonrectangle"
         android:text="삭제"
+        android:textColor="#FBFAFA"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/btn_estimate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_bd_buyer" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_bd_detail" />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="356dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginTop="12dp"
         android:text="판매자"
-        app:layout_constraintEnd_toStartOf="@+id/tv_bd_seller"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_bd_name" />
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="49dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginStart="105dp"
+        android:layout_marginLeft="105dp"
+        android:layout_marginTop="16dp"
         android:text="구매자"
-        app:layout_constraintEnd_toStartOf="@+id/tv_bd_buyer"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+        app:layout_constraintTop_toBottomOf="@+id/textView67" />
 
     <Button
         android:id="@+id/btn_estimate"
@@ -107,7 +146,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="82dp"
         android:layout_marginRight="82dp"
-        android:text="판매자 평가하기"
+        android:background="@drawable/buttonrectangle"
+        android:text="판매자 평가"
+        android:textColor="#FBFAFA"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/btn_bdel_detail"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
