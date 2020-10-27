@@ -18,6 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".LogoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".BidList" />
         <activity android:name=".AdminMemberSub" />
         <activity android:name=".DuedateActivity" />
@@ -49,11 +56,6 @@
         <activity android:name=".SellistActivity" />
         <activity android:name=".BuylistActivity" />
         <activity android:name=".Login2">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MyPage" />
         <activity android:name=".Sell" />
