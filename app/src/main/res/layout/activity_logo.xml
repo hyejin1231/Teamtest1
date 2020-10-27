@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF2B2B"
+    android:background="#FFFFFF"
     tools:context=".LogoActivity">
 
     <ImageView
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="160dp"
         android:text="TTT"
-        android:textColor="#FCE9D5"
+        android:textColor="#FF2B2B"
         android:textSize="46sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
