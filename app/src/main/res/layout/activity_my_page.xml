@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
+    app:barrierMargin="3dp"
     tools:context=".MyPage">
 
     <ImageView
         android:id="@+id/btn_buylist"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_profile"
@@ -62,6 +64,7 @@
         android:background="@drawable/buttonrectangle"
         android:text="로그아웃"
         android:textColor="#FFFFFF"
+        android:textColorLink="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -212,19 +215,25 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="6dp"
         android:background="@drawable/buttonrectangle"
+        android:bufferType="normal"
+        android:clickable="true"
+        android:soundEffectsEnabled="false"
         android:text="1:1 문의"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#FFFFFF"
+        android:typeface="normal"
         app:layout_constraintBottom_toTopOf="@+id/btn_modify"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/btn_likelist"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:tint="#F4B2B0"
         app:layout_constraintBottom_toBottomOf="@+id/btn_bidlist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_bidlist"
@@ -232,20 +241,20 @@
 
     <ImageView
         android:id="@+id/btn_bidlist"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_selllist"
         app:layout_constraintStart_toEndOf="@+id/btn_selllist"
         app:srcCompat="@drawable/bidnn" />
 
     <ImageView
         android:id="@+id/btn_selllist"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_buylist"
         app:layout_constraintStart_toEndOf="@+id/btn_buylist"
         app:srcCompat="@drawable/sellnn" />

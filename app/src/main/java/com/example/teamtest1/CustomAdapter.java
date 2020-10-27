@@ -50,6 +50,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     private DatabaseReference databaseReference;
     ArrayAdapter<String> spinner_arrayAdapter;
 
+    private List<String> mList = new ArrayList<>();
+//    private ActivityMainBinding mBinding;
+
 
 
     int count;
@@ -226,6 +229,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             databaseReference = database.getReference("Product"); // DB 테이블 연동
             databaseReference_like = database.getReference("Like");
 
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -268,7 +272,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     });
 
                     Intent intent = new Intent(v.getContext(), Sub.class);
-
                     intent.putExtra("unique", arrayList.get(position).getUnique());
                     intent.putExtra("count", String.valueOf(arrayList.get(position).getCount()));
                     intent.putExtra("image", arrayList.get(position).getImage());

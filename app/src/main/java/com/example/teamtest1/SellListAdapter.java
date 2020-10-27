@@ -101,7 +101,6 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
         });
         holder.tv_sell_title.setText("제품명 " + arrayList.get(position).getTitle());
         holder.tv_sell_price.setText("가격 " + String.valueOf(arrayList.get(position).getPrice()) + "원");
-//        holder.tv_sell_seller.setText("판매자 " + arrayList.get(position).getSeller());
         holder.tv_sell_buyer.setText("구매자 " + arrayList.get(position).getBuyer());
         holder.tv_sell_deadline.setText("마감일 " + arrayList.get(position).getDeadline());
 
@@ -193,7 +192,6 @@ public class SellListAdapter extends RecyclerView.Adapter<SellListAdapter.Custom
 
                         intent_selling.putExtra("iv_sd_profile",arrayList.get(position).getImage());//
                         intent_selling.putExtra("tv_sd_price", String.valueOf(arrayList.get(position).getPrice()));
-                        //uid말고 이메일을 받아보게 해야하는데,,
                         intent_selling.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
                         intent_selling.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
                         intent_selling.putExtra("tv_sd_name", arrayList.get(position).getTitle());

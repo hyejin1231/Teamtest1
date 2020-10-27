@@ -20,8 +20,8 @@
         android:id="@+id/tv_email_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="75dp"
-        android:layout_marginLeft="75dp"
+        android:layout_marginStart="95dp"
+        android:layout_marginLeft="95dp"
         android:layout_marginTop="32dp"
         android:text="아이디"
         android:textSize="18sp"
@@ -38,19 +38,19 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/tv_email_login"
-        app:layout_constraintStart_toStartOf="@+id/tv_email_login"
         app:layout_constraintTop_toBottomOf="@+id/tv_email_login" />
 
     <EditText
         android:id="@+id/et_pw_login"
-        android:layout_width="200dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="11dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_pw_login"
-        app:layout_constraintStart_toEndOf="@+id/tv_pw_login" />
+        app:layout_constraintStart_toEndOf="@+id/tv_pw_login"
+        app:layout_constraintTop_toBottomOf="@+id/et_email_login" />
 
     <Button
         android:id="@+id/btn_login"
@@ -58,8 +58,8 @@
         android:layout_height="40dp"
         android:layout_marginStart="131dp"
         android:layout_marginLeft="131dp"
-        android:layout_marginTop="32dp"
-        android:background="#E2FF2B2B"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/buttonrectangle"
         android:text="로그인"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
@@ -73,7 +73,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:background="#E2FF2B2B"
+        android:background="@drawable/buttonrectangle"
         android:text="회원가입"
         android:textColor="#FDF9F9"
         android:textSize="16sp"
@@ -83,15 +83,13 @@
 
     <EditText
         android:id="@+id/et_email_login"
-        android:layout_width="200dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
+        android:layout_marginTop="22dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_email_login"
         app:layout_constraintEnd_toEndOf="@+id/et_pw_login"
-        app:layout_constraintStart_toEndOf="@+id/tv_email_login" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <ImageView
         android:id="@+id/imageView"

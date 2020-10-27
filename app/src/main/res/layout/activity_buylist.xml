@@ -9,7 +9,7 @@
 
     <EditText
         android:id="@+id/edit_input_buyCode"
-        android:layout_width="357dp"
+        android:layout_width="340dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -27,8 +27,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edit_input_buyCode"
         app:layout_constraintTop_toTopOf="@+id/edit_input_buyCode"
-        app:srcCompat="@drawable/keynn" />
+        app:srcCompat="@drawable/tap" />
 
     <ImageView
         android:id="@+id/img_btn_buyBack"

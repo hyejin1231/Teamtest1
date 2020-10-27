@@ -383,9 +383,10 @@ public class Sub extends AppCompatActivity {
         img_btnBackMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent1);
+//                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(intent1);
                 finish();
+               // moveTaskToBack(false);
             }
         });
 
@@ -476,7 +477,6 @@ public class Sub extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        //Toast.makeText(getApplicationContext(), "관심상품 등록실패", Toast.LENGTH_SHORT).show();
                     }
 
                 });
@@ -485,72 +485,6 @@ public class Sub extends AppCompatActivity {
         });
 
 
-
-//        //클릭 => 관심상품 등록
-//        img_btnLike2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                //***이건 잘 들어오는거 보면 id랑 unique의 문제는 아님
-//                //Like like_add = new Like(currentUid, unique);
-//                //databaseReference_like.push().setValue(like_add);
-//                //Toast.makeText(getApplicationContext(), "관심상품 등록", Toast.LENGTH_SHORT).show();
-//
-//                //Like 테이블 참조.orderByChild("id").equalTo(currentUid)
-//                databaseReference_like.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        for (DataSnapshot child : snapshot.getChildren()) {
-//                            key1 = child.getKey();
-//                        }if (((snapshot.child(key1).child("unique").getValue()).equals(unique)) && ((snapshot.child(key1).child("id").getValue()).equals(currentUid))) {
-//                            Toast.makeText(getApplicationContext(), "이미 관심상품으로 등록되어있습니다.", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Like like_add = new Like(currentUid, unique);
-//                            databaseReference_like.push().setValue(like_add);
-//                            Toast.makeText(getApplicationContext(), "관심상품 등록", Toast.LENGTH_SHORT).show();
-//                            img_btnLike.setVisibility(View.VISIBLE);
-//                            img_btnLike2.setVisibility(View.INVISIBLE);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        Toast.makeText(getApplicationContext(), "관심상품 등록실패", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
-//
-//
-//        img_btnLike2.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                databaseReference_like.orderByChild("id").equalTo(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        for (DataSnapshot child : snapshot.getChildren()) {
-//                            key2 = child.getKey();
-//
-//                            if (((snapshot.child(key2).child("unique").getValue()).equals(unique)) &&
-//                                    ((snapshot.child(key2).child("id").getValue()).equals(currentUid))) {
-//                                snapshot.getRef().child(key2).removeValue();
-//                                Toast.makeText(getApplicationContext(), "관심상품 취소", Toast.LENGTH_SHORT).show();
-//                                img_btnLike.setVisibility(View.INVISIBLE);
-//                                img_btnLike2.setVisibility(View.VISIBLE);
-//                            }
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        //Toast.makeText(getApplicationContext(), "관심상품 등록실패", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                });
-//                return false;
-//            }
-//        });
 
         //권이 추 가 부분 상세구매에서 채팅 연동 완료. uid 정상적 출력, for문 잘못 달아서 여태 오류 뜬 것 으로 추정
         btn_price.setOnClickListener(new View.OnClickListener(){
