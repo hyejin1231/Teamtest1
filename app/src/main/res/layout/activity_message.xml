@@ -14,7 +14,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="#F5f5dc"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 

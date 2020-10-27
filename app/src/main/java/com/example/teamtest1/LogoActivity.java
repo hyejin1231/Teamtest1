@@ -23,6 +23,6 @@ public class LogoActivity extends AppCompatActivity{
                 startActivity(intent);
                 finish();
             }
-        },5000);
+        },3000);
     }
 }
