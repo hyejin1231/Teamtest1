@@ -34,33 +34,30 @@
             android:layout_marginRight="8dp"
             app:layout_constraintEnd_toStartOf="@+id/img_btn_dueDate"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/hotclicknn"
-            app:tint="#FF0000" />
+            app:srcCompat="@drawable/rank" />
 
         <ImageView
             android:id="@+id/img_btn_dueDate"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             app:layout_constraintEnd_toStartOf="@+id/img_btn_category"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/alram22"
-            app:tint="#FF0000" />
+            app:srcCompat="@drawable/time" />
 
         <ImageView
             android:id="@+id/img_btn_category"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cate22"
-            app:tint="#FF0000" />
+            tools:srcCompat="@drawable/menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <EditText
@@ -85,7 +82,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/edit_SC_Search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:srcCompat="@drawable/new_search" />
+        app:srcCompat="@drawable/searchhh" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/SCrecyclerView"
@@ -115,7 +112,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/home22" />
+            app:srcCompat="@drawable/homebutton" />
 
         <ImageView
             android:id="@+id/img_SC_btnWrite"
@@ -126,7 +123,7 @@
             app:layout_constraintStart_toEndOf="@+id/img_SC_btnNotice"
             app:layout_constraintTop_toTopOf="@+id/img_SC_btnNotice"
             app:layout_constraintVertical_bias="0.49"
-            app:srcCompat="@drawable/write22" />
+            app:srcCompat="@drawable/sellwrite" />
 
         <ImageView
             android:id="@+id/img_SC_btnMypage"
@@ -162,7 +159,7 @@
             app:layout_constraintStart_toEndOf="@+id/img_SC_home"
             app:layout_constraintTop_toTopOf="@+id/img_SC_home"
             app:layout_constraintVertical_bias="0.51"
-            app:srcCompat="@drawable/pin222" />
+            app:srcCompat="@drawable/board" />
 
         <ImageView
             android:id="@+id/img_SC_btnChat"
@@ -173,7 +170,7 @@
             app:layout_constraintEnd_toStartOf="@+id/img_SC_home"
             app:layout_constraintStart_toEndOf="@+id/img_SC_btnMypage"
             app:layout_constraintTop_toTopOf="@+id/img_SC_home"
-            app:srcCompat="@drawable/web22"></ImageView>
+            app:srcCompat="@drawable/conservation"></ImageView>
 
         <TextView
             android:id="@+id/textView62"
