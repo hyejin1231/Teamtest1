@@ -37,7 +37,7 @@ public class SelecCategory extends AppCompatActivity {
     String currentUid = user.getUid();
 
     EditText edit_SC_Search;
-    ImageView img_SC_btnWrite, img_SC_btnMypage,img_SC_btnNotice, img_SC_btnSearch,img_SC_btnHotClick,img_SC_btnChat;
+    ImageView img_SC_btnWrite,img_SC_btnNotice, img_SC_btnSearch,img_SC_btnChat,img_SC_btnHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +47,9 @@ public class SelecCategory extends AppCompatActivity {
         img_SC_btnNotice = findViewById(R.id.img_SC_btnNotice);
         img_SC_btnSearch = findViewById(R.id.img_SC_btnSearch);
         edit_SC_Search = findViewById(R.id.edit_SC_Search);
-        img_SC_btnHotClick = findViewById(R.id.img_SC_btnHotClick);
         img_SC_btnWrite = findViewById(R.id.img_SC_btnWrite);
-        img_SC_btnMypage = findViewById(R.id.img_SC_btnMypage);
         img_SC_btnChat = findViewById(R.id.img_SC_btnChat);
+        img_SC_btnHome = findViewById(R.id.img_SC_btnHome);
 
         SCrecyclerView = findViewById(R.id.SCrecyclerView);
         SCrecyclerView.setHasFixedSize(true);
@@ -96,17 +95,6 @@ public class SelecCategory extends AppCompatActivity {
             }
         });
 
-        img_SC_btnMypage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MyPage.class);
-                intent.putExtra("uid" , currentUid);
-
-                //문제 해결
-                startActivity(intent);
-//                finish();
-            }
-        });
 
         img_SC_btnNotice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,13 +116,15 @@ public class SelecCategory extends AppCompatActivity {
             }
         });
 
-        img_SC_btnHotClick.setOnClickListener(new View.OnClickListener() {
+        img_SC_btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), HotClickView.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
+
+
 
         img_SC_btnChat.setOnClickListener(new View.OnClickListener(){
             @Override

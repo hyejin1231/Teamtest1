@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00FFFFFF"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,7 +89,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/SCrecyclerView"
         android:layout_width="0dp"
-        android:layout_height="500dp"
+        android:layout_height="490dp"
+        android:background="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +98,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -103,13 +106,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SCrecyclerView"
-        app:layout_constraintVertical_bias="0.0"
-        android:layout_width="match_parent">
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/img_SC_home"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -166,7 +169,6 @@
             android:id="@+id/img_SC_btnChat"
             android:layout_width="42dp"
             android:layout_height="45dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/img_SC_home"
             app:layout_constraintEnd_toStartOf="@+id/img_SC_home"
             app:layout_constraintStart_toEndOf="@+id/img_SC_btnMypage"

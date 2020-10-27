@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/img_dead_profile"
-        android:layout_width="210dp"
-        android:layout_height="210dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,12 +20,12 @@
         android:id="@+id/tv_dead_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
         android:hint="상품이름"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_dead_profile" />
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView68"
+        app:layout_constraintStart_toEndOf="@+id/textView68" />
 
     <TextView
         android:id="@+id/textView27"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="판매자"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,10 +43,10 @@
         android:id="@+id/tv_dead_seller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
         android:hint="판매자"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView27"
         app:layout_constraintStart_toEndOf="@+id/textView27" />
 
@@ -56,20 +56,43 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="입찰자"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
     <TextView
+        android:id="@+id/textView68"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="32dp"
+        android:text="제품명"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_dead_profile" />
+
+    <ImageView
+        android:id="@+id/img_btn_deadBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/back" />
+
+    <TextView
         android:id="@+id/tv_dead_bidder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
         android:hint="입찰자"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView29"
         app:layout_constraintStart_toEndOf="@+id/textView29" />
 
@@ -79,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:text="입찰가격"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:text="마감일"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,10 +124,10 @@
         android:id="@+id/tv_dead_deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
         android:hint="마감일"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView33"
         app:layout_constraintStart_toEndOf="@+id/textView33" />
 
@@ -112,10 +135,10 @@
         android:id="@+id/tv_dead_bid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
         android:hint="입찰가격"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView31"
         app:layout_constraintStart_toEndOf="@+id/textView31" />
 
@@ -123,20 +146,26 @@
         android:id="@+id/btn_dead_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:layout_marginLeft="34dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:background="@drawable/buttonrectangle"
         android:text="채팅하기"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_dead_update"
-        app:layout_constraintStart_toEndOf="@+id/btn_dead_update" />
+        android:textColor="#FFFEFE"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_dead_complete"
+        app:layout_constraintStart_toEndOf="@+id/btn_dead_complete" />
 
     <Button
         android:id="@+id/btn_dead_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="101dp"
-        android:layout_marginLeft="101dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/buttonrectangle"
         android:text="마감일 수정"
+        android:textColor="#F8F5F5"
+        android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView33" />
@@ -145,11 +174,14 @@
         android:id="@+id/btn_dead_selDate"
         android:layout_width="53dp"
         android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/buttonrectangle"
         android:onClick="OnClickHandler"
-        android:text="date"
+        android:text="날짜"
+        android:textColor="#FBF9F9"
         android:textSize="12sp"
+        android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_dead_deadline"
         app:layout_constraintStart_toEndOf="@+id/tv_dead_deadline" />
@@ -158,9 +190,12 @@
         android:id="@+id/btn_dead_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:background="@drawable/buttonrectangle"
         android:text="판매종료하기"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_dead_chat" />
+        android:textColor="#FDF9F9"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_dead_update"
+        app:layout_constraintStart_toEndOf="@+id/btn_dead_update" />
 </androidx.constraintlayout.widget.ConstraintLayout>

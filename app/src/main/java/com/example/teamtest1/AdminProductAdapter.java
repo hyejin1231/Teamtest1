@@ -5,6 +5,7 @@ import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,8 +109,26 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
                     holder.tv_adAlarmDead.setVisibility(View.VISIBLE);
                 }
 
-                if (status.equals("complete") || status.equals("due")) {
+//                if (status.equals("complete") || status.equals("due")) {
+//                    holder.tv_adAlarmEnd.setVisibility(View.VISIBLE);
+//                }
+
+                if (Caldate > 0) {
                     holder.tv_adAlarmEnd.setVisibility(View.VISIBLE);
+                    holder.tv_adAlarmEnd.setText("판매 종료");
+                    holder.tv_adAlarmEnd.setTextColor(Color.parseColor("#1838EC"));
+                }
+
+                if (snapshot.child(key).child("status").getValue().equals("complete")) {
+                    holder.tv_adAlarmEnd.setVisibility(View.VISIBLE);
+                    holder.tv_adAlarmEnd.setText("판매 종료");
+                    holder.tv_adAlarmEnd.setTextColor(Color.parseColor("#1838EC"));
+                }
+
+                if (snapshot.child(key).child("status").getValue().equals("selling")) {
+                    holder.tv_adAlarmEnd.setVisibility(View.VISIBLE);
+                    holder.tv_adAlarmEnd.setText("판매 중");
+                    holder.tv_adAlarmEnd.setTextColor(Color.parseColor("#FF0000"));
                 }
 
                 FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");

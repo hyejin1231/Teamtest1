@@ -35,7 +35,7 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
 
     TextView tv_dead_title,tv_dead_seller,tv_dead_bidder,tv_dead_bid,tv_dead_deadline;
     Button btn_dead_chat,btn_dead_update,btn_dead_selDate,btn_dead_complete;
-    ImageView img_dead_profile;
+    ImageView img_dead_profile,img_btn_deadBack;
     String unique;
     String key,key1,key2,key3;
     private FirebaseDatabase database;
@@ -61,6 +61,7 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deadline_complete);
 
+        img_btn_deadBack = findViewById(R.id.img_btn_deadBack);
         tv_dead_bid = findViewById(R.id.tv_dead_bid);
         tv_dead_bidder = findViewById(R.id.tv_dead_bidder);
         tv_dead_deadline = findViewById(R.id.tv_dead_deadline);
@@ -119,41 +120,47 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
         tv_dead_title.setText(intent_deadline.getExtras().getString("tv_sd_name"));
         tv_dead_seller.setText(intent_deadline.getExtras().getString("tv_sd_seller"));
         tv_dead_deadline.setText(intent_deadline.getExtras().getString("deadline"));
-        tv_dead_bidder.setText(intent_deadline.getExtras().getString("tv_sd_bidder"));
+//        tv_dead_bidder.setText(intent_deadline.getExtras().getString("tv_sd_bidder"));
         tv_dead_bid.setText(intent_deadline.getExtras().getString("bid"));
 
         //입찰자의 uid말고 id를 띄우기 위한 코드 아이디 바뀌면 널로 떠서 주석 처리 - 10.24
         String bidder = intent_deadline.getExtras().getString("tv_sd_bidder");
-//        databaseReferenceU.orderByChild("uid").equalTo(bidder).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot child : snapshot.getChildren()) {
-//                    key = child.getKey();
-//                }
-//                tv_dead_bidder.setText(snapshot.child(key).child("id").getValue().toString());
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
+
+        if (bidder.equals("")) {
+            tv_dead_bidder.setText("입찰자가 없습니다.");
+        }else {
+
+        databaseReferenceU.orderByChild("uid").equalTo(bidder).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+                tv_dead_bidder.setText(snapshot.child(key).child("id").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        }
 //
 //
 //        //판매자의 uid말고 id를 띄우기 위한 코드
-//        String getselleruid = intent_deadline.getExtras().getString("tv_sd_seller");
-//        databaseReferenceU.orderByChild("uid").equalTo(getselleruid).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot child : snapshot.getChildren()) {
-//                    key = child.getKey();
-//                }
-//                tv_dead_seller.setText(snapshot.child(key).child("id").getValue().toString());
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
+        String getselleruid = intent_deadline.getExtras().getString("tv_sd_seller");
+        databaseReferenceU.orderByChild("uid").equalTo(getselleruid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    key = child.getKey();
+                }
+                tv_dead_seller.setText(snapshot.child(key).child("id").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
 
 
@@ -232,6 +239,13 @@ public class DeadlineCompleteActivity extends AppCompatActivity {
                 }).show();
 
 
+            }
+        });
+
+        img_btn_deadBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

@@ -32,7 +32,7 @@ public class CompleteDetailActivity extends AppCompatActivity {
     private DatabaseReference databaseReference1;
     private ArrayList<Product> arrayList;
 
-    ImageView iv_cd_profile;
+    ImageView iv_cd_profile,img_btn_cdBack;
     TextView tv_cd_name;
     TextView tv_cd_price;
     TextView tv_cd_buyer;
@@ -55,6 +55,7 @@ public class CompleteDetailActivity extends AppCompatActivity {
 
         Intent intent_complete = getIntent();
 
+        img_btn_cdBack = findViewById(R.id.img_btn_cdBack);
         iv_cd_profile = findViewById(R.id.iv_cd_profile);
         tv_cd_name = findViewById(R.id.tv_cd_name);
         tv_cd_price = findViewById(R.id.tv_cd_price);
@@ -132,6 +133,13 @@ public class CompleteDetailActivity extends AppCompatActivity {
                     }
                 });
 
+            }
+        });
+
+        img_btn_cdBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

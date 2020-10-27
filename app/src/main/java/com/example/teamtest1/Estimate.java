@@ -30,6 +30,7 @@ public class Estimate extends AppCompatActivity {
     Button btn_es_register;
     ImageView img_face_smile,img_face_angry,img_face_disapp,img_face_good,img_face_soso;
     String key,key2;
+    String keyUser;
 
     public int number = 0;
     int UserInputNumber;
@@ -53,14 +54,51 @@ public class Estimate extends AppCompatActivity {
         img_face_good = findViewById(R.id.img_face_good);
         img_face_soso = findViewById(R.id.img_face_soso);
 
-        tv_es_buyer.setText( intent.getExtras().getString("buyer2"));
-        tv_es_seller.setText(intent.getExtras().getString("seller2"));
+        String buyer22= intent.getExtras().getString("buyer2");
+        String seller22 =intent.getExtras().getString("seller2") ;
+
+//        tv_es_buyer.setText( intent.getExtras().getString("buyer2"));
+//        tv_es_seller.setText(intent.getExtras().getString("seller2"));
 
         final String seller = intent.getExtras().getString("seller2");
 
         database = FirebaseDatabase.getInstance(); //파이어벵스 데이터베이스 연동
         databaseReference = database.getReference("User");
         databaseReference2 = database.getReference("Product");
+
+        databaseReference.orderByChild("uid").equalTo(buyer22).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child: snapshot.getChildren()){
+                    keyUser = child.getKey();
+                }
+
+                tv_es_buyer.setText(snapshot.child(keyUser).child("id").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        databaseReference.orderByChild("uid").equalTo(seller22).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child: snapshot.getChildren()){
+                    keyUser = child.getKey();
+                }
+
+                tv_es_seller.setText(snapshot.child(keyUser).child("id").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

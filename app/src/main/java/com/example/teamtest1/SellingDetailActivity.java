@@ -41,7 +41,7 @@ public class SellingDetailActivity extends AppCompatActivity {
     private ArrayList<Product> arrayList;
     private DatePickerDialog.OnDateSetListener callbackMethod;
 
-    ImageView iv_sd_profile;
+    ImageView iv_sd_profile,img_btn_sd_Back;
     TextView tv_sd_name;
     TextView tv_sd_bid;
     TextView tv_sd_buyer;
@@ -85,6 +85,7 @@ public class SellingDetailActivity extends AppCompatActivity {
 
         this.InitializeListener();
 
+        img_btn_sd_Back = findViewById(R.id.img_btn_sd_Back);
         tv_sd_bid = findViewById(R.id.tv_sd_bid);
         btn_sd_date = findViewById(R.id.btn_sd_date);
         et_sd_content = findViewById(R.id.et_sd_content);
@@ -259,6 +260,13 @@ public class SellingDetailActivity extends AppCompatActivity {
                 }).show();
 
 
+            }
+        });
+
+        img_btn_sd_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

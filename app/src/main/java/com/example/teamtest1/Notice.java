@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +27,8 @@ public class Notice extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
+    ImageView img_btn_noticeBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,7 @@ public class Notice extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         noticeRecycler.setLayoutManager(layoutManager);
         arrayList = new ArrayList<>(); // 객체 담을 arraylist
+        img_btn_noticeBack = findViewById(R.id.img_btn_noticeBack);
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Notice"); // notice 테이블 연동
@@ -59,5 +64,12 @@ public class Notice extends AppCompatActivity {
 
         adapter = new BoardAdpater(arrayList, this);
         noticeRecycler.setAdapter(adapter);
+
+        img_btn_noticeBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
