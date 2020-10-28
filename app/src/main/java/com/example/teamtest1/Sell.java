@@ -48,7 +48,7 @@ public class Sell extends AppCompatActivity {
     TextView tv_writeToday,tv_writeDeadline;
     Button btn_register,btn_gallery,btn_SelectDate;
     EditText edit_bid, edit_price, edit_title, edit_detail;
-    ImageView img_writeImage;
+    ImageView img_writeImage,img_btn_sellBack;
     Spinner spinner;
     Uri uri;
     Bitmap img;
@@ -84,6 +84,7 @@ public class Sell extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
 
+        img_btn_sellBack = findViewById(R.id.img_btn_sellBack);
         tv_writeDeadline = findViewById(R.id.tv_writeDeadline);
         tv_writeToday = findViewById(R.id.tv_writeToday);
         btn_gallery = findViewById(R.id.btn_gallery);
@@ -135,6 +136,13 @@ public class Sell extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        img_btn_sellBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

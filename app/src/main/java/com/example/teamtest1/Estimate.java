@@ -25,12 +25,12 @@ public class Estimate extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference, databaseReference2;
-    TextView tv_es_buyer, tv_es_seller,tv_es_count;
+    TextView tv_es_buyer, tv_es_seller,tv_es_count,tv_es_tittle;
     SeekBar seekBar;
     Button btn_es_register;
-    ImageView img_face_smile,img_face_angry,img_face_disapp,img_face_good,img_face_soso;
+    ImageView img_face_smile,img_face_angry,img_face_disapp,img_face_good,img_face_soso,img_btn_es_back;
     String key,key2;
-    String keyUser;
+    String keyUser, keyTitle;
 
     public int number = 0;
     int UserInputNumber;
@@ -43,6 +43,8 @@ public class Estimate extends AppCompatActivity {
         setContentView(R.layout.activity_estimate);
         Intent intent = getIntent();
 
+        tv_es_tittle = findViewById(R.id.tv_es_tittle);
+        img_btn_es_back = findViewById(R.id.img_btn_es_back);
         tv_es_buyer = findViewById(R.id.tv_es_buyer);
         tv_es_seller = findViewById(R.id.tv_es_seller);
         seekBar = findViewById(R.id.seekBar);
@@ -65,6 +67,24 @@ public class Estimate extends AppCompatActivity {
         database = FirebaseDatabase.getInstance(); //파이어벵스 데이터베이스 연동
         databaseReference = database.getReference("User");
         databaseReference2 = database.getReference("Product");
+
+
+        databaseReference2.orderByChild("seller").equalTo(seller22).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child: snapshot.getChildren()) {
+                    keyTitle = child.getKey();
+                }
+
+                tv_es_tittle.setText(snapshot.child(keyTitle).child("title").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         databaseReference.orderByChild("uid").equalTo(buyer22).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -231,6 +251,13 @@ public class Estimate extends AppCompatActivity {
 
 
 
+        });
+
+        img_btn_es_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
 
     }

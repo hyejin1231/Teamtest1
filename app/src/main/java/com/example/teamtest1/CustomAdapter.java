@@ -282,7 +282,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     intent.putExtra("btnLike",btnLike);
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                     itemView.getContext().startActivity(intent);
