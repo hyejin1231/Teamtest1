@@ -229,7 +229,7 @@ public class MessageActivity extends AppCompatActivity{
                 messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
                 messageViewHolder.textView_message.setTextSize(25);
                 messageViewHolder.linearLayout_main.setGravity(Gravity.RIGHT);
-
+                setReadCounter(position, messageViewHolder.textView_readCounter_left);
 //나
             }
             else{
@@ -269,7 +269,7 @@ public class MessageActivity extends AppCompatActivity{
                 messageViewHolder.textView_message.setText(comments.get(position).message);
                 messageViewHolder.textView_message.setTextSize(25);
                 messageViewHolder.linearLayout_main.setGravity(Gravity.LEFT);
-
+                setReadCounter(position, messageViewHolder.textView_readCounter_Right);
 
             }
             messageViewHolder.textView_message.setTextSize(25);
