@@ -106,7 +106,7 @@ public class BidList extends AppCompatActivity {
                 }
             });
 
-        adapter = new CustomAdapter(arrayList, this);
+        adapter = new BidListAdapter(arrayList, this);
         BidCycler.setAdapter(adapter);
 //        }else {
 //            Toast.makeText(BidList.this, currentUid, Toast.LENGTH_SHORT).show();

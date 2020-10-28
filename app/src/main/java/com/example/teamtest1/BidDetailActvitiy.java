@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class LikeDetailActivity extends AppCompatActivity {
+public class BidDetailActvitiy extends AppCompatActivity {
 
     ImageView img_sub_diss,img_sub_good,img_sub_soso,img_sub_angry,img_sub_smile;
     ImageView tv_image;
@@ -65,10 +65,11 @@ public class LikeDetailActivity extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference,databaseReference_like,databaseReference_User;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_like_detail);
+        setContentView(R.layout.activity_bid_detail);
 
         tv_bidCount = findViewById(R.id.tv_bidCount);
         tv_sub_sellerInfo = findViewById(R.id.tv_sub_sellerInfo);
@@ -270,7 +271,7 @@ public class LikeDetailActivity extends AppCompatActivity {
                     int defaultItem = 0;
                     SelectedItems.add(defaultItem);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LikeDetailActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(BidDetailActvitiy.this);
                     builder.setTitle("입찰가격을 선택해주세요!!");
                     builder.setSingleChoiceItems(items, defaultItem,
                             new DialogInterface.OnClickListener() {
@@ -367,7 +368,7 @@ public class LikeDetailActivity extends AppCompatActivity {
                     builder.setNegativeButton("Cancel",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(LikeDetailActivity.this, "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                    Toast.makeText(BidDetailActvitiy.this, "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
                                 }
                             });
                     builder.show();
@@ -378,7 +379,7 @@ public class LikeDetailActivity extends AppCompatActivity {
         img_btnBackMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(LikeDetailActivity.this, LikelistActivity.class);
+                Intent intent1 = new Intent(BidDetailActvitiy.this, BidList.class);
                 startActivity(intent1);
                 finish();
 

@@ -94,7 +94,7 @@ public class LikelistActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        adapter3 = new CustomAdapter(arrayList3, this);
+        adapter3 = new LikeListAdapter(arrayList3, this);
         recyclerView3.setAdapter(adapter3);
 
 

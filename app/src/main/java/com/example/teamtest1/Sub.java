@@ -383,9 +383,11 @@ public class Sub extends AppCompatActivity {
         img_btnBackMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent1 = new Intent(Sub.this, MainActivity.class);
                 startActivity(intent1);
                 finish();
+
+
                // moveTaskToBack(false);
             }
         });

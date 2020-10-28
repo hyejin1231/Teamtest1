@@ -1,12 +1,16 @@
 package com.example.teamtest1;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,18 +31,27 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class LikeListAdapter extends RecyclerView.Adapter <LikeListAdapter.CustomViewHolder3> {
 
     private ArrayList<Product> arrayList;
     private Context context;
-
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference,databaseReference_User;
+    private DatabaseReference databaseReference;
 
-    String test;
-    String key;
+    int viewCount;
+    String abcd,abcde;
+    String key,key1,key2,test;
+    String currentSeller;
+    String destinationUID;
+    String uniqueTest;
+    String btnLike;
+
+
 
     public LikeListAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -52,95 +67,96 @@ public class LikeListAdapter extends RecyclerView.Adapter <LikeListAdapter.Custo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CustomViewHolder3 holder, int position) {
+    public void onBindViewHolder(@NonNull final CustomViewHolder3 holder, final int position) {
 
-//        Glide.with(holder.itemView)
-//                .load(arrayList.get(position).getImage())
-//                .into(holder.iv_like_image);
+//        holder.tv_productBid.setText(String.valueOf(arrayList.get(position).getBid()) + "원");
+//        holder.tv_productBid.setText(arrayList.get(position).getBid());
+        holder.tv_productTitle.setText(arrayList.get(position).getTitle());
+        holder.tv_productPrice.setText(arrayList.get(position).getPrice() + "원");
+//        holder.tv_viewCnt.setText(String.valueOf(arrayList.get(position).getCount()));
+        holder.tv_productBidCount.setText(arrayList.get(position).getBidCount() +"명 참여");
+
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Product"); // DB 테이블 연동
-        databaseReference_User = database.getReference("User");
+
 
         test = arrayList.get(position).getUnique();
+        final FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+        final StorageReference storageReference = storage.getReference();
+
+
+
         databaseReference.orderByChild("unique").equalTo(test).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot child : snapshot.getChildren()) {
-                    key = child.getKey();
-                }
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    uniqueTest = child.getKey();
 
-                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
-                StorageReference storageReference = storage.getReference();
-                String path = snapshot.child(key).child("image").getValue().toString();
-                storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
+                    long now = System.currentTimeMillis();
+                    Date today = new Date(now);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String date = simpleDateFormat.format(today);
+                    String deadline = (String) snapshot.child(uniqueTest).child("deadline").getValue();
+
+                    String image = arrayList.get(position).getImage();
+
+
+                    //String path = (String)snapshot.child(uniqueTest).child("image").getValue();
+                    String path = (String) snapshot.child(uniqueTest).child("image").getValue();
+
+                    holder.tv_viewCnt.setText(snapshot.child(uniqueTest).child("count").getValue().toString());
+                    holder.tv_productBid.setText(snapshot.child(uniqueTest).child("bid").getValue().toString()+"원");
+
+//                Toast.makeText(context, path, Toast.LENGTH_SHORT).show(); // 실행할 코드
+                    storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
 //                        Toast.makeText(context, "성공", Toast.LENGTH_SHORT).show();
 
-                        Glide.with(holder.itemView)
-                                .load(uri)
-                                .into(holder.iv_like_image);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                            Glide.with(holder.itemView)
+                                    .load(uri)
+                                    .into(holder.iv_productImage);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    int Caldate = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(deadline.replace("-", ""));
 
-            }
-        });
-//        holder.tv_like_title.setText("제품명 " + arrayList.get(position).getTitle());
-//        holder.tv_like_price.setText("가격 " + String.valueOf(arrayList.get(position).getPrice()) + "원");
-//        holder.tv_like_seller.setText("판매자 " + arrayList.get(position).getSeller());
-//        holder.tv_like_buyer.setText("구매자 " + arrayList.get(position).getBuyer());
 
-        holder.tv_like_title.setText("제품명 " + arrayList.get(position).getTitle());
-        holder.tv_like_price.setText("가격 " + String.valueOf(arrayList.get(position).getPrice()) + "원");
-        holder.tv_like_buyer.setText("구매자 " + arrayList.get(position).getBuyer());
-        holder.tv_like_deadline.setText("마감일 " + arrayList.get(position).getDeadline());
-
-        final String seller = arrayList.get(position).getSeller();
-        String status = arrayList.get(position).getStatus();
-        final String bidder = arrayList.get(position).getBidder();
-
-        if (status.equals("selling")){
-            holder.tv_like_status.setText("판매 중!!");
-            holder.tv_like_status.setTextColor(Color.parseColor("#EC1313"));
-        }else if(status.equals("complete")) {
-            holder.tv_like_status.setText("판매 종료!!");
-            holder.tv_like_status.setTextColor(Color.parseColor("#1838EC"));
-        } else if(status.equals("due")) {
-            if (bidder.equals("")) {
-                holder.tv_like_status.setText("판매기간 종료!");
-                holder.tv_like_buyer.setText("입찰자 없음");
-                holder.tv_like_status.setTextColor(Color.parseColor("#BE151414"));
-            }else {
-                holder.tv_like_status.setText("낙찰자와 채팅필요!");
-                databaseReference_User.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        holder.tv_like_buyer.setText("입찰자 " + snapshot.child(bidder).child("id").getValue().toString());
+                    if (deadline.equals(date)) {
+                        holder.tv_alaram.setVisibility(View.VISIBLE);
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
+                    if (Caldate > 0) {
+                        snapshot.getRef().child(uniqueTest).child("status").setValue("due");
+                        holder.btn_bid.setVisibility(View.INVISIBLE);
+                        holder.btn_Buynow.setVisibility(View.INVISIBLE);
+                        holder.tv_alaram.setVisibility(View.VISIBLE);
+                        holder.tv_alaram.setText("판매 종료");
+                        holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
                     }
-                });
 
-                holder.tv_like_status.setTextColor(Color.parseColor("#4CAF50"));
-            }
-        }
+                    if (snapshot.child(uniqueTest).child("status").getValue().equals("complete")) {
+                        holder.btn_bid.setVisibility(View.INVISIBLE);
+                        holder.btn_Buynow.setVisibility(View.INVISIBLE);
+                        holder.tv_alaram.setVisibility(View.VISIBLE);
+                        holder.tv_alaram.setText("판매 종료");
+                        holder.tv_alaram.setTextColor(Color.parseColor("#1838EC"));
+                    }
 
-        databaseReference_User.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                holder.tv_like_seller.setText("판매자 " + snapshot.child(seller).child("id").getValue().toString());
+                    if (snapshot.child(uniqueTest).child("status").getValue().equals("selling")) {
+                        holder.btn_bid.setVisibility(View.VISIBLE);
+                        holder.btn_Buynow.setVisibility(View.VISIBLE);
+                        holder.tv_alaram.setVisibility(View.VISIBLE);
+                        holder.tv_alaram.setText("판매 중");
+                        holder.tv_alaram.setTextColor(Color.parseColor("#FF0000"));
+                    }
+
+                }
             }
 
             @Override
@@ -157,76 +173,249 @@ public class LikeListAdapter extends RecyclerView.Adapter <LikeListAdapter.Custo
 
     public class CustomViewHolder3 extends RecyclerView.ViewHolder {
 
-        ImageView iv_like_image;
-        TextView tv_like_title;
-        TextView tv_like_price;
-        TextView tv_like_seller;
-        TextView tv_like_buyer;
-        TextView tv_like_deadline;
-        TextView tv_like_status;
+        ImageView iv_productImage;
+        TextView tv_productTitle;
+        TextView tv_productBid;
+        TextView tv_productPrice;
+        TextView tv_viewCnt;
+        Button btn_bid,btn_Buynow;
+        TextView tv_alaram,tv_productBidCount;
+        //        TextView tv_productSeller;
+//        TextView tv_productDate;
+//        TextView tv_productDeadline;
+//        TextView tv_productDetail;
+//        TextView tv_productCategory;
+//        TextView tv_productStatus;
+        private FirebaseDatabase database;
+        private DatabaseReference databaseReference,databaseReference_like;
 
-        public CustomViewHolder3(@NonNull View itemView) {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String currentUid = user.getUid();
+
+        public CustomViewHolder3(@NonNull final View itemView) {
             super(itemView);
+            this.tv_productBidCount = itemView.findViewById(R.id.tv_productBidCount);
+            this.tv_productTitle = itemView.findViewById(R.id.tv_productTitle);
+            this.tv_productPrice = itemView.findViewById(R.id.tv_productPrice);
+            this.tv_productBid = itemView.findViewById(R.id.tv_productBid);
+            this.iv_productImage = itemView.findViewById(R.id.iv_productImage);
+            this.tv_viewCnt = itemView.findViewById(R.id.tv_viewCnt);
+            this.btn_bid = itemView.findViewById(R.id.btn_bid);
+            this.btn_Buynow = itemView.findViewById(R.id.btn_Buynow);
+            this.tv_alaram = itemView.findViewById(R.id.tv_alaram);
+//            this.tv_productSeller = itemView.findViewById(R.id.tv_productSeller);
+//            this.tv_productDate = itemView.findViewById(R.id.tv_productDate);
+//            this.tv_productDeadline = itemView.findViewById(R.id.tv_productDeadline);
+//            this.tv_productCategory = itemView.findViewById(R.id.tv_productCategory);
+//            this.tv_productStatus = itemView.findViewById(R.id.tv_productStatus);
+//            this.tv_productDetail = itemView.findViewById(R.id.tv_productDetail);
 
-            this.iv_like_image = itemView.findViewById(R.id.iv_like_image);
-            this.tv_like_title = itemView.findViewById(R.id.tv_like_title);
-            this.tv_like_price = itemView.findViewById(R.id.tv_like_price);
-            this.tv_like_seller = itemView.findViewById(R.id.tv_like_seller);
-            this.tv_like_buyer = itemView.findViewById(R.id.tv_like_buyer);
-            this.tv_like_deadline = itemView.findViewById(R.id.tv_like_deadline);
-            this.tv_like_status = itemView.findViewById(R.id.tv_like_status);
+            database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
+            databaseReference = database.getReference("Product"); // DB 테이블 연동
+            databaseReference_like = database.getReference("Like");
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v) {
+
+
                     int position = getAdapterPosition();
+                    abcd = arrayList.get(position).getUnique();
+                    viewCount = arrayList.get(position).getCount() + 1;
 
-//                    Intent intent = new Intent(view.getContext(), LikelistActivity.class);
-//                    intent.putExtra("unique", arrayList.get(position).getUnique());
+
+                    databaseReference.orderByChild("unique").equalTo(abcd).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot child : snapshot.getChildren()) {
+                                key = child.getKey();
+                            }
+
+                            snapshot.getRef().child(key).child("count").setValue(viewCount);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                    Intent intent = new Intent(v.getContext(), LikeDetailActivity.class);
+                    intent.putExtra("unique", arrayList.get(position).getUnique());
+                    intent.putExtra("count", String.valueOf(viewCount));
+                    intent.putExtra("image", arrayList.get(position).getImage());
+                    intent.putExtra("title", arrayList.get(position).getTitle());
+                    intent.putExtra("price", arrayList.get(position).getPrice());
+                    intent.putExtra("bid", String.valueOf(arrayList.get(position).getBid()));
+                    intent.putExtra("detail", arrayList.get(position).getDetail());
+                    intent.putExtra("btnLike",btnLike);
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    itemView.getContext().startActivity(intent);
 
 
-                    //상품이 판매중인 경우
-                    if((arrayList.get(position).getStatus()).equals("selling")){
-                        Intent intent_selling = new Intent(view.getContext(),SellingDetailActivity.class);
+                }
+            });
+            btn_bid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                        intent_selling.putExtra("iv_sd_profile",arrayList.get(position).getImage());//
-                        intent_selling.putExtra("tv_sd_price", String.valueOf(arrayList.get(position).getPrice()));
-                        intent_selling.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
-                        intent_selling.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
-                        intent_selling.putExtra("tv_sd_name", arrayList.get(position).getTitle());
-                        intent_selling.putExtra("unique", arrayList.get(position).getUnique());
-                        intent_selling.putExtra("deadline", arrayList.get(position).getDeadline());
-                        //intent_selling.putExtra("p_id",arrayList.get(position).getId());
+                    if (arrayList.get(getAdapterPosition()).getSeller().equals(currentUid)) {
+                        Toast.makeText(itemView.getContext(), "본인 상품 입찰 불가 ", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                    } else {
 
-                        view.getContext().startActivity(intent_selling);
-                    }
-                    else if((arrayList.get(position).getStatus()).equals("complete")){ //상품이 판매완료인 경우
-                        Intent intent_complete = new Intent(view.getContext(), CompleteDetailActivity.class);
+//                        Toast.makeText(itemView.getContext(), " 입찰 ok ", Toast.LENGTH_SHORT).show();
 
-                        intent_complete.putExtra("iv_sd_profile",arrayList.get(position).getImage());//
-                        intent_complete.putExtra("tv_sd_price", String.valueOf(arrayList.get(position).getPrice()));
-                        intent_complete.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
-                        intent_complete.putExtra("tv_sd_buyer", arrayList.get(position).getBuyer());
-                        intent_complete.putExtra("tv_sd_name", arrayList.get(position).getTitle());
-                        intent_complete.putExtra("unique",arrayList.get(position).getUnique());
-                        intent_complete.putExtra("deadline", arrayList.get(position).getDeadline());
+                        final List<String> ListItems = new ArrayList<>();
+                        ListItems.add("500원");
+                        ListItems.add("1000원");
+                        ListItems.add("5000원");
+                        ListItems.add("10000원");
+                        ListItems.add("50000원");
+                        final CharSequence[] items = ListItems.toArray(new String[ListItems.size()]);
 
-                        view.getContext().startActivity(intent_complete);
-                    }
-                    else if((arrayList.get(position).getStatus()).equals("due")) {
-                        Intent intent_deadline = new Intent(view.getContext(), DeadlineCompleteActivity.class);
-                        intent_deadline.putExtra("iv_sd_profile",arrayList.get(position).getImage());//
-                        intent_deadline.putExtra("tv_sd_seller", arrayList.get(position).getSeller());
-                        intent_deadline.putExtra("tv_sd_name", arrayList.get(position).getTitle());
-                        intent_deadline.putExtra("unique",arrayList.get(position).getUnique());
-                        intent_deadline.putExtra("tv_sd_bidder",arrayList.get(position).getBidder());
-                        intent_deadline.putExtra("bid", String.valueOf(arrayList.get(position).getBid()));
-                        intent_deadline.putExtra("deadline", arrayList.get(position).getDeadline());
-                        view.getContext().startActivity(intent_deadline);
+                        final List SelectedItems = new ArrayList();
+                        int defaultItem = 0;
+                        SelectedItems.add(defaultItem);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                        builder.setTitle("입찰가격을 선택해주세요!!");
+                        builder.setSingleChoiceItems(items, defaultItem,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SelectedItems.clear();
+                                        SelectedItems.add(which);
+                                    }
+                                });
+                        builder.setPositiveButton("Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        int position = getAdapterPosition();
+                                        abcde = arrayList.get(position).getUnique();
+                                        String selectBid = "";
+                                        if (!SelectedItems.isEmpty()) {
+                                            int index = (int) SelectedItems.get(0);
+                                            selectBid = ListItems.get(index);
+                                        }
+                                        final int intBid = Integer.parseInt(selectBid.replace("원", ""));
+
+//                                        final int attendBid = arrayList.get(position).getBid() + intBid;
+                                        Intent intent = ((Activity) context).getIntent();
+                                        final String bidder = FirebaseAuth.getInstance().getUid();
+                                        //final String bidder = intent.getStringExtra("uid");
+//                                    final String buyer = arrayList.get(position).getBuyer();
+                                        databaseReference.orderByChild("unique").equalTo(abcde).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for (DataSnapshot child : snapshot.getChildren()) {
+                                                    key1 = child.getKey();
+                                                }
+
+                                                int testBid = Integer.parseInt(snapshot.child(key1).child("bid").getValue().toString());
+                                                int attendBid = intBid + testBid;
+
+                                                String bidCountString = snapshot.child(key1).child("bidCount").getValue().toString();
+                                                int bidCount = Integer.parseInt(bidCountString);
+                                                int position = getAdapterPosition();
+//                                            String presentBidder = arrayList.get(position).getBidder();
+                                                String presentBidder = snapshot.child(key1).child("bidder").getValue().toString();
+//                                            int bidCountUpdate = arrayList.get(position).getBidCount();
+
+                                                if (presentBidder.equals(bidder)) {
+
+                                                } else {
+                                                    bidCount++;
+                                                }
+                                                // 입찰가격bid이랑 입찰자 (bidder) uid 담기
+                                                snapshot.getRef().child(key1).child("bid").setValue(attendBid);
+                                                snapshot.getRef().child(key1).child("bidder").setValue(bidder);
+                                                snapshot.getRef().child(key1).child("bidCount").setValue(bidCount);
+                                                tv_productBid.setText(attendBid + "원");
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+
+
+                                        Toast.makeText(itemView.getContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+
+                                        String changeBidunique = arrayList.get(position).getUnique();
+
+
+//                                        tv_productBid.setText(attendBid + "원");
+
+                                        String presentBidder = arrayList.get(position).getBidder();
+                                        int bidCountUpdate = arrayList.get(position).getBidCount();
+                                        if (presentBidder.equals(bidder)) {
+                                            tv_productBidCount.setText(bidCountUpdate + "명 참여");
+                                        } else {
+                                            bidCountUpdate++;
+//                                            Toast.makeText(itemView.getContext(), bidder, Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                            tv_productBidCount.setText(bidCountUpdate + "명 참여");
+                                        }
+
+                                    }
+                                });
+                        builder.setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(itemView.getContext(), "취소 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                                    }
+                                });
+                        builder.show();
                     }
                 }
             });
+
+
+
+            btn_Buynow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    int position = getAdapterPosition();
+                    String Seller = arrayList.get(position).getSeller();
+
+                    if (arrayList.get(getAdapterPosition()).getSeller().equals(currentUid)) {
+                        Toast.makeText(itemView.getContext(), "본인 물품 구매 불가", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                    }else {
+
+                        databaseReference.orderByChild("seller").equalTo(Seller).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot child : snapshot.getChildren()) {
+                                    key2 = child.getKey();
+                                    destinationUID = snapshot.child(key2).child("seller").getValue().toString();
+//                                Toast.makeText(view.getContext(),destinationUID,Toast.LENGTH_SHORT).show();
+                                }
+                                assert key2 != null;
+                                Intent intent = new Intent(view.getContext(), MessageActivity.class);
+                                intent.putExtra("destinationUID", destinationUID);
+                                view.getContext().startActivity(intent);
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+                }
+            });
+
+
+
 
         }
     }

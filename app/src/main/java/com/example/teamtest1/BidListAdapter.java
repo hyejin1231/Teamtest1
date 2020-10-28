@@ -1,18 +1,15 @@
 package com.example.teamtest1;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,8 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
@@ -42,17 +36,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
-
+public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.CustomViewHolder> {
     private ArrayList<Product> arrayList;
     private Context context;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    ArrayAdapter<String> spinner_arrayAdapter;
-
-    private List<String> mList = new ArrayList<>();
-//    private ActivityMainBinding mBinding;
-
 
     int viewCount;
     String abcd,abcde;
@@ -61,7 +49,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     String destinationUID;
     String uniqueTest;
     String btnLike;
-    public CustomAdapter(ArrayList<Product> arrayList, Context context) {
+
+    public BidListAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -69,15 +58,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-        CustomViewHolder holder = new CustomViewHolder(view);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bid,parent,false);
+        BidListAdapter.CustomViewHolder holder = new BidListAdapter.CustomViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final CustomViewHolder holder, final int position) {
-
 //        holder.tv_productBid.setText(String.valueOf(arrayList.get(position).getBid()) + "원");
 //        holder.tv_productBid.setText(arrayList.get(position).getBid());
         holder.tv_productTitle.setText(arrayList.get(position).getTitle());
@@ -173,22 +160,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
             }
         });
-
-//        holder.tv_productDetail.setText(arrayList.get(position).getDetail());
-//        holder.tv_productSeller.setText(arrayList.get(position).getSeller());
-//        holder.tv_productDate.setText(arrayList.get(position).getDate());
-//        holder.tv_productDeadline.setText(arrayList.get(position).getDeadline());
-//        holder.tv_productCategory.setText(arrayList.get(position).getCategory());
-//        holder.tv_productStatus.setText(arrayList.get(position).getStatus());
-
     }
 
     @Override
     public int getItemCount() {
-        return (arrayList != null ? arrayList.size() : 0 );
+        return(arrayList != null ? arrayList.size() : 0);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
+
         ImageView iv_productImage;
         TextView tv_productTitle;
         TextView tv_productBid;
@@ -196,7 +176,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         TextView tv_viewCnt;
         Button btn_bid,btn_Buynow;
         TextView tv_alaram,tv_productBidCount;
-//        TextView tv_productSeller;
+        //        TextView tv_productSeller;
 //        TextView tv_productDate;
 //        TextView tv_productDeadline;
 //        TextView tv_productDetail;
@@ -211,6 +191,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         public CustomViewHolder(@NonNull final View itemView) {
             super(itemView);
+
             this.tv_productBidCount = itemView.findViewById(R.id.tv_productBidCount);
             this.tv_productTitle = itemView.findViewById(R.id.tv_productTitle);
             this.tv_productPrice = itemView.findViewById(R.id.tv_productPrice);
@@ -258,7 +239,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                         }
                     });
 
-                    Intent intent = new Intent(v.getContext(), Sub.class);
+                    Intent intent = new Intent(v.getContext(), BidDetailActvitiy.class);
                     intent.putExtra("unique", arrayList.get(position).getUnique());
                     intent.putExtra("count", String.valueOf(viewCount));
                     intent.putExtra("image", arrayList.get(position).getImage());
@@ -334,7 +315,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                                 }
 
                                                 int testBid = Integer.parseInt(snapshot.child(key1).child("bid").getValue().toString());
-                                                  int attendBid = intBid + testBid;
+                                                int attendBid = intBid + testBid;
 
                                                 String bidCountString = snapshot.child(key1).child("bidCount").getValue().toString();
                                                 int bidCount = Integer.parseInt(bidCountString);
@@ -394,46 +375,43 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
 
 
-                btn_Buynow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View view) {
-                        int position = getAdapterPosition();
-                        String Seller = arrayList.get(position).getSeller();
+            btn_Buynow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    int position = getAdapterPosition();
+                    String Seller = arrayList.get(position).getSeller();
 
-                        if (arrayList.get(getAdapterPosition()).getSeller().equals(currentUid)) {
-                            Toast.makeText(itemView.getContext(), "본인 물품 구매 불가", Toast.LENGTH_SHORT).show(); // 실행할 코드
-                        }else {
+                    if (arrayList.get(getAdapterPosition()).getSeller().equals(currentUid)) {
+                        Toast.makeText(itemView.getContext(), "본인 물품 구매 불가", Toast.LENGTH_SHORT).show(); // 실행할 코드
+                    }else {
 
-                            databaseReference.orderByChild("seller").equalTo(Seller).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for (DataSnapshot child : snapshot.getChildren()) {
-                                        key2 = child.getKey();
-                                        destinationUID = snapshot.child(key2).child("seller").getValue().toString();
+                        databaseReference.orderByChild("seller").equalTo(Seller).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot child : snapshot.getChildren()) {
+                                    key2 = child.getKey();
+                                    destinationUID = snapshot.child(key2).child("seller").getValue().toString();
 //                                Toast.makeText(view.getContext(),destinationUID,Toast.LENGTH_SHORT).show();
-                                    }
-                                    assert key2 != null;
-                                    Intent intent = new Intent(view.getContext(), MessageActivity.class);
-                                    intent.putExtra("destinationUID", destinationUID);
-                                    view.getContext().startActivity(intent);
-
-
                                 }
+                                assert key2 != null;
+                                Intent intent = new Intent(view.getContext(), MessageActivity.class);
+                                intent.putExtra("destinationUID", destinationUID);
+                                view.getContext().startActivity(intent);
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
 
-                                }
-                            });
+                            }
 
-                        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
-                });
-
-
+                }
+            });
 
 
         }
     }
 }
-
