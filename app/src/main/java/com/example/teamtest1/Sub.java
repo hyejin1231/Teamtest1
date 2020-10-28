@@ -123,9 +123,9 @@ public class Sub extends AppCompatActivity {
 //        Glide.with(this).load(intent.getExtras().getString("image")).into(tv_image);
 //        tv_bid.setText(intent.getExtras().getString("bid"));
 
-//        tv_count.setText(intent.getExtras().getString("count"));
+        tv_count.setText(intent.getExtras().getString("count"));
 //        tv_title.setText(intent.getExtras().getString("title"));
-        tv_price.setText(intent.getExtras().getString("price"));
+//        tv_price.setText(intent.getExtras().getString("price"));
 //        edit_detail.setText(intent.getExtras().getString("detail"));
 
 
@@ -137,7 +137,7 @@ public class Sub extends AppCompatActivity {
                     key = child.getKey();
                 }
                 tv_price.setText(snapshot.child(key).child("price").getValue().toString());
-                tv_count.setText(snapshot.child(key).child("count").getValue().toString());
+//                tv_count.setText(snapshot.child(key).child("count").getValue().toString());
                 tv_title.setText(snapshot.child(key).child("title").getValue().toString());
                 edit_detail.setText(snapshot.child(key).child("detail").getValue().toString());
                 tv_bid.setText(snapshot.child(key).child("bid").getValue().toString());
@@ -383,8 +383,8 @@ public class Sub extends AppCompatActivity {
         img_btnBackMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(intent1);
+                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent1);
                 finish();
                // moveTaskToBack(false);
             }

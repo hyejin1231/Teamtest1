@@ -54,7 +54,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 //    private ActivityMainBinding mBinding;
 
 
-    int count;
+    int viewCount;
     String abcd,abcde;
     String key,key1,key2,test;
     String currentSeller;
@@ -82,7 +82,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 //        holder.tv_productBid.setText(arrayList.get(position).getBid());
         holder.tv_productTitle.setText(arrayList.get(position).getTitle());
         holder.tv_productPrice.setText(arrayList.get(position).getPrice() + "원");
-        holder.tv_viewCnt.setText(String.valueOf(arrayList.get(position).getCount()));
+//        holder.tv_viewCnt.setText(String.valueOf(arrayList.get(position).getCount()));
         holder.tv_productBidCount.setText(arrayList.get(position).getBidCount() +"명 참여");
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
@@ -113,6 +113,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     //String path = (String)snapshot.child(uniqueTest).child("image").getValue();
                     String path = (String) snapshot.child(uniqueTest).child("image").getValue();
 
+                    holder.tv_viewCnt.setText(snapshot.child(uniqueTest).child("count").getValue().toString());
                     holder.tv_productBid.setText(snapshot.child(uniqueTest).child("bid").getValue().toString()+"원");
 
 //                Toast.makeText(context, path, Toast.LENGTH_SHORT).show(); // 실행할 코드
@@ -236,23 +237,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 public void onClick(View v) {
 
 
-
-//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                    Bitmap bitmap = ((BitmapDrawable)iv_productImage.getDrawable()).getBitmap();
-//                    float scale = (float)(1024/(float)bitmap.getWidth());
-//                    int image_w = (int) (bitmap.getWidth() * scale);
-//                    int image_h = (int) (bitmap.getHeight() * scale);
-//                    Bitmap resize = Bitmap.createScaledBitmap(bitmap, image_w, image_h,true);
-//
-//                    resize.compress(Bitmap.CompressFormat.JPEG,100,stream);
-//                    byte[] byteArray = stream.toByteArray();
-
                     int position = getAdapterPosition();
                     abcd = arrayList.get(position).getUnique();
-                    count = arrayList.get(position).getCount() + 1;
-
-
-
+                    viewCount = arrayList.get(position).getCount() + 1;
 
 
                     databaseReference.orderByChild("unique").equalTo(abcd).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -262,8 +249,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                 key = child.getKey();
                             }
 
-                            snapshot.getRef().child(key).child("count").setValue(count);
-
+                            snapshot.getRef().child(key).child("count").setValue(viewCount);
                         }
 
                         @Override
@@ -274,7 +260,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                     Intent intent = new Intent(v.getContext(), Sub.class);
                     intent.putExtra("unique", arrayList.get(position).getUnique());
-                    intent.putExtra("count", String.valueOf(arrayList.get(position).getCount()));
+                    intent.putExtra("count", String.valueOf(viewCount));
                     intent.putExtra("image", arrayList.get(position).getImage());
                     intent.putExtra("title", arrayList.get(position).getTitle());
                     intent.putExtra("price", arrayList.get(position).getPrice());
