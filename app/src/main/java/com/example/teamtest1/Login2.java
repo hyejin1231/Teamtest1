@@ -148,7 +148,7 @@ public class Login2 extends AppCompatActivity implements GoogleApiClient.OnConne
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("uid", Cuser.getUid());
+                        /*intent.putExtra("uid", Cuser.getUid());*/
                         startActivity(intent);
 
                     } else {

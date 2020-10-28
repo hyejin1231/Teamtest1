@@ -91,8 +91,9 @@ public class MainActivity extends AppCompatActivity {
         databaseReference = database.getReference("Product"); // DB 테이블 연동
         databaseReference2 = database.getReference("User"); // DB 테이블 연동
 
-        Intent intent = getIntent();
-         uids = intent.getStringExtra("uid");
+        //Intent intent = getIntent();
+         //uids = intent.getStringExtra("uid");
+        uids = FirebaseAuth.getInstance().getUid();
 
         spinner_arrayList = new ArrayList<>();
         spinner_arrayList.add("전체");
