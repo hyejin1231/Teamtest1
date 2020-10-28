@@ -158,9 +158,9 @@ public class MyPage extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(MyPage.this, "실패", Toast.LENGTH_SHORT).show();
-//                                    Glide.with(MyPage.this)
-//                                            .load(e)
-//                                            .into(iv_profile);
+                                    Glide.with(MyPage.this)
+                                            .load(e)
+                                           .into(iv_profile);
                             }
                         });
 

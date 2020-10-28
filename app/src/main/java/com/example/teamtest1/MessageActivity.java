@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.TimeZone;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -26,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.teamtest1.fragment.ChatFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -43,6 +47,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static android.view.KeyCharacterMap.load;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MessageActivity extends AppCompatActivity{
@@ -211,8 +217,8 @@ public class MessageActivity extends AppCompatActivity{
 
         @SuppressLint("RtlHardcoded")
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            MessageViewHolder messageViewHolder = ((MessageViewHolder)holder);
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+            final MessageViewHolder messageViewHolder = ((MessageViewHolder)holder);
             if(comments.get(position).Uid.equals(Uid)){
                                /* Glide.with(holder.itemView.getContext())
                         .load(User.getPhotoUrl())
@@ -228,10 +234,35 @@ public class MessageActivity extends AppCompatActivity{
             }
             else{
                 //상대방
-                Glide.with(holder.itemView.getContext())
-                        .load(User.getPhotoUrl())
-                        .apply(new RequestOptions().circleCrop())
-                        .into(messageViewHolder.imageView_profile);
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                StorageReference storageReference = storage.getReference();
+                String path = User.getPhotoUrl();
+                if (path.equals("default")) {
+                    Glide.with(holder.itemView.getContext())
+                           .load(R.drawable.logo_main)
+                            .apply(new RequestOptions().circleCrop())
+                            .into(messageViewHolder.imageView_profile);
+                }else{
+                    storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(holder.itemView.getContext())
+                                    .load(uri)
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(messageViewHolder.imageView_profile);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Toast.makeText(ChatList.class, "실패", Toast.LENGTH_SHORT).show();
+                            Glide.with(holder.itemView.getContext())
+                                    .load(R.drawable.logo_main)
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(messageViewHolder.imageView_profile);
+                        }
+                    });
+
+                }
                 messageViewHolder.textView_name.setText(User.getNickName());
                 messageViewHolder.linearLayout_destination.setVisibility(View.VISIBLE);
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.in_message_bg);

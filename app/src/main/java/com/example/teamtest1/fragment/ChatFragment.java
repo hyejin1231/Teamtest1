@@ -3,6 +3,7 @@ package com.example.teamtest1.fragment;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,10 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.teamtest1.ChatList;
 import com.example.teamtest1.ChatModel;
 import com.example.teamtest1.MessageActivity;
+import com.example.teamtest1.MyPage;
 import com.example.teamtest1.R;
 import com.example.teamtest1.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -112,15 +119,42 @@ public class ChatFragment extends Fragment{
             FirebaseDatabase.getInstance().getReference().child("User").child(destinationUID).addListenerForSingleValueEvent(new ValueEventListener(){
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User User = snapshot.getValue(User.class);
+                        final User User = snapshot.getValue(User.class);
                         assert User != null;
-                    Glide.with(customViewHolder.itemView.getContext())
-                            .load(User.getPhotoUrl())
-                            .apply(new RequestOptions().circleCrop())
-                            .into(customViewHolder.imageView);
-                        customViewHolder.textView_title.setText(User.getId());
+                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://teamtest1-6b76d.appspot.com");
+                        StorageReference storageReference = storage.getReference();
+                        String path = (String) User.getPhotoUrl();
+                        if (path.equals("default")) {
+                            Glide.with(customViewHolder.itemView.getContext())
+                                    .load(R.drawable.logo_main)
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(customViewHolder.imageView);
+                            customViewHolder.textView_title.setText(User.getNickName());
+                        }else{
+                            storageReference.child("myprofile").child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(customViewHolder.itemView.getContext())
+                                        .load(uri)
+                                        .apply(new RequestOptions().circleCrop())
+                                        .into(customViewHolder.imageView);
+                                customViewHolder.textView_title.setText(User.getNickName());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                               // Toast.makeText(ChatList.class, "실패", Toast.LENGTH_SHORT).show();
+                                Glide.with(customViewHolder.itemView.getContext())
+                                        .load(R.drawable.logo_main)
+                                        .apply(new RequestOptions().circleCrop())
+                                        .into(customViewHolder.imageView);
+                            }
+                        });
+
+                        }
 
                     }
+
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
