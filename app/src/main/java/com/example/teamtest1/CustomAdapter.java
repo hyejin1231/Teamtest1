@@ -54,7 +54,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 //    private ActivityMainBinding mBinding;
 
 
-
     int count;
     String abcd,abcde;
     String key,key1,key2,test;
@@ -79,7 +78,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     @Override
     public void onBindViewHolder(@NonNull final CustomViewHolder holder, final int position) {
 
-        holder.tv_productBid.setText(String.valueOf(arrayList.get(position).getBid()) + "원");
+//        holder.tv_productBid.setText(String.valueOf(arrayList.get(position).getBid()) + "원");
 //        holder.tv_productBid.setText(arrayList.get(position).getBid());
         holder.tv_productTitle.setText(arrayList.get(position).getTitle());
         holder.tv_productPrice.setText(arrayList.get(position).getPrice() + "원");
@@ -113,6 +112,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                     //String path = (String)snapshot.child(uniqueTest).child("image").getValue();
                     String path = (String) snapshot.child(uniqueTest).child("image").getValue();
+
+                    holder.tv_productBid.setText(snapshot.child(uniqueTest).child("bid").getValue().toString()+"원");
 
 //                Toast.makeText(context, path, Toast.LENGTH_SHORT).show(); // 실행할 코드
                     storageReference.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -332,9 +333,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                             int index = (int) SelectedItems.get(0);
                                             selectBid = ListItems.get(index);
                                         }
-                                        int intBid = Integer.parseInt(selectBid.replace("원", ""));
+                                        final int intBid = Integer.parseInt(selectBid.replace("원", ""));
 
-                                        final int attendBid = arrayList.get(position).getBid() + intBid;
+//                                        final int attendBid = arrayList.get(position).getBid() + intBid;
                                         Intent intent = ((Activity) context).getIntent();
                                         final String bidder = FirebaseAuth.getInstance().getUid();
                                         //final String bidder = intent.getStringExtra("uid");
@@ -345,6 +346,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                                 for (DataSnapshot child : snapshot.getChildren()) {
                                                     key1 = child.getKey();
                                                 }
+
+                                                int testBid = Integer.parseInt(snapshot.child(key1).child("bid").getValue().toString());
+                                                  int attendBid = intBid + testBid;
+
                                                 String bidCountString = snapshot.child(key1).child("bidCount").getValue().toString();
                                                 int bidCount = Integer.parseInt(bidCountString);
                                                 int position = getAdapterPosition();
@@ -361,6 +366,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                                 snapshot.getRef().child(key1).child("bid").setValue(attendBid);
                                                 snapshot.getRef().child(key1).child("bidder").setValue(bidder);
                                                 snapshot.getRef().child(key1).child("bidCount").setValue(bidCount);
+                                                tv_productBid.setText(attendBid + "원");
                                             }
 
                                             @Override
@@ -372,7 +378,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                                         Toast.makeText(itemView.getContext(), "확인 누름", Toast.LENGTH_SHORT).show(); // 실행할 코드
 
-                                        tv_productBid.setText(String.valueOf(attendBid) + "원");
+                                        String changeBidunique = arrayList.get(position).getUnique();
+
+
+//                                        tv_productBid.setText(attendBid + "원");
 
                                         String presentBidder = arrayList.get(position).getBidder();
                                         int bidCountUpdate = arrayList.get(position).getBidCount();
