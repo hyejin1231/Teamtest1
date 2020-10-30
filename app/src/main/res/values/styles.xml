@@ -8,7 +8,9 @@
 
 
         <item name="colorPrimary">#E2FF2B2B</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+
+        <item name="colorPrimaryDark">#E2FF2B2B</item>
 <!--        <item name="colorPrimaryDark">#FF2B2B</item>-->
         <item name="colorAccent">@color/colorAccent</item>
     </style>
