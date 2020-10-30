@@ -133,7 +133,6 @@
             android:id="@+id/img_SC_btnMypage"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/rounding"
             app:layout_constraintBottom_toBottomOf="@+id/img_SC_btnChat"
             app:layout_constraintEnd_toStartOf="@+id/img_SC_btnChat"
             app:layout_constraintStart_toStartOf="parent"
