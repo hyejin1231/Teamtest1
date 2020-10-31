@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:background="#167C7777"
+        android:background="@drawable/border"
         android:orientation="horizontal">
 
         <ImageView
@@ -116,6 +116,7 @@
                 android:layout_marginTop="3dp"
                 android:text="입찰하기"
                 android:textSize="12sp"
+                android:background="@drawable/buttonrectangle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_productPrice"
@@ -129,6 +130,7 @@
                 android:layout_marginRight="8dp"
                 android:text="즉시구매하기"
                 android:textSize="12sp"
+                android:background="@drawable/buttonrectangle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.891"
