@@ -96,10 +96,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="104dp"
-                android:layout_marginLeft="104dp"
                 android:layout_marginTop="16dp"
                 android:hint="판매자정보"
                 android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_sub_diss"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
@@ -155,12 +155,10 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="73dp"
-                android:layout_marginLeft="73dp"
                 android:text="00000원"
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
-                app:layout_constraintStart_toEndOf="@+id/textView2" />
+                app:layout_constraintStart_toStartOf="@+id/tv_category" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -178,19 +176,16 @@
                 android:id="@+id/tv_bid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="99dp"
-                android:layout_marginLeft="99dp"
                 android:text="00000원"
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
-                app:layout_constraintStart_toEndOf="@+id/textView4" />
+                app:layout_constraintStart_toStartOf="@+id/tv_category" />
 
             <TextView
                 android:id="@+id/tv_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="84dp"
-                android:layout_marginLeft="84dp"
+                android:layout_marginStart="60dp"
                 android:hint="카테고리"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView46"
                 app:layout_constraintStart_toEndOf="@+id/textView46" />
@@ -298,12 +293,10 @@
                 android:id="@+id/tv_subDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="99dp"
-                android:layout_marginLeft="99dp"
                 android:hint="등록일"
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
-                app:layout_constraintStart_toEndOf="@+id/textView16" />
+                app:layout_constraintStart_toStartOf="@+id/tv_category" />
 
             <TextView
                 android:id="@+id/textView19"
@@ -321,12 +314,10 @@
                 android:id="@+id/tv_subDeadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="98dp"
-                android:layout_marginLeft="98dp"
                 android:hint="마감일"
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView19"
-                app:layout_constraintStart_toEndOf="@+id/textView19" />
+                app:layout_constraintStart_toStartOf="@+id/tv_price" />
 
             <TextView
                 android:id="@+id/tv_subAlarm"
